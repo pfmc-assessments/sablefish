@@ -101,8 +101,6 @@ nwfscSurvey::PlotBioStrata.fn(
 #===============================================================================
 # Calculate the length composition data
 #===============================================================================
-len_bins = seq(18, 90, by = 2)
-
 # The GetN.fn calculated input sample sizes based on Hamel & Stewart bootstrap approach.
 # The effN sample size is calculated using the others multiplier of 2.38. 
 # This number is multiplied by the number of tows in each year.
@@ -221,8 +219,6 @@ ggplot2::ggsave(filename = file.path(fig_dir, "sex_by_depth.png"))
 #===============================================================================
 # Calculate the marginal and caal age composition data
 #===============================================================================
-age_bins = 0:50
-
 input_n_sexed <- nwfscSurvey::GetN.fn(
   dat = bio[bio$Sex %in% c("F", "M"), ], 
   type = "age", 
