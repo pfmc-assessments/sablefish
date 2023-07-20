@@ -1,3 +1,26 @@
 \clearpage
 # Tables
 
+```{r tab-data-strata}
+sa4ss::table_format(
+  x = strata |>
+    dplyr::select(-name) |>
+    dplyr::relocate(area, .after = dplyr::last_col()),
+  caption = paste(
+    "The stratification used to estimate design-based indices of abundance",
+    "and to expand the survey composition data."
+  ),
+  longtable = FALSE,
+  escape = FALSE,
+  label = "data-strata",
+  col_names_align = "l",
+  align = "r",
+  col_names = c(
+    "Shallow Depth",
+    "Deep Depth",
+    "South\\ Latitude",
+    "North\\ Latitude",
+    "Area (km$^2$)"
+  )
+)
+```
