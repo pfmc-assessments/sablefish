@@ -52,3 +52,22 @@ rsconnect/
 
 # data-raw files unless forced
 data-raw/*
+
+# Model output files
+admodel.*
+runnumber.ss
+*.[bpr][0-9][0-9]
+*.bar
+*.cor
+*.eva
+*.hes
+*.log
+*.par
+*.rep
+*.ss_new
+*.sso
+*.std
+*.tmp
+
+# assessment build
+_main*
