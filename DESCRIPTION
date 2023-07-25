@@ -26,6 +26,7 @@ Description: Reproducible research and documentation of the status of sablefish
     repository.
 License: GPL (>= 3) + file LICENSE
 Suggests:
+    RODBC,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -34,14 +35,23 @@ RoxygenNote: 7.2.3
 Imports: 
     assertthat,
     dplyr,
+    fs,
     ggplot2,
     ggridges,
+    here,
+    kableExtra,
     nwfscSurvey (>= 2.1),
+    PacFIN.Utilities,
     purrr,
+    r4ss,
+    sa4ss,
     tidyr,
     utils
 Remotes: 
-    pfmc-assessments/nwfscSurvey
+    pfmc-assessments/nwfscSurvey,
+    pfmc-assessments/PacFIN.Utilities,
+    pfmc-assessments/sa4ss,
+    r4ss/r4ss
 Depends: 
-    R (>= 4.20)
+    R (>= 4.2)
 LazyData: true

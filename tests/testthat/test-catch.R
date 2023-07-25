@@ -1,6 +1,5 @@
 test_that("washington landings are what Theresa emailed in 2023", {
   skip_on_ci()
-  data_catch_commercial <- load_data_catch_commercial()
   # The following data were emailed to Kelli Johnson from Theresa Tsou (WDFW)
   # as a summary of WA landings across all gear types to fact check the info
   # stored in PacFIN
@@ -47,9 +46,7 @@ test_that("washington landings are what Theresa emailed in 2023", {
 test_that("oregon landings are what Ali emailed in 2023", {
   # to do:
   # * write the test!
-  # * email Ali
   # * check examples to see if I can just load the data once
   skip_on_ci()
-  data_catch_commercial <- load_data_catch_commercial()
   expect_true(FALSE)
-}
+})

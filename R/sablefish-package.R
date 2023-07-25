@@ -9,5 +9,4 @@
 #' @name sablefish
 #' @import assertthat
 #' @importFrom utils head tail
-#' @useDynLib sablefish
 NULL

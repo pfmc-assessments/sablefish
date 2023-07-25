@@ -2,6 +2,13 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.Rmd$
+^README\.html$
 ^cran-comments\.md$
 ^LICENSE$
 ^\.github$
+^assessment$
+^data-processed$
+^data-raw$
+^models$
+^Sablefish2021$
+_targets.R
