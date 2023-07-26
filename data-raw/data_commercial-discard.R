@@ -154,6 +154,7 @@ data_commercial_discard_rates <- dplyr::full_join(
     )
   ) |>
   dplyr::select(-dplyr::matches("ob_ratio|prop_x_rate|sd_boot_ratio")) |>
+  dplyr::mutate(Seas = ifelse(year_analysis == 2021, 7, 1), .after = year) |>
   dplyr::arrange(gear, year)
 
 
