@@ -25,21 +25,7 @@ data_commercial_discard_length <- dplyr::full_join(
     Lenbin = factor(Lenbin, levels = len_bins)
   ) |>
   dplyr::mutate(
-    Nsamp = if (year_analysis == 2021) {
-      N_unique_Trips
-    } else {
-      # @chantelwetzel-noaa this code was for dover
-      # but I am not sure how to modify it for sablefish, the hard-wired
-      # numbers are mysterious to me.
-      round(
-        ifelse(
-          test = N_Fish.y / N_unique_Trips < 44,
-          yes = N_unique_Trips + 0.138 * N_Fish.y,
-          no = 7.06 * N_unique_Trips
-        ),
-        0
-      )
-    },
+    Nsamp = N_unique_Trips,
     prop = if (year_analysis == 2021) {
       Prop.numbers
     } else {
