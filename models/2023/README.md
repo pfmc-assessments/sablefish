@@ -4,16 +4,20 @@
 * write index data to a file bc right now it is just copy and pasted
 * rerun sdmTMB to get north south instead of state stratification
 * document that 2021 used season 1 for wcgbts index
+* add gmt provided removal assumptions for 2023-24 where the nontrawl (fixed gear) assigns 6,369 and 5,838 for 2023 and 2024  and 2,749 and 2,521 for trawl 2023 and 2024, respectively.
+
 
 ## Bridging
 
 * rename the fleets
-* make sure forecast file is fixed, note where Chantel can input GMT values
+* make sure forecast file is fixed (cap and allocations), note where Chantel can input GMT values
 * check that at-sea hake fishery bycatch are included in catches
 * update environmental index cv because the DFA analysis no longer works and
   Nick is using a Bayesian approach that now gives confidence intervals rather
   than an estimate of the uncertainty
-* update block pattern end year / remove some blocks
+* update block pattern end year / clean up som unused blocks
+* revise the min and max year for sdreport outputs in the starter file to be -1 (min yr) and -2 (max yr)
+* turn on all prior likelihood contribution in the starter file
 * re-weight the model
 * maybe put in marginal ages as ghost compositions to see how the model fits
   them for wcgbts
