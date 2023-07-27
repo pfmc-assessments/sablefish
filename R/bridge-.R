@@ -148,13 +148,15 @@ bridge_remove_fleet <- function(inputs,
       Fleet = renumber_vector(Fleet)
     )
 
-  r4ss::SS_write(
-    inputlist = inputs,
-    dir = dir_out,
-    overwrite = TRUE,
-    verbose = FALSE
-  )
-  return(invisible(inputs))
+  if (!is.null(dir_out)) {
+    r4ss::SS_write(
+      inputlist = inputs,
+      dir = dir_out,
+      overwrite = TRUE,
+      verbose = FALSE
+    )
+  }
+  return(inputs)
 }
 #' Remove catches that occur before the start year of the model.
 #'
@@ -169,6 +171,7 @@ bridge_remove_early_catch <- function(inputs,
     dplyr::filter(
       year >= inputs[["dat"]][["styr"]] | year == -999
     )
+
   if (!is.null(dir_out)) {
     r4ss::SS_write(
       inputlist = inputs,
@@ -211,12 +214,15 @@ bridge_end_year <- function(inputs,
     "Flimitfraction_m"]][, "Year"] + new_end_year - old_end_year
   inputs[["fore"]][["FirstYear_for_caps_and_allocations"]] <- new_end_year + 1
   inputs[["fore"]][["ForeCatch"]] <- inputs[["fore"]][["ForeCatch"]][0, ]
-  r4ss::SS_write(
-    inputlist = inputs,
-    dir = dir_out,
-    overwrite = TRUE,
-    verbose = FALSE
-  )
+
+  if (!is.null(dir_out)) {
+    r4ss::SS_write(
+      inputlist = inputs,
+      dir = dir_out,
+      overwrite = TRUE,
+      verbose = FALSE
+    )
+  }
   return(invisible(inputs))
 }
 

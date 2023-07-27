@@ -15,11 +15,11 @@ model_ss3_path <- r4ss::get_ss3_exe(dir = user_model_current)
 bridge_output <- bridge_remove_fleet(
   inputs = r4ss::SS_read(user_model_bridged),
   fleet_number = 2,
-  dir_out = fs::path(bridging_dir, "01_RemoveEmptyFleet")
+  dir_out = NULL
 )
 bridge_output <- bridge_remove_early_catch(
   inputs = bridge_output,
-  dir_out = fs::path(bridging_dir, "01_RemoveEmptyFleet")
+  dir_out = NULL
 )
 bridge_output <- bridge_fix_starter(
   inputs = bridge_output,
