@@ -1,5 +1,6 @@
 # Data
 
+<!--
 Data comprise the foundational components of stock assessment models.
 The decision to include or exclude particular data sources in an assessment model depends on many factors.
 These factors often include, but are not limited to,
@@ -19,3 +20,15 @@ Data from a wide range of programs were available for possible inclusion in the 
 Descriptions of each data source included in the model (Figure \@ref(fig:data-plot)) and sources that were explored but not included in the base model are provided below.
 Data that were excluded from the base model were explicitly explored during the development of this stock assessment or have not changed since their past exploration in a previous `r spp` stock assessment.
 In some cases, the inclusion of excluded data sources were explored through sensitivity analyses (see Section \@ref(assessment-model)).
+-->
+
+This assessment update for `r `spp` followed a more limited data updating approach compared to typical update assessments.  An  assessment update for `r spp` was added to the 2023 assessment workload in [April 23, 2023](https://www.pcouncil.org/april-2023-decision-summary-document/) with the agreement that the assessment adhere to a more limited approach to updating data compared to a typical assessment update. The following data sources were updated for this assessment update:
+
+\begin{enumerate}
+  \item The work to add recent commercial to the model for 2021-2022 identified two issues in the landings data in the 2021 assessment update which likely extended to previous assessments. @kellijohnson ADD DETAILS ON THE MISSING PACFIN CATCHES HERE Additionally, it appears that previous assessments failed to include bycatch from the at-sea fishery. The annual bycatch of sablefish by the at-sea fishery of sablefish is typically relatively low but after there have been sharp increases following years of large recruitment events (e.g., 304 mt in 2022). Both of these data corrections were included in this assessment update.
+  \item The discard rates, mean weights and length compositions from discarded fish observed by the West Coast Groundfish Observer Program (WCGOP) were updated and the new values for 2020 and 2021 were added to the model.  
+  \item The relative index of abundance, length composition, and conditional-age-at-length data from the Northwest Fisheries Science Center (NWFSC) West Coast Groundfish Bottom Trawl Survey (WCGBT) were updated and extended through 2022.
+
+\end{enumerate}
+
+All other data sources used in the `r spp` assessment were retained in the same form as included in the 2021 assessment update. 
