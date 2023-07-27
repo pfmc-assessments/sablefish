@@ -7,6 +7,8 @@ user_model_current <- fs::path("models", "2023", "base", "base")
 user_end_year <- 2022
 
 bridging_dir <- fs::path(dirname(user_model_current), "bridging")
+fs::dir_create(user_model_current)
+fs::dir_create(bridging_dir)
 model_ss3_path <- r4ss::get_ss3_exe(dir = user_model_current)
 
 ###############################################################################
@@ -23,11 +25,11 @@ bridge_output <- bridge_remove_early_catch(
 )
 bridge_output <- bridge_fix_starter(
   inputs = bridge_output,
-  dir_out = fs::path(bridging_dir, "01_RemoveEmptyFleet")
+  dir_out = fs::path(bridging_dir, "00_CleanUpModelFiles")
 )
 # Run the model without estimation to get the new names
 check <- r4ss::run(
-  dir = fs::path(bridging_dir, "01_RemoveEmptyFleet"),
+  dir = fs::path(bridging_dir, "00_CleanUpModelFiles"),
   exe = fs::path(here::here(), model_ss3_path),
   skipfinished = FALSE,
   extras = "-stopph = 0 -nohess",
@@ -38,12 +40,38 @@ stopifnot(check == "ran model")
 ###############################################################################
 # Change data
 ###############################################################################
+bridge_output <- r4ss::SS_read(
+    fs::path(bridging_dir, "00_CleanUpModelFiles"),
+    ss_new = TRUE
+  )
 bridge_output <- bridge_update_data(
   # Read in .ss_new files because of updated fleet names
-  inputs = r4ss::SS_read(
-    fs::path(bridging_dir, "01_RemoveEmptyFleet"),
-    ss_new = TRUE
-  ),
+  inputs = bridge_output,
+  # Add at-sea catches to old catches
+  x = bridge_output[["dat"]][["catch"]] |>
+    dplyr::filter(fleet == 2) |>
+    dplyr::left_join(
+      y = data_commercial_catch |>
+        dplyr::filter(AGENCY_CODE == "at-sea"),
+      by = c("year")
+    ) |>
+    dplyr::rowwise() |>
+    dplyr::mutate(
+      catch_mt = ifelse(is.na(catch_mt), 0, catch_mt),
+      catch = sum(catch + catch_mt, na.rm = TRUE),
+      catch_se = catch_se,
+      .after = "fleet"
+    ) |>
+    dplyr::select(colnames(bridge_output[["dat"]][["catch"]])) |>
+    as.data.frame(),
+  dir_out = fs::path(bridging_dir, "01_IncludeAt-seaCatches"),
+  type = "catch",
+  matched = TRUE,
+  vars_by = c("year", "seas", "fleet"),
+  vars_arrange = c("fleet", "year", "seas")
+)
+bridge_output <- bridge_update_data(
+  inputs = bridge_output,
   x = utils::read.csv(
     file = fs::path("data-processed", "data_commercial_catch.csv")
   ),

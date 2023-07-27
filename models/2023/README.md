@@ -11,7 +11,8 @@
 
 * rename the fleets
 * make sure forecast file is fixed (cap and allocations), note where Chantel can input GMT values
-* check that at-sea hake fishery bycatch are included in catches
+* check that at-sea hake fishery bycatch are the correct values, emailed VT on
+  2023-07-07
 * update environmental index cv because the DFA analysis no longer works and
   Nick is using a Bayesian approach that now gives confidence intervals rather
   than an estimate of the uncertainty
