@@ -130,9 +130,20 @@ recent_conditional <- utils::read.csv(
   file = fs::path("data-processed", "wcgbt_caal.csv"),
   colClasses = "numeric"
 )
+
 bridge_output <- bridge_update_data(
   inputs = bridge_output,
-  x = recent_conditional,
+  # CAAL and marginal ages for wcgbt
+  x = bind_compositions(list(
+    utils::read.csv(
+      file = fs::path("data-processed", "wcgbt_caal.csv"),
+      colClasses = "numeric"
+    ),
+    utils::read.csv(
+      file = fs::path("data-processed", "wcgbt_age_composition.csv")
+    ) |>
+      dplyr::mutate(fleet = -1 * fleet)
+  )),
   dir_out = fs::path(bridging_dir, "07_IncludeRecentConditionals"),
   matched = NULL,
   type = "agecomp",

@@ -18,8 +18,6 @@
   than an estimate of the uncertainty
 * update block pattern end year / clean up som unused blocks
 * re-weight the model
-* maybe put in marginal ages as ghost compositions to see how the model fits
-  them for wcgbts
 
 ## Sensitivities
 
