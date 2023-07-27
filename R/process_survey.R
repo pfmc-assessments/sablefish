@@ -255,13 +255,29 @@ process_survey <- function() {
   # Chantel ... insert your beautiful figure code here
   gg <- ggplot2::ggplot(
     data = data_survey_bio |>
-      dplyr::filter(Project == "NWFSC.Combo")
-  )
+      dplyr::filter(Project == "NWFSC.Combo",
+                    !is.na(Age),
+                    Age < 2) |>
+      dplyr::mutate(Year = factor(Year, levels = min(Year):max(Year))),
+    aes(x = Length_cm, y = Year, fill = as.factor(Pass))) +
+    ggridges::geom_density_ridges2(alpha = 0.5, 
+                                  jittered_points = TRUE, 
+                                  point_alpha = 0.7, 
+                                  point_shape = 21,
+                                  col = 'blue')  +
+    ggplot2::scale_fill_viridis_d(begin = 0, end = 0.5, name = "Pass") + 
+    ggplot2::theme_bw(base_size = 20) +
+    ggplot2::scale_y_discrete(drop = FALSE) +
+    ggplot2::theme(axis.text = element_text(size = 20)) +
+    ggplot2::ylab("Year") + ggplot2::xlab("Length (cm)") +
+    ggplot2::facet_grid(c("Age"), labeller = label_both)
   ggplot2::ggsave(
     filename = fs::path(
       figure_dir,
       "data_survey_wcgbt_young-length-by-year.png"
     ),
+    width = 16, 
+    height = 16,
     plot = gg
   )
 
