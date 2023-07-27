@@ -316,3 +316,27 @@ bridge_update_data <- function(inputs,
   }
   return(invisible(inputs))
 }
+
+#' @details
+#' * Begin annual SD report in the start year found in the data file by using a
+#'   -1 in the starter file.
+#' * End the annual SD report in the last forecast year by using -2 in the
+#'   starter file.
+#' @inheritParams bridge_update_data
+#' @noRd
+bridge_fix_starter <- function(inputs,
+                               dir_out) {
+  inputs[["start"]][["minyr_sdreport"]] <- -1
+  inputs[["start"]][["maxyr_sdreport"]] <- -1
+  inputs[["start"]][["prior_like"]] <- 1
+
+  if (!is.null(dir_out)) {
+    r4ss::SS_write(
+      inputlist = inputs,
+      dir = dir_out,
+      overwrite = TRUE,
+      verbose = FALSE
+    )
+  }
+  return(invisible(inputs))
+}

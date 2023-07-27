@@ -21,6 +21,10 @@ bridge_output <- bridge_remove_early_catch(
   inputs = bridge_output,
   dir_out = fs::path(bridging_dir, "01_RemoveEmptyFleet")
 )
+bridge_output <- bridge_fix_starter(
+  inputs = bridge_output,
+  dir_out = fs::path(bridging_dir, "01_RemoveEmptyFleet")
+)
 # Run the model without estimation to get the new names
 check <- r4ss::run(
   dir = fs::path(bridging_dir, "01_RemoveEmptyFleet"),

@@ -16,8 +16,6 @@
   Nick is using a Bayesian approach that now gives confidence intervals rather
   than an estimate of the uncertainty
 * update block pattern end year / clean up som unused blocks
-* revise the min and max year for sdreport outputs in the starter file to be -1 (min yr) and -2 (max yr)
-* turn on all prior likelihood contribution in the starter file
 * re-weight the model
 * maybe put in marginal ages as ghost compositions to see how the model fits
   them for wcgbts
