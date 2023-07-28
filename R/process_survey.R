@@ -255,22 +255,24 @@ process_survey <- function() {
   # Chantel ... insert your beautiful figure code here
   gg <- ggplot2::ggplot(
     data = data_survey_bio |>
-      dplyr::filter(Project == "NWFSC.Combo",
-                    !is.na(Age),
-                    Age < 2) |>
+      dplyr::filter(
+        Project == "NWFSC.Combo",
+        !is.na(Age),
+        Age < 2
+      ) |>
       dplyr::mutate(Year = factor(Year, levels = min(Year):max(Year))),
-    aes(x = Length_cm, y = Year, fill = as.factor(Pass))) +
-    ggridges::geom_density_ridges2(alpha = 0.5, 
-                                  jittered_points = TRUE, 
-                                  point_alpha = 0.7, 
+    ggplot2::aes(x = Length_cm, y = Year, fill = as.factor(Pass))) +
+    ggridges::geom_density_ridges2(alpha = 0.5,
+                                  jittered_points = TRUE,
+                                  point_alpha = 0.7,
                                   point_shape = 21,
-                                  col = 'blue')  +
-    ggplot2::scale_fill_viridis_d(begin = 0, end = 0.5, name = "Pass") + 
+                                  col = "blue")  +
+    ggplot2::scale_fill_viridis_d(begin = 0, end = 0.5, name = "Pass") +
     ggplot2::theme_bw(base_size = 20) +
     ggplot2::scale_y_discrete(drop = FALSE) +
-    ggplot2::theme(axis.text = element_text(size = 20)) +
+    ggplot2::theme(axis.text = ggplot2::element_text(size = 20)) +
     ggplot2::ylab("Year") + ggplot2::xlab("Length (cm)") +
-    ggplot2::facet_grid(c("Age"), labeller = label_both)
+    ggplot2::facet_grid(c("Age"), labeller = ggplot2::label_both)
   ggplot2::ggsave(
     filename = fs::path(
       figure_dir,
@@ -285,7 +287,15 @@ process_survey <- function() {
   # CAAL age composition data
   #=============================================================================
   caal <- nwfscSurvey::SurveyAgeAtLen.fn(
-    datAL = data_survey_bio |> dplyr::filter(Project == "NWFSC.Combo"),
+    datAL = data_survey_bio |>
+      dplyr::filter(Project == "NWFSC.Combo") |>
+      # Fix data so that small fish are included in the smallest Lbin_lo
+      dplyr::mutate(Length_cm = ifelse(
+        test = Length_cm < len_bins[1],
+        yes = len_bins[1],
+        no = Length_cm
+      )
+    ),
     datTows = data_survey_catch |> dplyr::filter(Project == "NWFSC.Combo"),
     strat.df = strata,
     lgthBins = len_bins,
