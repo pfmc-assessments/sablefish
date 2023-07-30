@@ -215,6 +215,18 @@ bridge_end_year <- function(inputs,
   inputs[["fore"]][["FirstYear_for_caps_and_allocations"]] <- new_end_year + 1
   inputs[["fore"]][["ForeCatch"]] <- inputs[["fore"]][["ForeCatch"]][0, ]
 
+  # Deal with the terminal year time blocks
+  change_terminal <- function(x, from, to) {
+    x_length <- length(x)
+    x[x_length] <- ifelse(x[x_length] == from, to, x[x_length])
+    return(x)
+  }
+  inputs[["ctl"]][["Block_Design"]] <- purrr::map(
+    bridge_output[["ctl"]][["Block_Design"]],
+    .f = change_terminal,
+    from = old_end_year,
+    to = new_end_year
+  )
   if (!is.null(dir_out)) {
     r4ss::SS_write(
       inputlist = inputs,

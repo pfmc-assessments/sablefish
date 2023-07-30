@@ -16,7 +16,7 @@
 * update environmental index cv because the DFA analysis no longer works and
   Nick is using a Bayesian approach that now gives confidence intervals rather
   than an estimate of the uncertainty
-* update block pattern end year / clean up som unused blocks
+* clean up som unused blocks
 * re-weight the model
 
 ## Sensitivities
