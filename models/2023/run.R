@@ -221,12 +221,11 @@ model_paths_bridging <- c(
   fs::dir_ls(fs::path(bridging_dir), type = "dir")
 )
 purrr::map(
-  model_paths_bridging[-c(1)],
+  model_paths_bridging,
   .f = r4ss::run,
   exe = fs::path(here::here(), model_ss3_path),
   extras = "-nohess",
   skipfinished = TRUE,
-  # skipfinished = FALSE,
   verbose = FALSE
 )
 big_list <- purrr::map(
