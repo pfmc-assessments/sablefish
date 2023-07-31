@@ -32,7 +32,7 @@ check <- r4ss::run(
   dir = fs::path(bridging_dir, "00_CleanUpModelFiles"),
   exe = fs::path(here::here(), model_ss3_path),
   skipfinished = FALSE,
-  extras = "-stopph = 0 -nohess",
+  extras = "-nohess",
   verbose = FALSE
 )
 stopifnot(check == "ran model")
@@ -129,10 +129,6 @@ bridge_output <- bridge_update_data(
   dir_out = fs::path(bridging_dir, "06_IncludeRecentSurveyLengths"),
   matched = FALSE
 )
-recent_conditional <- utils::read.csv(
-  file = fs::path("data-processed", "wcgbt_caal.csv"),
-  colClasses = "numeric"
-)
 
 bridge_output <- bridge_update_data(
   inputs = bridge_output,
@@ -152,9 +148,29 @@ bridge_output <- bridge_update_data(
   type = "agecomp",
   vars_by = c("Yr", "Seas", "FltSvy", "Part", "Lbin_lo", "Lbin_hi"),
   vars_arrange = c(
-    eval(formals(bridge_update_data)$vars),
+    eval(formals(bridge_update_data)$vars_arrange),
     "Lbin_lo", "Lbin_hi"
   )
+)
+bridge_output <- tune(
+  dir_in = fs::path(bridging_dir, "07_IncludeRecentConditionals"),
+  dir_out = fs::path(bridging_dir, "08_TuneWithCompositionData"),
+  steps = 1:2,
+  executable = fs::path(here::here(), model_ss3_path)
+)
+
+bridge_output <- bridge_update_data(
+  inputs = bridge_output,
+  x = utils::read.csv(
+    file = fs::path("data-processed", "data_env_index.csv")
+  ),
+  dir_out = fs::path(bridging_dir, "09_UpdateEnv"),
+  matched = NULL,
+  type = "CPUE",
+  vars_by = c("year", "index"),
+  # It would be nice to use evaluation to allow
+  # c(abs(index), year, seas) but there is not time to figure it out
+  vars_arrange = c("index", "year", "seas")
 )
 
 bridge_output <- bridge_update_data(
@@ -162,8 +178,8 @@ bridge_output <- bridge_update_data(
   x = utils::read.csv(
     fs::path("data-processed", "data_commercial_discard_composition.csv")
   ),
-  dir_out = fs::path(bridging_dir, "08_UpdateDiscardLengths"),
-  matched = FALSE,
+  dir_out = fs::path(bridging_dir, "10_UpdateDiscardLengths"),
+  matched = NULL,
   type = "lencomp",
   vars_by = c("Yr", "FltSvy", "Part")
 )
@@ -172,7 +188,7 @@ bridge_output <- bridge_update_data(
   x = utils::read.csv(
     fs::path("data-processed", "data_commercial_discard_weight.csv")
   ),
-  dir_out = fs::path(bridging_dir, "09_UpdateDiscardWeights"),
+  dir_out = fs::path(bridging_dir, "11_UpdateDiscardWeights"),
   matched = NULL,
   type = "meanbodywt",
   vars_by = c("Year", "Fleet", "Partition", "Type"),
@@ -183,30 +199,19 @@ bridge_output <- bridge_update_data(
   x = utils::read.csv(
     fs::path("data-processed", "data_commercial_discard_rates.csv")
   ),
-  dir_out = fs::path(bridging_dir, "10_UpdateDiscardRates"),
+  dir_out = fs::path(bridging_dir, "12_UpdateDiscardRates"),
   matched = NULL,
   type = "discard_data",
   vars_by = c("Yr", "Flt"),
   vars_arrange = c("Flt", "Yr", "Seas")
 )
 
-bridge_output <- bridge_update_data(
-  inputs = bridge_output,
-  x = utils::read.csv(
-    file = fs::path("data-processed", "data_env_index.csv")
-  ),
-  dir_out = fs::path(bridging_dir, "11_UpdateEnv"),
-  matched = NULL,
-  type = "CPUE",
-  vars_by = c("year", "index"),
-  # It would be nice to use evaluation to allow
-  # c(abs(index), year, seas) but there is not time to figure it out
-  vars_arrange = c("index", "year", "seas")
+bridge_output <- tune(
+  dir_in = fs::path(bridging_dir, "12_UpdateDiscardRates"),
+  dir_out = fs::path(bridging_dir, "13_FinalTune"),
+  steps = 1:2,
+ fs::path(here::here(), model_ss3_path)
 )
-
-###############################################################################
-# Re-weight the data
-###############################################################################
 
 ###############################################################################
 # Run the models
@@ -216,10 +221,12 @@ model_paths_bridging <- c(
   fs::dir_ls(fs::path(bridging_dir), type = "dir")
 )
 purrr::map(
-  model_paths_bridging[-1],
+  model_paths_bridging[-c(1)],
   .f = r4ss::run,
   exe = fs::path(here::here(), model_ss3_path),
-  skipfinished = FALSE,
+  extras = "-nohess",
+  skipfinished = TRUE,
+  # skipfinished = FALSE,
   verbose = FALSE
 )
 big_list <- purrr::map(
@@ -235,6 +242,6 @@ r4ss::SSplotComparisons(
   plotdir = bridging_dir,
   print = FALSE,
   png = TRUE,
-  # xlim = c(2018, 2023),
+  # xlim = c(2015, 2023),
   legendlabels = gsub("_", "", gsub("([A-Z])", " \\1", basename(model_paths_bridging)))
 )

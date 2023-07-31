@@ -1,6 +1,5 @@
 # To Do
 
-* push code that writes catch file to data-processed
 * write index data to a file bc right now it is just copy and pasted
 * rerun sdmTMB to get north south instead of state stratification
 * document that 2021 used season 1 for wcgbts index
@@ -13,8 +12,16 @@
 * update environmental index cv because the DFA analysis no longer works and
   Nick is using a Bayesian approach that now gives confidence intervals rather
   than an estimate of the uncertainty
-* clean up som unused blocks
-* re-weight the model
+* retention parameters in 2021 were fixed at the values estimated from early
+  model exploration done in 2019
+* Bias adjustment ramp is bogus with the environmental data in there
+
+### Notes
+
+* When adding at-sea catches to the base model from the last update assessment,
+  the hessian is not invertible. The variance of parameter 212, which is
+  Age_DblN_descend_se_NWSLP(6), was reported as -2108.27. Suggesting that this
+  parameter is unstable and should be investigated later.
 
 ## Sensitivities
 
