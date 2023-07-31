@@ -155,7 +155,7 @@ bridge_output <- bridge_update_data(
 bridge_output <- tune(
   dir_in = fs::path(bridging_dir, "07_IncludeRecentConditionals"),
   dir_out = fs::path(bridging_dir, "08_TuneWithCompositionData"),
-  steps = 1:2,
+  steps = 1:3,
   executable = fs::path(here::here(), model_ss3_path)
 )
 

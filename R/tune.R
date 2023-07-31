@@ -3,7 +3,7 @@
 tune <- function(dir_in,
                  dir_out,
                  executable,
-                 steps = 1:2,
+                 steps = 1:3,
                  iterations = 3) {
   # Run the model to facilitate tuning
   if (!fs::file_exists(fs::path(dir_in, "Report.sso"))) {
@@ -67,33 +67,34 @@ tune <- function(dir_in,
       ) |>
       dplyr::select(-Value.y) |>
       dplyr::rename(Value = "Value.x") |>
-      dplyr::arrange(Data_type, Fleet)
+      dplyr::arrange(Data_type, Fleet) |>
+      as.data.frame()
   }
 
   # Tune the bias adjustment ramp
-  # This does not really work because of 
   if (3 %in% steps) {
     # DO NOT update the intial year
-    bias_ramp <- r4ss::SS_fitbiasramp(
-      r4ss::SS_output(
-        dir = dir_out,
-        verbose = FALSE,
-        printstats = FALSE
-      ),
-      plot = FALSE,
-      print = TRUE
-    )
+    # bias_ramp <- r4ss::SS_fitbiasramp(
+    #   r4ss::SS_output(
+    #     dir = dir_out,
+    #     verbose = FALSE,
+    #     printstats = FALSE
+    #   ),
+    #   plot = FALSE,
+    #   print = TRUE
+    # )
     inputs <- r4ss::SS_read(dir_out, ss_new = TRUE)
-    inputs[["ctl"]][["first_yr_fullbias_adj"]] <- bias_ramp[["newbias"]][[
-      "par"]][2]
-    inputs[["ctl"]][["last_yr_fullbias_adj"]] <- bias_ramp[["newbias"]][[
-      "par"]][3]
-    inputs[["ctl"]][["first_recent_yr_nobias_adj"]] <- bias_ramp[["newbias"]][[
-      "par"]][4]
-    inputs[["ctl"]][["max_bias_adj"]] <- bias_ramp[["newbias"]][[
-      "par"]][5]
+    inputs[["ctl"]][["last_yr_fullbias_adj"]] <- inputs[["dat"]][["endyr"]] - 2
+    inputs[["ctl"]][["first_recent_yr_nobias_adj"]] <- inputs[["dat"]][["endyr"]]
   }
 
   r4ss::SS_write(inputs, dir = dir_out, overwrite = TRUE)
+  check <- r4ss::run(
+    dir = dir_out,
+    exe = executable,
+    skipfinished = FALSE,
+    verbose = FALSE
+  )
+  stopifnot(check == "ran model")
   return(invisible(inputs))
 }
