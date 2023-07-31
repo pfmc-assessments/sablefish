@@ -133,7 +133,7 @@ data_commercial_discard_rates <- dplyr::full_join(
       sd_boot_ratio_FALSE
     } else {
       # Prior to 2011, 100% of the discards were from non-catch share
-      ifelse(year <= 2010, sd_boot_ratio, 0.05) # 0.05 is from dover
+      ifelse(year <= 2010, sd_boot_ratio_FALSE, 0.05) # 0.05 is from dover
     },
     gear = dplyr::case_when(
       gear == "FixedGears" ~ 1L,
