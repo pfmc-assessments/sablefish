@@ -106,13 +106,7 @@ bridge_output <- bridge_update_data(
   ) |>
     dplyr::filter(area == "coastwide") |>
     dplyr::select(year, obs = est, se_log = se) |>
-    dplyr::mutate(seas = 7, index = 7, .after = "year") |>
-  # Fill in missing survey year, e.g., 2020, with negative fleet
-  # so SS3 will predict a value for this year.
-    tidyr::complete(
-      year = min(year):max(year),
-      fill = list(seas = 7, index = -7, obs = 1.0, se_log = 1.0)
-    ),
+    dplyr::mutate(seas = 7, index = 7, .after = "year"),
   dir_out = fs::path(bridging_dir, "04_UpdateIndex"),
   matched = NULL,
   type = "CPUE",
