@@ -79,71 +79,53 @@ data_commercial_discard_weight <- utils::read.csv(
   dplyr::arrange(Fleet, Partition, Year, Seas)
 
 # Rate data
-# 1. Combine catch share and non catch share data
-# 2. Scale the rates by the amount discarded (mt) in each
-# 3. Sum the scaled rates
-# 4. Use catch share rates for those years without non catch share data
-#    this is done using dplyr::coalesce()
-data_commercial_discard_rates <- dplyr::full_join(
+data_commercial_discard_rates <- merge(
   utils::read.csv(
     fs::path(
       "data-raw",
       "wcgop",
       "sablefish_cs_wcgop_discard_all_years_coastwide_2023-07-19.csv"
     )
-  ),
-   utils::read.csv(
+  ) |>
+    dplyr::select(
+      year,
+      "CS_LBS" = ob_retained_mt,
+      "CS_RATIO" = ob_ratio,
+      gear
+    ),
+  utils::read.csv(
     fs::path(
       "data-raw",
       "wcgop",
       "sablefish_ncs_wcgop_discard_all_years_coastwide_2023-07-19.csv"
     )
-  ),
-  by = c(
-    "year", "area", "gear", "catch_shares", "nonconfidential",
-    "ob_discard_mt", "ob_retained_mt", "ob_ratio"
-  )
+  ) |>
+    dplyr::select(
+      year,
+      "NCS_LBS" = ob_retained_mt, # Median.Boot_RETAINED.MTS no longer exported
+      "NCS_RATIO" = ob_ratio,
+      NCS_SD = sd_boot_ratio,
+      gear
+    ),
+  by = c("gear", "year")
 ) |>
-  dplyr::group_by(year, area, gear) |>
   dplyr::mutate(
-    sum_mt = sum(ob_discard_mt, na.rm = TRUE),
-    prop = ob_discard_mt / sum_mt,
-    prop_x_rate = prop * ob_ratio
+    gear = ifelse(grepl("t", gear, ignore.case = TRUE), 2, 1),
+    tot = CS_LBS + NCS_LBS
+  ) |>
+  dplyr::filter(year > 2019) |>
+  dplyr::group_by(year, gear) |>
+  dplyr::summarise(
+    cs_prop = CS_LBS / tot,
+    ncs_prop = NCS_LBS / tot,
+    cs_propxrate  = cs_prop * CS_RATIO,
+    ncs_propxrate  = ncs_prop * NCS_RATIO,
+    Discard = cs_propxrate + ncs_propxrate,
+    Std_in = NCS_SD,
+    Seas = 1
   ) |>
   dplyr::ungroup() |>
-  dplyr::select(
-    year,
-    gear,
-    catch_shares,
-    ob_ratio,
-    prop_x_rate,
-    sd_boot_ratio
-  ) |>
-  tidyr::pivot_wider(
-    names_from = catch_shares,
-    values_from = c(ob_ratio, prop_x_rate, sd_boot_ratio)
-  ) |>
-  dplyr::rowwise() |>
-  dplyr::mutate(
-    Discard = dplyr::coalesce(
-      sum(dplyr::c_across(dplyr::starts_with("prop_x_rate"))),
-      prop_x_rate_FALSE
-    ),
-    Std_in = if (year_analysis == 2021) {
-      sd_boot_ratio_FALSE
-    } else {
-      # Prior to 2011, 100% of the discards were from non-catch share
-      ifelse(year <= 2010, sd_boot_ratio_FALSE, 0.05) # 0.05 is from dover
-    },
-    gear = dplyr::case_when(
-      gear == "FixedGears" ~ 1L,
-      gear == "Trawl" ~ 2L
-    )
-  ) |>
-  dplyr::select(-dplyr::matches("ob_ratio|prop_x_rate|sd_boot_ratio")) |>
-  dplyr::mutate(Seas = ifelse(year_analysis == 2021, 7, 1), .after = year) |>
-  dplyr::arrange(gear, year)
-
+  dplyr::select(year, Seas, gear, Discard, Std_in)
 
 # Write the three objects to data-processed
 write_named_csvs(
