@@ -1,18 +1,6 @@
 ## Biological Data
 
-### Natural Mortality
+A number of biological parameters were estimated outside the 2019 assessment model
+(weight-length relationship, the maturity schedule, and fecundity relationships). These
+values are treated as fixed in that model and this assessment update, and therefore, uncertainty reported for the stock assessment results does not include any uncertainty associated with these quantities.
 
-
-### Maturation and Fecundity
-
-
-### Sex Ratio
-
-
-### Length-Weight Relationship
-
-
-### Growth (Length-at-Age)
-
-
-### Ageing Precision and Bias
