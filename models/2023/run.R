@@ -83,10 +83,19 @@ bridge_output <- bridge_update_data(
 )
 bridge_output <- bridge_end_year(
   inputs = bridge_output,
-  x = utils::read.csv(
+  catch = utils::read.csv(
     file = fs::path("data-processed", "data_commercial_catch.csv")
   ) |>
     dplyr::filter(year <= user_end_year),
+  forecast_catch = data.frame(
+    Year = rep(c(2023, 2024), times = 2),
+    Seas = 1,
+    Fleet = rep(1:2, each = 2),
+    Catch = c(
+      6369, 5838,
+      2749, 2521
+    )
+  ),
   dir_out = fs::path(bridging_dir, "03_IncludeRecentCatches")
 )
 

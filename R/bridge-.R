@@ -189,22 +189,30 @@ bridge_remove_early_catch <- function(inputs,
 #' * End year in data file
 #' * Last year of main recruitment deviations
 #' * Last year of full bias adjustment
+#' @param forecast_catch A data frame with four following columns but column
+#'   names will not be checked, it is just assumed that the data is in the
+#'   correct order:
+#'   * Year
+#'   * Seas
+#'   * Fleet, and
+#'   * `Catch or F`.
 #' @noRd
 bridge_end_year <- function(inputs,
-                            x,
+                            catch,
+                            forecast_catch,
                             dir_out) {
   fs::dir_create(dir_out)
   old_end_year <- inputs[["dat"]][["endyr"]]
   inputs <- bridge_update_data(
     inputs = inputs,
-    x = x,
+    x = catch,
     dir_out = NULL,
     type = "catch",
     match = NULL,
     vars_by = c("year", "seas", "fleet"),
     vars_arrange = c("fleet", "year", "seas")
   )
-  new_end_year <- dplyr::pull(x, year) |>
+  new_end_year <- dplyr::pull(catch, year) |>
     max()
   inputs[["dat"]][["endyr"]] <- new_end_year
   inputs[["ctl"]][["MainRdevYrLast"]] <- new_end_year
@@ -213,7 +221,7 @@ bridge_end_year <- function(inputs,
   inputs[["fore"]][["Flimitfraction_m"]][, "Year"] <- inputs[["fore"]][[
     "Flimitfraction_m"]][, "Year"] + new_end_year - old_end_year
   inputs[["fore"]][["FirstYear_for_caps_and_allocations"]] <- new_end_year + 1
-  inputs[["fore"]][["ForeCatch"]] <- inputs[["fore"]][["ForeCatch"]][0, ]
+  inputs[["fore"]][["ForeCatch"]] <- forecast_catch
 
   # Deal with the terminal year time blocks and remove unused blocks
   change_terminal <- function(x, from, to) {
