@@ -253,6 +253,24 @@ process_survey <- function() {
   )
 
   # Chantel ... insert your beautiful figure code here
+  gg <- nwfscSurvey::plot_proportion(
+    data = data_survey_catch |> dplyr::mutate(new = factor(cpue_kg_km2 <= 0, levels = c(FALSE, TRUE), labels = c("Present", "Absent"))),
+    column_factor = new,
+    column_bin = Latitude_dd,
+    width = 1,
+    boundary = 0,
+    bar_width = "equal"
+  )
+  ggplot2::ggsave(
+    filename = fs::path(
+      figure_dir,
+      "data_survey_wcgbt_presence-by-lat.png"
+    ),
+    width = 10, 
+    height = 10,
+    plot = gg
+  )
+  
   gg <- ggplot2::ggplot(
     data = data_survey_bio |>
       dplyr::filter(
