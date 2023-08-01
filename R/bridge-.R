@@ -220,7 +220,7 @@ bridge_end_year <- function(inputs,
   inputs[["fore"]][["Bmark_years"]][-c(1:2)] <- new_end_year
   inputs[["fore"]][["Flimitfraction_m"]][, "Year"] <- inputs[["fore"]][[
     "Flimitfraction_m"]][, "Year"] + new_end_year - old_end_year
-  inputs[["fore"]][["FirstYear_for_caps_and_allocations"]] <- new_end_year + 1
+  inputs[["fore"]][["FirstYear_for_caps_and_allocations"]] <- new_end_year + 5
   inputs[["fore"]][["ForeCatch"]] <- forecast_catch
 
   # Deal with the terminal year time blocks and remove unused blocks
@@ -366,7 +366,7 @@ bridge_update_data <- function(inputs,
 bridge_fix_starter <- function(inputs,
                                dir_out) {
   inputs[["start"]][["minyr_sdreport"]] <- -1
-  inputs[["start"]][["maxyr_sdreport"]] <- -1
+  inputs[["start"]][["maxyr_sdreport"]] <- -2
   inputs[["start"]][["prior_like"]] <- 1
 
   if (!is.null(dir_out)) {
