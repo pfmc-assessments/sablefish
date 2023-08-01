@@ -4,13 +4,12 @@
 ![Summary of data sources used in the base model.\label{fig:data-plot}](data-plot.png){width=100% height=100% alt="Summary of data sources used in the base model"}
 
 ## Data
-```{r, figures-data-landings, results = 'asis'}
-# Fix r4ss directory here
+```{r, figures-data-landings, results = "asis"}
 sa4ss::add_figure(
   filein = fs::path(
-    here::here(),
-    figure_dir,
-    " catch2 landings stacked.png"
+    model_location,
+    "plots",
+    "catch2 landings stacked.png"
   ),
   caption = "Landings by year from the fixed gear (FIX) and trawl (TWL) fleets.",
   alt_caption = "",
@@ -28,8 +27,8 @@ sa4ss::add_figure(
     figure_dir,
     "data_survey_wcgbt_proportion-by-depth.png"
   ),
-  caption = "The proportion of positive tows that observe sablefish in the NWFSC WCGBT survey across depths sampled.",
-  alt_caption = "Approximately 25 percent of tows include sablefish at the shallowest sample depths between 50--100 m with the percent positive tows increasing the 75 percent by 300 m. The highest percent positive occurs between 950--1,050 m at sablefish obsersed in greater tha 95 percent of tows and slowly declines to approximatley 60 percent at the maximum depth, 1,280 m, sampled.",
+  caption = glue::glue("The proportion of positive tows that observe {spp} in the \\glsentrylong{{s-wcgbt}} across depths sampled."),
+  alt_caption = glue::glue("Approximately 25 percent of tows include {spp} at the shallowest depths sampled between 50--100 m with the percent positive tows increasing to 75 percent by 300 m. The highest percent positive tows occurs between 950--1,050 m with {spp} observed in greater than 95 percent of tows. The percent positive tows slowly declines to approximatley 60 percent at the maximum depth, 1,280 m, sampled."),
   label = "data-survey-wcgbt-proportion-by-depth"
 )
 
@@ -39,47 +38,43 @@ sa4ss::add_figure(
     figure_dir,
     "data_survey_wcgbt_presence-by-lat.png"
   ),
-  caption = "The proportion of positive tows that observe sablefish in the NWFSC WCGBT survey by latitude.",
-  alt_caption = "Approximately 70-75 percent of tows include sablefish in Oregon and Washington. In California north of Point Conception approximately 70 percent of the tows include sablefish except around Point Reyes where the pecentage declines to between 60-70 percent. South of Point Conception in California only between 25-45 percent of tows include sablefish.",
+  caption = glue::glue("The proportion of positive tows that observe {spp} in the \\glsentrylong{{s-wcgbt}} by latitude."),
+  alt_caption = glue::glue("Approximately 70--75 percent of tows include {spp} in Oregon and Washington. In California north of Point Conception, approximately 70 percent of the tows include {spp}, except around Point Reyes where the pecentage declines to between 60--70 percent. South of Point Conception in California, 25--45 percent of tows include {spp}."),
   label = "data-survey-wcgbt-proportion-by-latitude"
 )
 
-# Fix r4ss directory here
 sa4ss::add_figure(
   filein = fs::path(
-    here::here(),
-    figure_dir,
+    model_location,
+    "plots",
     "index1_cpuedata_NWCBO.png"
   ),
-  caption = "Annual relative index of abundance for the NWFSC WCGBT survey.",
+  caption = "Annual relative index of abundance for the \\glsentrylong{s-wcgbt}.",
   alt_caption = "",
   label = "data-survey-wcgbt-index"
 )
 
-# Fix r4ss directory here
 sa4ss::add_figure(
   filein = fs::path(
-    here::here(),
-    figure_dir,
+    model_location,
+    "plots",
     "comp_lendat_flt7mkt0.png"
   ),
-  caption = "Annual length composition data for the NWFSC WCGBT survey.",
+  caption = "Annual length-composition data for the \\glsentrylong{s-wcgbt}.",
   alt_caption = "",
   label = "data-survey-wcgbt-lengths"
 )
 
-# Fix r4ss directory here
 sa4ss::add_figure(
   filein = fs::path(
-    here::here(),
-    figure_dir,
+    model_location,
+    "plots",
     "comp_gstagedat_bubflt7mkt0.png"
   ),
-  caption = "Annual age composition data for the NWFSC WCGBT survey",
+  caption = "Annual age-composition data for the \\glsentrylong{s-wcgbt}.",
   alt_caption = "",
   label = "data-survey-wcgbt-ages"
 )
-
 
 sa4ss::add_figure(
   filein = fs::path(
@@ -87,8 +82,8 @@ sa4ss::add_figure(
    figure_dir,
     "data_survey_wcgbt_young-length-by-year.png"
   ),
-  caption = "The length distribution of age-0 and age-1 sablefish by survey pass across years sampled by the NWFSC WCGBT. Blue dots indicate the lengths observed for each age and by pass.",
-  alt_caption = "The distribution of lengths of age 0 fish generally 30 cm or less with the majority of age-0 fish being observed during pass 2 of the survey. Age-0 fish generally range between 30-45 cm in size with pass 2 observing larger age-1 sablefish compared to pass 1. Age-1 sablefish observed in 2021 and 2022 have a wide distribution of observed sizes between 25-45 cm.",
+  caption = "The length distribution of age-0 and age-1 fish by survey pass across years sampled by the \\glsentrylong{s-wcgbt}. Blue dots indicate the lengths observed for each age and by pass.",
+  alt_caption = "The distribution of lengths of age-0 fish, generally 30 cm or less, with the majority of age-0 fish being observed during pass 2 of the survey. Age-0 fish generally range between 30--45 cm in size with pass 2 observing larger age-1 fish compared to pass 1. Age-1 fish observed in 2021 and 2022 have a wide distribution of observed sizes between 25--45 cm.",
   label = "data-survey-wcgbt-young-length-by-year"
 )
 
@@ -98,8 +93,8 @@ sa4ss::add_figure(
 #     figure_dir,
 #     "data_survey_wcgbt_sex-by-depth.png"
 #   ),
-#   caption = "The proportion of sablefish by sex observed by the NWFSC WCGBT survey across depths sampled.",
-#   alt_caption = "Observations of female sablefish are 50 percent or slightly greater between 150--400 m, with males being # observed greater than 50 percent of the tows between 400--1,050 m. At the deepest depths sampled, between 1,050--1,280 m, # females are observed in greater than 50 percent of the tows.",
+#   caption = glue::glue("The proportion of {spp} by sex observed by the \\glsentrylong{{s-wcgbt}} across depths sampled.",
+#   alt_caption = glue::glue("Observations of female {spp} are 50 percent or slightly greater between 150--400 m, with males being observed greater than 50 percent of the tows between 400--1,050 m. At the deepest depths sampled, between 1,050--1,280 m, females are observed in greater than 50 percent of the tows."),
 #   label = "data-survey-wcgbt-sex-by-depth"
 # )
 
@@ -108,73 +103,69 @@ sa4ss::add_figure(
 ```
 
 ```{r figures-discard-data, results = "asis"}
-# Fix r4ss directory here
 sa4ss::add_figure(
   filein = fs::path(
-    here::here(),
-    figure_dir,
+    model_location,
+    "plots",
     "discard_dataFIX.png"
   ),
-  caption = "Annual WCGOP discard rates for the fixed gear fleet.",
+  caption = "Annual \\glsentrylong{wcgop} discard rates for the fixed gear fleet.",
   alt_caption = "",
   label = "data-wcgop-discard-rates-fixed"
 )
 
-# Fix r4ss directory here
 sa4ss::add_figure(
   filein = fs::path(
-    here::here(),
-    figure_dir,
+    model_location,
+    "plots",
     "discard_dataTWL.png"
   ),
-  caption = "Annual WCGOP discard rates for the trawl fleet.",
+  caption = "Annual \\glsentrylong{wcgop} discard rates for the trawl fleet.",
   alt_caption = "",
   label = "data-wcgop-discard-rates-trawl"
 )
 
-# Fix r4ss directory here
 sa4ss::add_figure(
   filein = fs::path(
-    here::here(),
-    figure_dir,
+    model_location,
+    "plots",
     "bodywt_data_fltFIX.png"
   ),
-  caption = "Annual WCGOP mean weights of discarded fish for the fixed gear fleet.",
+  caption = "Annual \\glsentrylong{wcgop} mean weights of discarded fish for the fixed gear fleet.",
   alt_caption = "",
   label = "data-wcgop-discard-wghts-fixed"
 )
 
-# Fix r4ss directory here
 sa4ss::add_figure(
   filein = fs::path(
-    here::here(),
-    figure_dir,
+    model_location,
+    "plots",
     "bodywt_data_fltTWL.png"
   ),
-  caption = "Annual WCGOP mean weights of discarded fish for the trawl fleet.",
+  caption = "Annual \\glsentrylong{wcgop} mean weights of discarded fish for the trawl fleet.",
   alt_caption = "",
   label = "data-wcgop-discard-wghts-trawl"
 )
 
-# Fix r4ss directory here
 sa4ss::add_figure(
   filein = fs::path(
-    here::here(),
-    figure_dir,
+    model_location,
+    "plots",
     "comp_lendat_flt1mkt1.png"
   ),
-  caption = "Annual distribution of observed discarded fish by length in WCGOP data for the fixed gear fleet.",
+  caption = "Annual distribution of observed discarded fish by length in \\glsentrylong{wcgop} data for the fixed gear fleet.",
   alt_caption = "",
   label = "data-wcgop-discard-len-fixed"
 )
 
 sa4ss::add_figure(
   filein = fs::path(
-    here::here(),
-    figure_dir,
+    model_location,
+    "plots",
     "comp_lendat_flt2mkt1.png"
   ),
-  caption = "Annual distribution of observed discarded fish by length in WCGOP data for the trawl fleet.",
+  caption = "Annual distribution of observed discarded fish by length in \\glsentrylong{wcgop} data for the trawl fleet.",
   alt_caption = "",
   label = "data-wcgop-discard-len-trawl"
 )
+```

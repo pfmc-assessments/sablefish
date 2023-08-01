@@ -2,7 +2,7 @@
 executive <- list()
 executive[["stock"]] <- paste0("This assessment reports the status of ",
   spp, " (_", spp.sci, "_) off the ", coast, 
-  " coast using data through xxxx.")
+  " using data through xxxx.")
 ```
 
 # Executive summary{-}
@@ -20,14 +20,7 @@ Include Figure with long-term estimates.
 
 ## Data and assessment{-}
 
-This assessment uses the stock assessment framework
-Stock Synthesis 
-```{r es-modelversion, echo=FALSE} 
-if (exists("model")) {
-  strsplit(model$SS_version,";")[[1]][1]
-}
-```
-(SS3).
+This assessment uses the stock assessment framework \gls{ss3} version `r m_ss3_version`.
 
 Replace text with
 date of last assessment,

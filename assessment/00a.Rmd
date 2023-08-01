@@ -27,11 +27,54 @@ knitr::knit_hooks$set(plot = function(x,options) {
   })
 
 load("00opts.Rdata")
+```
 
-if(file.exists("00mod.Rdata")){
-  load("00mod.Rdata")
-} else {
-  print("Model output not being read. Please run the read_model() function.")
-}
+```{r inputs-load-model, cache = TRUE, include = FALSE}
+# User-specific settings
+model_location <- fs::path(
+  here::here(),
+ "models", "2023", "base", "bridging", "13_FinalTune"
+)
+model_location_previous <- fs::path(
+  here::here(),
+ "models", "2021", "base", "base"
+)
 
+# Functionality from sa4ss::read_model
+model <- r4ss::SS_output(
+  dir = model_location,
+  printstats = FALSE,
+  verbose = FALSE
+)
+model_previous <- r4ss::SS_output(
+  dir = model_location_previous,
+  printstats = FALSE,
+  verbose = FALSE,
+  wtfile = NULL
+)
+strsplit(
+  purrr::map_chr(
+    list("m_ss3_version" = model, "mp_ss3_version" = model_previous),
+    "SS_version"
+  ),
+  split = ";"
+) |>
+  purrr::map(1) |>
+  list2env(env = environment())
+r4ss::SS_plots(
+  replist = model,
+  dir = model_location,
+  # to do
+  # fleetnames = c(),
+  verbose = FALSE
+)
+```
+
+```{r env-model-objects}
+startyr <- model$startyr
+endyr <- model$endyr
+last10 <- endyr - 8
+currentyr <- endyr + 1
+project_start <- min(model$timeseries$Yr[model$timeseries$Era == "FORE"])
+project_end <- max(model$timeseries$Yr[model$timeseries$Era == "FORE"])
 ```

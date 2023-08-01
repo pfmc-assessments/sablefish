@@ -22,7 +22,7 @@ sa4ss::table_format(
 ```
 
 
-```{r tab-data-strata}
+```{r tab-data-strata, results = "asis"}
 sa4ss::table_format(
   x = strata |>
     dplyr::select(-name) |>
@@ -45,3 +45,5 @@ sa4ss::table_format(
   )
 )
 ```
+
+\include{52tables/data-survey-n.tex}
