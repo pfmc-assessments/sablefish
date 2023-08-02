@@ -1,28 +1,24 @@
 \clearpage
 # Tables
 
-```{r, results = 'asis'}
-
-years = startyr:endyr
-nfleets = 4
-dead_all = NULL
-
-for (i in 1:nfleets){
-  name = paste0("retain(B):_",i)
-  dead = model$timeseries[model$timeseries$Yr %in% years, name]
-  dead_all = cbind(dead_all, dead)
-}
-total.dead  <- round(apply(dead_all, 1, sum), 1)
-out = cbind(years, round(dead_all, 1), total.dead)
-out = as.data.frame(out)
-col_names = c("Year", "Fixed Gear", "Trawl", "Total Landings")
-
-sa4ss::table_format(x = out,
-             caption = "Landings (mt) by fleet and the summed coastwide total landigns (mt).",
-             label = "landings",
-             digits = 1,
-             align = 'l',
-             col_names = col_names)
+```{r, results = "asis"}
+sa4ss::table_format(
+  x = model[["timeseries"]] |>
+    dplyr::filter(
+      Yr >= startyr
+    ) |>
+    dplyr::select(Year = Yr, dplyr::starts_with("retain(B):")) |>
+    dplyr::mutate(
+      `Total Landings` = rowSums(across(dplyr::starts_with("retain"))),
+      dplyr::across(where(is.numeric), round, 1)
+    ),
+  caption = "Landings (mt) by fleet and the summed coastwide total landings.",
+  label = "landings",
+  digits = 1,
+  align = "l",
+  # to do: use a renamer between fleet number and name
+  col_names = c("Year", "Fixed Gear", "Trawl", "Total Landings")
+)
 ```
 
 
