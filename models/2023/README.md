@@ -25,6 +25,10 @@
 
 ## Sensitivities
 
+* Switch the recruitment deviations from being centered (option 1) to non-centered (option 2). Given that the 2020 and 2021 recruitment deviations are being estimated at relatively high values this is likely forcing earlier, less informed, deviations to be more negative to meet the centered at 0 requirement.  
+* Remove the CAAL ages from the NWFSC WCGBT survey for 2021 and 2022 and replace them with the marginal ages from those years to explore the impact of these data on the growth estimates.
+* Add growth parameter block for Lmin, k, and CV young for both sexes for 2022 only to see how the growth estimates vary.  Depending upon the uncertainty in the estimates we may want to explore adding 2020 to the same growth block (2021 2022) 
+
 ### Good Ideas
 
 ### Not So Good Ideas
