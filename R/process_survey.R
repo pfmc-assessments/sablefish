@@ -44,6 +44,8 @@
 #'   surveys.
 process_survey <- function() {
   fs::dir_create(here::here(), "data-processed")
+  fs::dir_create(here::here(), table_dir)
+  fs::dir_create(here::here(), figure_dir)
 
   #============================================================================
   # Number of positive tows and biological samples by year and project
