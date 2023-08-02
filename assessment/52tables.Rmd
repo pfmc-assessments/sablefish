@@ -9,7 +9,7 @@ sa4ss::table_format(
     ) |>
     dplyr::select(Year = Yr, dplyr::starts_with("retain(B):")) |>
     dplyr::mutate(
-      `Total Landings` = rowSums(across(dplyr::starts_with("retain"))),
+      `Total Landings` = rowSums(dplyr::across(dplyr::starts_with("retain"))),
       dplyr::across(where(is.numeric), round, 1)
     ),
   caption = "Landings (mt) by fleet and the summed coastwide total landings.",
