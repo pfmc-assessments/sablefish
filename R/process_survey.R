@@ -251,10 +251,11 @@ process_survey <- function() {
       figure_dir,
       "data_survey_wcgbt_sex-by-depth.png"
     ),
+    width = 10, 
+    height = 10,
     plot = gg
   )
 
-  # Chantel ... insert your beautiful figure code here
   gg <- nwfscSurvey::plot_proportion(
     data = data_survey_catch |> dplyr::mutate(new = factor(cpue_kg_km2 <= 0, levels = c(FALSE, TRUE), labels = c("Present", "Absent"))),
     column_factor = new,
