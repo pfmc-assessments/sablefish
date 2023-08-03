@@ -16,7 +16,7 @@ A brief list of changes that were made to the model configuration compared to th
 - **Data**
 
   - The catch time series was both corrected and updated from the previous assessment.
-    First, catches from the Oregon Coast \gls{inpfc} area, i.e., between 42.000--46.267\textdegree~N are no longer excluded from the total catch.
+    First, catches from the Oregon Coast \gls{inpfc} area, i.e., between 42.000--46.267\textdegree N. are no longer excluded from the total catch.
     Second, landings from 1977--1982 in the catch reporting area that includes both U.S. and Candadian waters are now assigned 50--50\% to each country rather than 100\% to the U.S.
     Third, a time series of `r spp` catches from the At-Sea Pacific Hake fishery were included in the trawl fleet. Previous assessments have included bycatch of `r spp` from the shoreside fleet but these at-sea catches were previously excluded.
     See Section \@ref(data) for more details on each of these changes.
