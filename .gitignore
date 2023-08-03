@@ -53,6 +53,9 @@ rsconnect/
 # data-raw files unless forced
 data-raw/*
 
+# Project file (Chantel)
+*.Rproj
+
 # Model output files
 admodel.*
 runnumber.ss
@@ -68,6 +71,15 @@ runnumber.ss
 *.sso
 *.std
 *.tmp
+*.ss
+*.exe
+*.html
+*.csv
+*.txt
 
 # assessment build
 _main*
+*.aux
+*.log
+*.png
+*.tex
