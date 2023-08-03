@@ -2,6 +2,10 @@
 
 ## Reference Points
 
+The estimated 2023 spawning biomass relative to unfished equilibrium spawning biomass is well above the management target of 40 percent of unfished spawning output. The fishing intensity has been at or below the current management harvest rate limit (spawning potential ratio [SPR], $\text{SPR}_{45\%}$) since the mid 1980s and declining in the last ten years (Figure \@ref(fig:model-spr)).  The relative biomass compared to the ratio of the estimated SPR to the management target ($\text{SPR}_{45\%}$) across all model years are shown in Figure \@ref(fig:model-phase) where warmer colors (red) represent early years and colder colors (blue) represent recent years. The relative biomass and estimated SPR has been well above the management biomass target (40 percent) and well below the SPR target across recent model years. Figure \@ref(fig:model-yield) shows the equilibrium curve based on a steepness value fixed at `r round(model$parameters[model$parameters$Label == "SR_BH_steep","Value"], 2)` with vertical dashed lines to indicate the estimate of fraction unfished at the start of `r endyr +1` (current) and the estimated management targets calculated based on the relative target biomass (B target), the SPR target, and the maximum sustainable yield (MSY).
+
+Reference points were calculated using the estimated selectivities and catch distributions among fleets in the most recent year of the model, `r endyr` (Table XX). Sustainable total yield, landings plus discards, using an $\text{SPR}_{45\%}$ is `r format(model$derived_quants[model$derived_quants$Label == 'Dead_Catch_SPR', 'Value'], scientific = FALSE, big.mark = ',')` mt. The spawning biomass equivalent to 40 percent of the unfished spawning biomass ($\text{SB}_{40\%}$) calculated using the SPR target ($\text{SPR}_{45\%}$) was `r format(model$derived_quants[model$derived_quants$Label == 'SSB_SPR', 'Value'],  scientific = FALSE, big.mark = ',')` mt. 
+
 ## Unresolved Problems and Major Uncertainties
 
 
@@ -24,7 +28,7 @@ read_child(filein)
 
 `r Spp` is currently modeled as a coastwide stock with corresponding coastwide OFL, ABC, and ACL values. The coastwide ACL is then apportioned into two area-specific ACLs north and south of 36$^\circ$ N. latitude. In the 2019 the PFMC adopted a methodology to split the ACL using a five-year rolling average biomass estimate by area from the \gls{s-wcgbt} ([November 2019 PFMC Meeting Decision Document](https://www.pcouncil.org/documents/2019/11/november-2019-decision-document.pdf/)). This historical management line corresponds with a recent data-driven analysis of `r spp` growth that suggests a difference in growth rates north and south of $36^\circ$ N latitude [@kapur_oceanographic_2020]. The estimates represent the relative distribution of the `r spp` population observed by the survey, not the entire population. Additionally, it is likely that fish from more northerly regions are migrating into U.S. West Coast waters (pers. comm., L. Rogers), which may bias the survey estimates of the distribution of fish in each region. Thus, these results should be interpreted with caution.
 
-The estimated proportion of the observed biomass by the \gls{s-wcgbt} between the years of 2017--2022 (no survey was conducted in 2020) is XX percent south of 36$^\circ$ N. latitude and XX percent north of 36$^\circ$ N. latitude.  In contrast, the estimates in 2019 using data between 2014--2018 was 21.6 percent in the south and 78.4 percent in the north.  
+The estimated proportion of the observed biomass by the \gls{s-wcgbt} between the years of 2017--2022 (no survey was conducted in 2020) is XX percent south of 36$^\circ$ N. latitude and XX percent north of 36$^\circ$ N. latitude.  In contrast, the estimates in 2019 using data between 2014--2018 was 21.6 percent in the south and 78.4 percent in the north.
 
 ## Research and Data Needs
 

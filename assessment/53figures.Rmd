@@ -185,3 +185,60 @@ sa4ss::add_figure(
   label = "data-wcgop-discard-len-trawl"
 )
 ```
+
+## Model Results
+
+### Bridging
+
+### Estimated Biology
+
+### Selectivity
+
+### Recruitment
+
+### Fits to Data
+
+### Timeseries
+
+### Sensitivity Analyses and Retrospectives
+
+### Likelihood Profiles
+
+
+## Reference Points and Projections
+
+```{r figures-reference-points, results = "asis"}
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "SPR3_ratiointerval.png"
+  ),
+  caption = "Timeseries of SPR ratio: (1-SPR)/(1-SPR 45%).",
+  alt_caption = "",
+  label = "model-spr"
+)
+
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "SPR4_phase.png"
+  ),
+  caption = "Phase plot of biomass ratio vs. SPR ratio.
+Each point represents the biomass ratio at the start of the year and the relative fishing intensity in that same year. Warmer colors (red) represent early years and colder colors (blue) represent recent years. Lines through the final point show 95% intervals based on the asymptotic uncertainty for each dimension.",
+  alt_caption = "",
+  label = "model-phase"
+)
+
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "yield2_yield_curve_with_refpoints.png"
+  ),
+  caption = "Yield curve with reference points.",
+  alt_caption = "",
+  label = "model-yield"
+)
+```
