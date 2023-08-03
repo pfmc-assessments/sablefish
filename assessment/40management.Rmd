@@ -4,8 +4,28 @@
 
 ## Unresolved Problems and Major Uncertainties
 
+
+```{r, echo=FALSE, results='asis'}
+filein = fs::path(here::here('assessment', 'shared_text','unresolved_uncertanties.Rmd'))
+read_child(filein)
+```
+
+
 ## Harvest Projections and Decision Tables
 
 ## Evaluation of Scientific Uncertainty
 
+```{r, echo=FALSE, results='asis'}
+filein = fs::path(here::here('assessment', 'shared_text','scientific_uncertainty.Rmd'))
+read_child(filein)
+```
+
+## Regional Management Considerations
+
+`r Spp` is currently modeled as a coastwide stock with corresponding coastwide OFL, ABC, and ACL values. The coastwide ACL is then apportioned into two area-specific ACLs north and south of 36$^\circ$ N. latitude. In the 2019 the PFMC adopted a methodology to split the ACL using a five-year rolling average biomass estimate by area from the \gls{s-wcgbt} ([November 2019 PFMC Meeting Decision Document](https://www.pcouncil.org/documents/2019/11/november-2019-decision-document.pdf/)). This historical management line corresponds with a recent data-driven analysis of `r spp` growth that suggests a difference in growth rates north and south of $36^\circ$ N latitude [@kapur_oceanographic_2020]. The estimates represent the relative distribution of the `r spp` population observed by the survey, not the entire population. Additionally, it is likely that fish from more northerly regions are migrating into U.S. West Coast waters (pers. comm., L. Rogers), which may bias the survey estimates of the distribution of fish in each region. Thus, these results should be interpreted with caution.
+
+The estimated proportion of the observed biomass by the \gls{s-wcgbt} between the years of 2017--2022 (no survey was conducted in 2020) is XX percent south of 36$^\circ$ N. latitude and XX percent north of 36$^\circ$ N. latitude.  In contrast, the estimates in 2019 using data between 2014--2018 was 21.6 percent in the south and 78.4 percent in the north.  
+
 ## Research and Data Needs
+
+Please refer to the 2019 benchmark assessment for a detailed list of research and data needs for `r spp` [@haltuch_status_2019b].

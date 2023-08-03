@@ -75,8 +75,11 @@ Include OFL (encountered), OFL (retained), and OFL (dead) if different due to di
 
 ## Unresolved problems and major uncertainties{-}
 
-Replace text with
-any special issues that complicate scientific assessment, questions about the best model scenario, etc.
+```{r, echo=FALSE, results='asis'}
+filein = fs::path(here::here('assessment', 'shared_text','unresolved_uncertanties.Rmd'))
+read_child(filein)
+```
+
 
 ## Decision table and projections{-}
 
@@ -86,10 +89,13 @@ OFL calculations should be based on the assumption that future catches equal ABC
 
 ## Scientific uncertainty{-}
 
-Replace text with
-the sigma value and the basis for its calculation.
+```{r, echo=FALSE, results='asis'}
+filein = fs::path(here::here('assessment', 'shared_text','scientific_uncertainty.Rmd'))
+read_child(filein)
+```
+
 
 ## Research and data needs{-}
 
-Replace text with
-information gaps that seriously impede the stock assessment.
+Please refer to the 2019 benchmark assessment for a detailed list of research and data needs for `r spp` [@haltuch_status_2019b].
+
