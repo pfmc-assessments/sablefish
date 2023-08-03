@@ -22,10 +22,6 @@ Range-wide investigations of `r spp` growth suggest that growth varies across th
 
 A detailed summary of \gls{ses} analyses, the Climate Vulnerability Assessment, and environmental drivers of sablefish recruitment is available in the 2019 benchmark assessment report [@haltuch_status_2019b].
 
-### Oceanographic drivers of recruitment
-
-TO DO: Add any new text for Nick 
-
 ## Historical and Current Fishery Information
 
 Historical `r spp` landings, beginning in 1890, have been reconstructed by the states (Washington, Oregon, and California) using a variety of sources. Generally, historical `r spp` landings were more reliable than those for many other groundfish species because of their consistent species-level identification. While `r spp` landings were recorded back to the beginning of the 20th century, appreciable quantities were not landed until 1916--1919, with landings remaining below 5,000 mt through the late 1960s (Table \@ref(tab:landings) and Figure \@ref(fig:data-landings)). Landings prior to 1960 were primarily harvested by hook-and-line gear. The peak around World War II was likely due to a relaxed degree of species sorting rather than a dramatic increase in fishing effort. Grey literature notes a decrease in manpower with the onset of the war, which would explain the dexcreased sorting of fish to species. Despite this decrease in manpower there were also increases in demands for domestic sources of protein [@browning_fisheries_1980].
