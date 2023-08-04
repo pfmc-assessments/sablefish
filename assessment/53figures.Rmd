@@ -202,7 +202,59 @@ sa4ss::add_figure(
 
 ### Sensitivity Analyses and Retrospectives
 
+```{r, figures-retro, results = "asis"}
+ignore <- tidyr::expand_grid(
+  folder_list = fs::dir_ls(dirname(model_location), regexp = "base_retro"),
+  string = c("compare2", "compare4")
+) |>
+  dplyr::mutate(
+    filein = purrr::map2_chr(
+      .x = folder_list,
+      .y = string,
+      .f = ~ fs::dir_ls(path = .x, regexp = .y)
+    ),
+    label = paste("retro", string, sep = "-"),
+    type = dplyr::case_when(
+      grepl("2", string) ~ "spawning output",
+      grepl("4", string) ~ "fraction unfished"
+    ),
+    caption = glue::glue(
+      "Change in the estimate of {type} when the most recent 5 years of data are removed sequentially."
+    )
+  ) |>
+    dplyr::select(filein, caption, label) |>
+    purrr::pmap(.f = sa4ss::add_figure)
+```
+
 ### Likelihood Profiles
+
+```{r figures-profiles, results = "asis"}
+ignore <- tidyr::expand_grid(
+  folder_list = fs::dir_ls(dirname(model_location), regexp = "base_profile"),
+  string = c("compare1", "compare3", "piner")
+) |>
+  dplyr::mutate(
+    filein = purrr::map2_chr(
+      .x = folder_list,
+      .y = string,
+      .f = ~ fs::dir_ls(path = .x, regexp = .y)
+    ),
+    parameter = edit_string(
+      sub("base_profile_", "", basename(names(folder_list)))
+    ),
+    label = paste("profile", gsub(" ", "-", parameter), string, sep = "-"),
+    type = dplyr::case_when(
+      grepl("piner", string) ~ "negative log-likelihood",
+      grepl("1", string) ~ "spawning output",
+      grepl("3", string) ~ "fraction unfished"
+    ),
+    caption = glue::glue(
+      "Change in the {type} across a range of {parameter} values."
+    )
+  ) |>
+    dplyr::select(filein, caption, label) |>
+    purrr::pmap(.f = sa4ss::add_figure)
+```
 
 
 ## Reference Points and Projections
