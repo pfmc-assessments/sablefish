@@ -361,13 +361,66 @@ bridge_update_data <- function(inputs,
 #'   -1 in the starter file.
 #' * End the annual SD report in the last forecast year by using -2 in the
 #'   starter file.
+#' * Turn on prior likelihoods.
+#' * Decrease convergence criterion to 1e-03 from 1e-05.
 #' @inheritParams bridge_update_data
 #' @noRd
 bridge_fix_starter <- function(inputs,
                                dir_out) {
+  fs::dir_create(dir_out)
   inputs[["start"]][["minyr_sdreport"]] <- -1
   inputs[["start"]][["maxyr_sdreport"]] <- -2
   inputs[["start"]][["prior_like"]] <- 1
+  inputs[["start"]][["converge_criterion"]] <- 1e-03
+
+  if (!is.null(dir_out)) {
+    r4ss::SS_write(
+      inputlist = inputs,
+      dir = dir_out,
+      overwrite = TRUE,
+      verbose = FALSE
+    )
+  }
+  return(invisible(inputs))
+}
+
+bridge_fix_parameters <- function(inputs,
+                                  dir_out) {
+  fs::dir_create(dir_out)
+  inputs[["ctl"]][["SR_parms"]][
+    grepl("SR_LN", row.names(inputs[["ctl"]][["SR_parms"]])),
+    c("INIT", "PRIOR")
+  ] <- 10.5
+  # Fix retention parameter at lower bound
+  inputs[["ctl"]][["size_selex_parms_tv"]][
+    grepl(
+      "Ret.+1_FIX.+_2019",
+      row.names(inputs[["ctl"]][["size_selex_parms_tv"]])
+    ),
+    "PHASE"
+  ] <- -1 * inputs[["ctl"]][["size_selex_parms_tv"]][
+    grepl(
+      "Ret.+1_FIX.+_2019",
+      row.names(inputs[["ctl"]][["size_selex_parms_tv"]])
+    ),
+    "PHASE"
+  ]
+  # Fix descending age-based tv selectivity at upper bound
+  inputs[["ctl"]][["age_selex_parms_tv"]][
+    grepl("TWL.+2011", row.names(inputs[["ctl"]][["age_selex_parms_tv"]])),
+    "PHASE"
+  ] <- -1 * inputs[["ctl"]][["age_selex_parms_tv"]][
+    grepl("TWL.+2011", row.names(inputs[["ctl"]][["age_selex_parms_tv"]])),
+    "PHASE"
+  ]
+  # Change initial value from -9.73241 to get parameter off of the bound
+  inputs[["ctl"]][["age_selex_parms_tv"]][
+    grepl(
+      "ascend.+FIX.+2011|3_FIX.+2011",
+      row.names(inputs[["ctl"]][["age_selex_parms_tv"]])
+    ),
+    "INIT"
+  ] <- -1.50000
 
   if (!is.null(dir_out)) {
     r4ss::SS_write(
