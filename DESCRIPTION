@@ -45,6 +45,8 @@ Imports:
     purrr,
     r4ss,
     sa4ss,
+    stringr,
+    tibble,
     tidyr,
     utils
 Remotes: 

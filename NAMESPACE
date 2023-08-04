@@ -3,6 +3,7 @@
 export(get_data)
 export(get_data_commercial)
 export(get_data_survey)
+export(table_likelihoods)
 import(assertthat)
 importFrom(utils,head)
 importFrom(utils,tail)

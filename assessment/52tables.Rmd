@@ -47,3 +47,7 @@ sa4ss::table_format(
 ```
 
 \include{52tables/data-survey-n.tex}
+
+```{r tab-likelihoods, results = "asis"}
+table_likelihoods(model)
+```
