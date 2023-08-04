@@ -17,6 +17,9 @@ sa4ss::read_child(filein)
 
 ## Harvest Projections and Decision Tables
 
+The projection of stock biomass, status, and harvest limits was developed using the base model. The total catches in 2023 and 2024 were set at 9,118 and 8,359 mt, respectively, based on recommendations from the Groundfish Management Team (GMT). The ABC values were estimated using a category 1 time-varying $\sigma_y$ starting at 0.50 combined with a P* value of 0.45. The catches during the projection period, 2025 - 2034 were set equal to the year-specific ABC (Table \@ref(tab:model-projection)). The spawning biomass and fraction unfished increase sharply during the projection due to the estimated large recruitments in 2020 and 2021 maturing and entering the spawning population, resulting in future OFLs and ABCs that are substantially higher than those set for 2023-24.
+
+
 ## Evaluation of Scientific Uncertainty
 
 ```{r, echo=FALSE, results="asis"}
