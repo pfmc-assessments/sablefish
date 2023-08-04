@@ -33,7 +33,7 @@ load("00opts.Rdata")
 # User-specific settings
 model_location <- fs::path(
   here::here(),
- "models", "2023", "base", "bridging", "13_FinalTune"
+ "models", "2023", "FixRetSel", "base"
 )
 model_location_previous <- fs::path(
   here::here(),
