@@ -4,7 +4,8 @@ tune <- function(dir_in,
                  dir_out,
                  executable,
                  steps = 1:3,
-                 iterations = 3) {
+                 iterations = 3,
+                 use_new = FALSE) {
   # Run the model to facilitate tuning
   if (!fs::file_exists(fs::path(dir_in, "Report.sso"))) {
     check <- r4ss::run(
@@ -93,8 +94,27 @@ tune <- function(dir_in,
     dir = dir_out,
     exe = executable,
     skipfinished = FALSE,
-    verbose = FALSE
+    verbose = FALSE,
+    extras = ifelse(use_new, "-nohess", "")
   )
+
+  if (use_new) {
+    # Re run with ss_new to ensure a stable model
+    inputs <- r4ss::SS_read(dir_out, ss_new = TRUE)
+    r4ss::SS_write(
+      inputs,
+      dir = dir_out,
+      overwrite = TRUE
+    )
+    check <- r4ss::run(
+      dir = dir_out,
+      exe = executable,
+      skipfinished = FALSE,
+      verbose = FALSE
+    )
+    inputs <- r4ss::SS_read(dir_out, ss_new = TRUE)
+  }
+
   stopifnot(check == "ran model")
   return(invisible(inputs))
 }
