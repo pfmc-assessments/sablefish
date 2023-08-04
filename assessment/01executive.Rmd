@@ -75,9 +75,9 @@ Include OFL (encountered), OFL (retained), and OFL (dead) if different due to di
 
 ## Unresolved problems and major uncertainties{-}
 
-```{r, echo=FALSE, results='asis'}
-filein = fs::path(here::here('assessment', 'shared_text','unresolved_uncertanties.Rmd'))
-read_child(filein)
+```{r, echo=FALSE, results="asis"}
+filein = fs::path(here::here("assessment", "shared_text","unresolved_uncertanties.Rmd"))
+sa4ss::read_child(filein)
 ```
 
 
@@ -89,9 +89,9 @@ OFL calculations should be based on the assumption that future catches equal ABC
 
 ## Scientific uncertainty{-}
 
-```{r, echo=FALSE, results='asis'}
-filein = fs::path(here::here('assessment', 'shared_text','scientific_uncertainty.Rmd'))
-read_child(filein)
+```{r, echo=FALSE, results="asis"}
+filein = fs::path(here::here("assessment", "shared_text","scientific_uncertainty.Rmd"))
+sa4ss::read_child(filein)
 ```
 
 
