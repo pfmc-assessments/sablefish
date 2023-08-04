@@ -23,5 +23,9 @@ edit_string <- function(x,
   gsub(pattern = "\\bparm\\b", replacement = "parameter") |>
   gsub(pattern = "\\bpen\\b", replacement = "penalty") |>
   gsub(pattern = "\\bsurvey\\b", replacement = survey) |>
-  gsub(pattern = "\\bwt\\b", replacement = "weight")
+  gsub(pattern = "\\bwt\\b", replacement = "weight") |>
+  gsub(pattern = "natm_uniform_fem_gp_1", replacement = "female natural mortality") |>
+  gsub(pattern = "natm_uniform_mal_gp_1", replacement = "male natural mortality") |>
+  gsub(pattern = "sr_bh_steep", replacement = "steepness") |>
+  gsub(pattern = "sr_ln\\(r0\\)", replacement = "natural log of unfished recruitment")
 }
