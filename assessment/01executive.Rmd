@@ -76,6 +76,32 @@ description of uncertainty.
 Include Table for last 10 years.
 Include Figure with long-term estimates.
 
+
+```{r, results = "asis"}
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "ts7_Spawning_biomass_(mt)_with_95_asymptotic_intervals_intervals.png"
+  ),
+  caption = "Estimated time series of spawning output (circles and line: median; light broken lines: 95 percent intervals) for the base model",
+  alt_caption = "",
+  label = "es-sb"
+)
+
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "ts9_Relative_spawning_biomass_intervals.png"
+  ),
+  caption = "Estimated time series of fraction of unfished spawning output (circles and line: median; light broken lines: 95 percent intervals) for the base model",
+  alt_caption = "",
+  label = "es-depl"
+)
+```
+
+
 ## Recruitment{-}
 
 Replace text with
@@ -84,12 +110,57 @@ description of uncertainty.
 Include Table for last 10 years.
 Include Figure with long-term estimates.
 
+
+```{r, results = "asis"}
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png"
+  ),
+  caption = "Estimated time series of age-0 recruits (1000s) for the base model with 95 percent intervals.",
+  alt_caption = "",
+  label = "es-recruits"
+)
+
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "recdevs2_withbars.png"
+  ),
+  caption = "Estimated time series of recruitment deviations.",
+  alt_caption = "",
+  label = "es-rec-devs"
+)
+```
+
+
+
+
 ## Exploitation status{-}
 
 Replace text with
 total catch divided by exploitable biomass or SPR harvest rate.
 Include Table for last 10 years.
 Include Figure with trend in f relative to target vs. trend in biomass relative to the target.
+
+
+```{r, results = "asis"}
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "SPR3_ratiointerval.png"
+  ),
+  caption = "Timeseries of SPR ratio: (1-SPR)/(1-SPR 45%).",
+  alt_caption = "",
+  label = "es-1-spr"
+)
+
+```
+
+
 
 ## Ecosystem considerations{-}
 
@@ -103,6 +174,32 @@ Note which, if any, ecosystem factors are used in the assessment and how (e.g., 
 Replace text with
 management targets and definition of overfishing, including the harvest rate that brings the stock to equilibrium at $B_{40\%}$, i.e., the $B_{MSY}$ proxy and the equilibrium stock size that results from fishing at the default harvest rate, i.e., the $F_{MSY}$ proxy.
 Include Table of estimated reference points for ssb, SPR, exploitation rate, and yield based on SSB proxy for MSY, SPR proxy for MSY, and estimated MSY values.
+
+
+```{r, results = "asis"}
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "SPR4_phase.png"
+  ),
+  caption = "Phase plot of biomass ratio vs. SPR ratio.
+Each point represents the biomass ratio at the start of the year and the relative fishing intensity in that same year. Warmer colors (red) represent early years and colder colors (blue) represent recent years. Lines through the final point show 95% intervals based on the asymptotic uncertainty for each dimension.",
+  alt_caption = "",
+  label = "es-phase"
+)
+
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "yield2_yield_curve_with_refpoints.png"
+  ),
+  caption = "Yield curve with reference points.",
+  alt_caption = "",
+  label = "es-yield"
+)
+```
 
 ## Management performance{-}
 
