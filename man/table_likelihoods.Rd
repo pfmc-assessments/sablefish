@@ -6,7 +6,7 @@
 \usage{
 table_likelihoods(
   model,
-  caption = "Likelihoods components by source.",
+  caption = "Likelihood components by source.",
   label = "likelihoods"
 )
 }

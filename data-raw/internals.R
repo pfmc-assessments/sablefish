@@ -11,6 +11,7 @@ age_bins <- 0:50
 assessment_dir <- fs::path("assessment")
 table_dir <- fs::path(assessment_dir, "52tables")
 figure_dir <- fs::path(assessment_dir, "53figures")
+sigma_r <- 1.4
 
 # Create stratification areas from the SA3 file, which is in {nwfscSurvey}
 # same as 2011 assessment, also used for 2019
@@ -34,6 +35,7 @@ usethis::use_data(
   figure_dir,
   latin_name,
   len_bins,
+  sigma_r,
   strata,
   table_dir,
   internal = TRUE,
