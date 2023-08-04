@@ -52,15 +52,14 @@ model_previous <- r4ss::SS_output(
   verbose = FALSE,
   wtfile = NULL
 )
-strsplit(
+ss3_version <- strsplit(
   purrr::map_chr(
-    list("m_ss3_version" = model, "mp_ss3_version" = model_previous),
+    list("current" = model, "previous" = model_previous),
     "SS_version"
   ),
   split = ";"
 ) |>
-  purrr::map(1) |>
-  list2env(env = environment())
+  purrr::map(1)
 r4ss::SS_plots(
   replist = model,
   dir = model_location,

@@ -6,7 +6,7 @@ This section is not required for an update assessment.
 
 ### Modeling Platform and Structure
 
-The assessment was conducted using \gls{ss3} version `r m_ss3_version` developed by Dr. Richard Methot at the \gls{noaa}, \gls{nwfsc} [@methot_stock_2013]. This most recent version was used because it included improvements and corrections not available in the previously used version of \gls{ss3}, i.e., version `r mp_ss3_version`.
+The assessment was conducted using \gls{ss3} version `r ss3_version[["current"]]` developed by Dr. Richard Methot at the \gls{noaa}, \gls{nwfsc} [@methot_stock_2013]. This most recent version was used because it included improvements and corrections not available in the previously used version of \gls{ss3}, i.e., version `r ss3_version[["previous"]]`.
 Bridging between the previous and current base models is discussed in Section \@ref(model-changes-from-the-last-assessment). The R package [r4ss](https://github.com/r4ss/r4ss), version `r packageVersion("r4ss")`, was used to investigate and plot model fits.
 
 ### Model Changes from the Last Assessment
@@ -44,7 +44,7 @@ A brief list of changes that were made to the model configuration compared to th
 
 - **Software and workflow**
 
-  - Use a newer version of \gls{ss3}, version `r m_ss3_version`.
+  - Use a newer version of \gls{ss3}, version `r ss3_version[["current"]]`.
   - Use previously updated versions of numerous R packages related to processing input and output files for the assessment, including _nwfscDiag_, _sa4ss_, _r4ss_, and _PacFIN.Utilities_.
   - Created [_sablefish_](https::/github.com/pfmc-assessments/sablefish), an R package stored on GitHub, to provide a transparent and reproducible system for processing the data, modifying the model files, and writing these reports.
 

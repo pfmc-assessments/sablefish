@@ -20,7 +20,7 @@ Include Figure with long-term estimates.
 
 ## Data and assessment{-}
 
-This assessment uses the stock assessment framework \gls{ss3} version `r m_ss3_version`.
+This assessment uses the stock assessment framework \gls{ss3} version `r ss3_version[["current"]]`.
 
 Replace text with
 date of last assessment,
