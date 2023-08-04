@@ -50,7 +50,11 @@ A brief list of changes that were made to the model configuration compared to th
 
 ### Key Assumptions and Structural Choices
 
+With the exceptions noted in Section \@ref(Model-Changes-from-the-Last-Assessment), the general model specifications were retained from the previous assessment. The assessment is sex specific, including the estimation of separate growth curves and natural mortality parameters for males and females. The sex ratio at birth is assumed to be 50:50. Female spawning biomass is used in calculating stock status.
 
+The model starts at equilibrium, assuming an unfished initial age structure in `r startyr - 1`. The internal population dynamics include ages `r paste(sep = "--", c(age_bins[1]), model[["accuage"]])`, where age `r model[["accuage"]]` is the plus group. As there is little growth occurring at the model plus-group age and very few observations, the data use a plus-group age of `r max(age_bins)`.
+
+The following likelihood components are included in this model: `r text_likelihoods_used(model)` (Table \@ref(tab:likelihoods)). See the \gls{ss3} technical documentation for details [@methot_stock_2013]. Estimated likelihood components from the base model can be found in the model output files archived by the \gls{pfmc}.
 
 ### Priors
 
