@@ -198,7 +198,7 @@ sa4ss::add_figure(
 
 ### Fits to Data
 
-### Timeseries
+### Time series
 
 ### Sensitivity Analyses and Retrospectives
 

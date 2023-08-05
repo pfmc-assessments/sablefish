@@ -151,7 +151,7 @@ sa4ss::add_figure(
     "plots",
     "SPR3_ratiointerval.png"
   ),
-  caption = "Timeseries of SPR ratio: (1-SPR)/(1-SPR 45%).",
+  caption = "Time series of SPR ratio: (1-SPR)/(1-SPR 45%).",
   alt_caption = "",
   label = "es-1-spr"
 )
