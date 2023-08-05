@@ -4,10 +4,10 @@
 #' * maybe move these user_ objects to package objects
 
 ###############################################################################
-# User input is needed here
+# User input is needed here, also change in assessment/00a.Rmd
 ###############################################################################
 user_model_bridged <- fs::path("models", "2021", "base", "base")
-user_model_current <- fs::path("models", "2023", "base", "base")
+user_model_current <- fs::path("models", "2023", "FixRetSel", "base")
 # End year of the data that you want included in the model
 user_end_year <- 2022
 
