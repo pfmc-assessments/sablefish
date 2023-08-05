@@ -76,4 +76,8 @@ last10 <- endyr - 8
 currentyr <- endyr + 1
 project_start <- min(model$timeseries$Yr[model$timeseries$Era == "FORE"])
 project_end <- max(model$timeseries$Yr[model$timeseries$Era == "FORE"])
+sex_ratio <- model[["parameters"]] |>
+  dplyr::filter(Label == "FracFemale_GP_1") |>
+  dplyr::pull(Value)
+sex_ratio_text <- sprintf("%d:%d", sex_ratio * 100, (1 - sex_ratio) * 100)
 ```
