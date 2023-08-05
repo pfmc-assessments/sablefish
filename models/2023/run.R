@@ -10,6 +10,27 @@ user_model_bridged <- fs::path("models", "2021", "base", "base")
 user_model_current <- fs::path("models", "2023", "FixRetSel", "base")
 # End year of the data that you want included in the model
 user_end_year <- 2022
+# Number of parallel sessions you want for diagnostics
+n_workers <- 3
+
+diagnostic_settings <- nwfscDiag::get_settings(
+  settings = list(
+    oldctlfile = "control.ss_new",
+    base_name = basename(user_model_current),
+    run = c("jitter", "profile", "retro"),
+    profile_details = tibble::tribble(
+      ~parameters,             ~low,  ~high, ~step_size,~param_space,
+      "NatM_uniform_Fem_GP_1",  0.05,  0.09,  0.005,     "real",
+      "NatM_uniform_Mal_GP_1",  0.05,  0.09,  0.005,     "real",
+               "SR_BH_steep",   0.25,  1.00,  0.075,     "real",
+                 "SR_LN(R0)",   9.00, 11.00,  0.20,      "real",
+    ),
+    prior_like = 1,
+    verbose = FALSE,
+    exe = "ss3",
+    show_in_console = FALSE
+  )
+)
 
 ###############################################################################
 # Work with the directories
@@ -287,7 +308,7 @@ bridging_groups <- purrr::map(
   c(
     "previous|catch",
     "previous|survey|sex|condi|comp|env",
-    "base$|discard|fix"
+    "\\sbase$|discard|Retention"
   ),
   .f = \(x) grep(
     pattern = x,
@@ -307,13 +328,6 @@ bridge_summary <- r4ss::SSsummarize(
   ),
   verbose = FALSE
 )
-xx <- function(y) {
-  gsub(
-    "_",
-    "",
-    ifelse(grepl(" ", y), y, gsub("([A-Z])", " \\1", basename(y)))
-  )
-}
 ignore <- purrr::pmap(
   .l = list(
     models = bridging_groups,
@@ -340,3 +354,23 @@ ignore <- purrr::pmap(
   subplots = c(1, 3, 5, 7, 9, 11, 13, 14),
   legendloc = "bottomleft"
 )
+
+###############################################################################
+# Run diagnostics
+###############################################################################
+helper_run_diagnostics <- function(type, settings, dir) {
+  settings[["run"]] <- type
+  nwfscDiag::run_diagnostics(
+    mydir = dir,
+    model_settings = settings
+  )
+}
+future::plan(future::multisession, workers = n_workers)
+furrr::future_map(
+  .x = c("jitter", "profile", "retro"),
+  .f = helper_run_diagnostics,
+  settings = diagnostic_settings,
+  dir = fs::path(here::here(), dirname(user_model_current))
+)
+# Close all the connections
+future::plan(future::sequential)

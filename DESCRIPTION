@@ -36,10 +36,13 @@ Imports:
     assertthat,
     dplyr,
     fs,
+    furrr,
+    future,
     ggplot2,
     ggridges,
     here,
     kableExtra,
+    nwfscDiag,
     nwfscSurvey (>= 2.1),
     PacFIN.Utilities,
     purrr,
@@ -51,6 +54,7 @@ Imports:
     utils
 Remotes: 
     pfmc-assessments/nwfscSurvey,
+    pfmc-assessments/nwfscDiag@retro_figs,
     pfmc-assessments/PacFIN.Utilities,
     pfmc-assessments/sa4ss,
     r4ss/r4ss
