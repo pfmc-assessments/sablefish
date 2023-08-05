@@ -14,11 +14,9 @@ executive[["stock"]] <- paste0("This assessment update reports the status of ",
 
 ## Landings and catches{-}
 
-The earliest landings of `r spp` off the West Coast used within in this assessment begin in `r startyr`. The landings begun to slowly increase starting in the 1920s and continued at a roughly constant level until the 1970s where landings sharply increased peaking in the late 1970s (Figure \@ref(fig:es-landings)). After peaking in the late 1970s catches slowly decreased across the time series until the 2000s when catches generally stabilized.  In this assessment update, fishery landings have been divided among two coastwide fleets: a fixed gear and a trawl fleet. The assessment update estimates annual discard mortality by fleet informed by data from the West Coast Groundfish Observer Program and other historical discarding studies. This internal estimation can result in model estimates of catches (landings plus discards) that differ between stock assessments, even when the input landings remain unchanged, due to changes in fixed and estimated parameter values, priors, or parameterizations. 
+The earliest landings of `r spp` off the West Coast used within in this assessment begin in `r startyr`. The landings begun to slowly increase starting in the 1920s and continued at a roughly constant level until the 1970s where landings sharply increased peaking in the late 1970s (Figure \@ref(fig:es-landings)). After peaking in the late 1970s, catches slowly decreased across the time series until the 2000s when catches generally stabilized. Fishery landings have been divided among two coastwide fleets: a fixed gear and a trawl fleet (see Table \@ref(tab:es-landings) for the most recent ten years). The assessment update estimates annual discard mortality by fleet informed by data from the \glsentrylong{wcgop} and other historical discarding studies. This internal estimation can result in model estimates of catches (landings plus discards) that differ between stock assessments, even when the input landings remain unchanged, due to changes in fixed and estimated parameter values, priors, or parameterizations. 
 
-The landings in this assessment update were minimally revised and corrected from those used 2019 benchmark and the 2021 update assessments. First, landings from the Oregon Coast \gls{inpfc} area, i.e., between 42.000--46.267\textdegree N. latitude are no longer excluded from the total landings. Second, landings from 1977--1982 in the catch reporting area that includes both U.S. and Canadian waters are now assigned 50--50\% to each country rather than 100\% to the U.S. Third, a time series of `r spp` catches from the At-Sea Pacific Hake fishery are now included in the trawl fleet. Previous assessments have included bycatch of `r spp` from the shoreside fleet but these at-sea catches were previously only included as a sensitivity. 
-
-Landings and the estimated total catch for the last ten-years are shown in Table \@ref(tab:es-landings).
+The landings in this assessment update were minimally revised and corrected from those used 2019 benchmark and the 2021 update assessments. First, landings from the ``Oregon Coast'' \glsentrylong{inpfc} area, i.e., between 42.000--46.267\textdegree N. latitude, are no longer excluded from the total landings. Second, landings from 1977--1982 in the catch reporting area that includes both U.S. and Canadian waters are now assigned 50--50\% to each country rather than 100\% to the U.S. Third, a time series of `r spp` catches from the At-Sea Pacific Hake fishery are now included in the trawl fleet. Previous assessments have included bycatch of `r spp` from the shoreside fleet but these at-sea catches were previously only included as a sensitivity. 
 
 ```{r, results = "asis"}
 
@@ -33,12 +31,12 @@ df <- data.frame(
 )
 sa4ss::table_format(
   x = df,
-  caption = "Landings (mt) by fleet and the summed coastwide total landings (mt) and estimated total catch (mt).",
+  caption = "Landings (mt) by fleet and the summed coastwide total landings and estimated total catch.",
   label = "es-landings",
   digits = 1,
   align = "l",
   # to do: use a renamer between fleet number and name
-  col_names = c("Year", "Fixed Gear Landings (mt)", "Trawl Landings (mt)", "Total Landings (mt)", "Total Catch (mt)")
+  col_names = c("Year", "Fixed Gear Landings", "Trawl Landings", "Total Landings", "Total Catch")
 )
 ```
 
