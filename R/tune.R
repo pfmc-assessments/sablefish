@@ -1,11 +1,12 @@
-#' @param steps Integers 1 through 3. Step three is not working.
+#' @param steps Integers 1 through 3.
 #' @noRd
 tune <- function(dir_in,
                  dir_out,
                  executable,
                  steps = 1:3,
                  iterations = 3,
-                 use_new = FALSE) {
+                 use_new = FALSE,
+                 type = "Francis") {
   # Run the model to facilitate tuning
   if (!fs::file_exists(fs::path(dir_in, "Report.sso"))) {
     check <- r4ss::run(
@@ -30,7 +31,7 @@ tune <- function(dir_in,
   if (1 %in% steps) {
     r4ss::tune_comps(
       replist = r4ss::SS_output(dir_out, verbose = FALSE, printstats = FALSE),
-      option = "Francis",
+      option = type,
       niters_tuning = iterations,
       init_run = FALSE,
       dir = dir_out,
