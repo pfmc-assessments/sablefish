@@ -39,3 +39,45 @@ write_named_csvs <- function(..., dir = getwd()) {
   )
   return(file_names)
 }
+
+#' @noRd
+#' @examples
+#' \dontrun{
+#' copy_model_dir(
+#'   "\\\\nwcfile/fram/Assessments/CurrentAssessments/sablefish_2023/models/2023/FixRetSel",
+#'   "c:/github/pfmc-assessments/sablefish/models/2023/FixRetSel"
+#' )
+#' }
+copy_model_dir <- function(dir_old, dir_new, force = FALSE) {
+  dir_old <- gsub("\\\\", "/", dir_old)
+  if (!force && file.exists(dir_new)) {
+    message("`force = FALSE` but the directory already exists")
+    message("Change to `force = TRUE` to overwrite files.")
+    return(invisible(FALSE))
+  }
+  fs::dir_create(dir_new)
+  # Base
+  message("Copying base-model files.")
+  message("This will take some time!")
+  files_old <- fs::dir_ls(fs::path(dir_old, "base"), type = "file")
+  fs::dir_create(fs::path(dir_new, "base"))
+  fs::file_copy(
+    files_old,
+    gsub(dir_old, dir_new, files_old),
+    overwrite = TRUE
+  )
+  # Others
+  message("Copying .tex, .png, .csv, and .md files.")
+  files_old <- fs::dir_ls(
+    dir_old, regexp = "tex|png|csv|md", recurse = TRUE
+  )
+  files_old <- files_old[!grepl("plots/", files_old)]
+  fs::dir_create(fs::path(dir_new, unique(basename(dirname(files_old)))))
+  fs::file_copy(
+    files_old,
+    gsub(dir_old, dir_new, files_old),
+    overwrite = TRUE
+  )
+  message("Finished copying files to ", dir_new)
+  return(invisible(TRUE))
+}
