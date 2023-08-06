@@ -1,14 +1,40 @@
 ## Base Model Results
 
-
-
 ### Base Model Selection
 
+Sources of structural uncertainty in this assessment remain largely the same as the previous assessment because this is an update rather than a benchmark assessment. Model selection processes were limited to fixing the two parameters related to selectivity and retention that were consistently estimated at their bounds during the bridging analysis (see Section \@ref(model-changes-from-the-last-assessment)).
 
+In reality, un-modeled spatiotemporal variation in $M$, growth, and movement because of predation, availability of food resources, or environmental factors may, to an unknown degree, impact `r spp` and the perception of the stock size and status. Potential shifts in spatial distribution in response to changes in density outside the waters of the California Current or climate impacts could substantially reduce our ability to model and predict current and future trends. However, this degree of complexity is beyond the information content of the currently available data but efforts to synthesize existing data for Northeast Pacific `r spp` with the aim of stock-wide modeling are underway. Until then, residual patterns in the length data may be present due to un-modeled time-varying processes.
 
 ### Parameter Estimates
 
+<!-- Automated text -->
+Estimates of key parameters include 
+female $M$ =
+`r round(model[["parameters"]]["NatM_uniform_Fem_GP_1", "Value"], 3)`, 
+male $M$ =
+`r round(model[["parameters"]]["NatM_uniform_Mal_GP_1", "Value"], 3)`, and
+$R_0$ =
+`r round(model[["parameters"]]["SR_LN(R0)", "Value"], 3)` 
+(Table \@ref(tab:table-pars-base)). 
+Females were estimated as growing larger than males with female length at age
+`r inputs[["ctl"]][["Growth_Age_for_L2"]]`
+(the second reference age) equal to 
+`r round(model[["parameters"]]["L_at_Amax_Fem_GP_1", "Value"], 1)` cm compared to
+`r round(model[["parameters"]]["L_at_Amax_Mal_GP_1", "Value"], 1)` cm for males.
+The $L_\infty$ associated with the estimated growth parameters was 
+`r round(model$Growth_Parameters$Linf[1], 1)` cm for females and
+`r round(model$Growth_Parameters$Linf[2], 1)` cm for males.
 
+Selectivity was estimated as dome shaped for all fleets.
+Peak selectivity for the for the fixed-gear fleet was fixed at
+`r model[["parameters"]] |> dplyr::filter(grepl("Age.+peak_FIX.+\\)$", Label)) |> dplyr::pull(Value) |> sprintf(fmt = "%.0f")`
+but varied with time, decreasing in 1997 to
+`r model[["parameters"]] |> dplyr::filter(grepl("Age.+peak_FIX.+1997$", Label)) |> dplyr::pull(Value) |> sprintf(fmt = "%.0f")`,
+increasing in 2003 to
+`r model[["parameters"]] |> dplyr::filter(grepl("Age.+peak_FIX.+2003)$", Label)) |> dplyr::pull(Value) |> sprintf(fmt = "%.0f")`, and
+decreasing in 2011 to
+`r model[["parameters"]] |> dplyr::filter(grepl("Age.+peak_FIX.2011)$", Label)) |> dplyr::pull(Value) |> sprintf(fmt = "%.0f")`.
 
 ### Fits to the Data
 

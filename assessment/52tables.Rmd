@@ -48,10 +48,43 @@ sa4ss::table_format(
 
 \include{52tables/data-survey-n.tex}
 
-```{r tab-likelihoods, results = "asis"}
+```{r tables-likelihoods, results = "asis"}
 table_likelihoods(model)
 ```
 
+```{r tables-weights, results = "asis"}
+dplyr::bind_rows(
+  .id = "Type",
+  Length = model[["Length_Comp_Fit_Summary"]],
+  Age = model[["Age_Comp_Fit_Summary"]]
+) |>
+  dplyr::mutate(
+    Fleet = recode_fleet_text(as.numeric(Fleet))
+  ) |>
+  dplyr::select(Type, Fleet, "Francis" = Curr_Var_Adj) |>
+  dplyr::mutate(Francis = sprintf("%.2f", Francis)) |>
+  kableExtra::kbl(
+    escape = FALSE,
+    row.names = FALSE,
+    longtable = FALSE,
+    booktabs = TRUE,
+    label = "composition-weight",
+    caption = "Data weightings applied to length and age compositions according to the `Francis' method.",
+    format = "latex"
+  )
+```
+
+```{r tables-retro, results = "asis"}
+file_retro <- fs::dir_ls(
+  dirname(model_location),
+  regexp = "mohnsrho.tex",
+  recurse = TRUE
+)
+stopifnot(length(file_retro) == 1)
+sa4ss::read_child(
+  fs::dir_ls(dirname(model_location), regexp = "mohnsrho.tex", recurse = TRUE)
+)
+```
 
 ```{r, results = "asis"}
 # Yes I know this code will likely make your eye twitch... sorry

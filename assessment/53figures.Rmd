@@ -190,6 +190,8 @@ sa4ss::add_figure(
 
 ### Bridging
 
+
+
 ### Estimated Biology
 
 ### Selectivity
@@ -202,28 +204,94 @@ sa4ss::add_figure(
 
 ### Sensitivity Analyses and Retrospectives
 
-```{r, figures-retro, results = "asis"}
-ignore <- tidyr::expand_grid(
-  folder_list = fs::dir_ls(dirname(model_location), regexp = "base_retro"),
-  string = c("compare2", "compare4")
+```{r figures-sensitivity, results = "asis"}
+ignore <- fs::dir_ls(
+  fs::path(dirname(model_location), "sensitivities"),
+  type = "file",
+  regex = "compare1_|compare3"
 ) |>
+  tibble::as_tibble_col(column_name = "filein") |>
   dplyr::mutate(
-    filein = purrr::map2_chr(
-      .x = folder_list,
-      .y = string,
-      .f = ~ fs::dir_ls(path = .x, regexp = .y)
-    ),
-    label = paste("retro", string, sep = "-"),
+    label = paste("sensitivity", gsub("\\.png", "", basename(filein)), sep = "-"),
     type = dplyr::case_when(
-      grepl("2", string) ~ "spawning output",
-      grepl("4", string) ~ "fraction unfished"
+      grepl("1|2", basename(filein)) ~ "Spawning output",
+      grepl("3|4", basename(filein)) ~ "Fraction unfished"
     ),
     caption = glue::glue(
-      "Change in the estimate of {type} when the most recent 5 years of data are removed sequentially."
+      "{type} across a range of sensitivity analyses and the base model."
     )
   ) |>
     dplyr::select(filein, caption, label) |>
     purrr::pmap(.f = sa4ss::add_figure)
+```
+
+```{r figures-retro, results = "asis"}
+info <- read.csv(
+  file = fs::dir_ls(
+    dirname(model_location),
+    regexp = "retrofigures4doc.csv",
+    recurse = TRUE
+  )
+) |>
+  dplyr::mutate(
+    filein = gsub(
+      paste0(".+", basename(here::here())),
+      here::here(),
+      filein
+    ),
+  ) |>
+    purrr::pmap(.f = sa4ss::add_figure)
+```
+
+```{r figures-historical-make, cache = TRUE}
+model_historical <- c(
+  purrr::map(
+    .x = head(fs::path(
+      fs::dir_ls(
+        fs::path(here::here(), "models"),
+        type = "directory"
+      ),
+      "base",
+      "base"
+    ), -1),
+    .f = r4ss::SS_output,
+    verbose = FALSE,
+    printstats = FALSE,
+    covar = FALSE,
+    compfile = NULL,
+    NoCompOK = TRUE,
+    wtfile = "",
+    readwt = FALSE
+  ),
+  list(model)
+)
+names(model_historical) <- fs::dir_ls(
+  fs::path(here::here(), "models"),
+  type = "directory"
+) |> basename()
+
+```{r figures-historical, results = "asis"}
+r4ss::SSplotComparisons(
+  r4ss::SSsummarize(c(model_historical, list(model)), verbose = FALSE),
+  plotdir = "53Figures",
+  subplots = c(2, 4),
+  print = TRUE,
+  plot = FALSE,
+  legendlabels = names(model_historical),
+  filenameprefix = "historical_"
+)
+sa4ss::add_figure(
+  fs::path("53Figures", "historical_compare2_spawnbio_uncertainty.png"),
+  caption = glue::glue("Comparisons of spawning biomass (mt) between the current assessment and recent benchmark and update assessments since {min(names(model_historical))}."),
+  alt_caption = "All trajectories of spawning biomass from the most recent assessments are encapsulated within the estimated uncertainty from the current model.",
+  label = "historical-model-comparison-sb"
+)
+sa4ss::add_figure(
+  fs::path("53Figures", "historical_compare4_Bratio_uncertainty.png"),
+  caption = glue::glue("Comparisons of fraction unfished between the current assessment and recent benchmark and update assessments since {min(names(model_historical))}."),
+  alt_caption = "All trajectories of fraction unfished from the most recent assessments are encapsulated within the estimated uncertainty from the current model.",
+  label = "historical-model-comparison-unfished"
+)
 ```
 
 ### Likelihood Profiles
@@ -255,7 +323,6 @@ ignore <- tidyr::expand_grid(
     dplyr::select(filein, caption, label) |>
     purrr::pmap(.f = sa4ss::add_figure)
 ```
-
 
 ## Reference Points and Projections
 
