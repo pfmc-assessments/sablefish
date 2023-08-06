@@ -307,7 +307,7 @@ purrr::map(
 )
 
 ###############################################################################
-# Summarize the output
+# Summarize the output from bridging
 ###############################################################################
 # Split bridging into groups
 bridging_groups <- purrr::map(
@@ -378,40 +378,36 @@ furrr::future_map(
   settings = diagnostic_settings,
   dir = fs::path(here::here(), dirname(user_model_current))
 )
-# Close all the connections
-future::plan(future::sequential)
 
 ##############################################################################
 # Sensitivities
 ###############################################################################
 
-###############################################################################
-## Turn on added variance for WCGBTS
-###############################################################################
+# Turn on added variance for WCGBTS
 model_inputs <- r4ss::copy_SS_inputs(
   dir.old = fs::path(here::here(), user_model_current),
-  dir.new = fs::path(sensitivity_dir, "01_TurnOnAddedVarianceForRecentSurvey"),
+  dir.new = fs::path(sensitivity_dir, "TurnOnAddedVarianceForRecentSurvey"),
   overwrite = TRUE,
   verbose = FALSE
 )
 r4ss::SS_changepars(
-  dir = fs::path(sensitivity_dir, "01_TurnOnAddedVarianceForRecentSurvey"),
+  dir = fs::path(sensitivity_dir, "TurnOnAddedVarianceForRecentSurvey"),
   newctlfile = "control.ss",
   ctlfile = "control.ss",
   strings = "Q_extraSD_NWCBO(7)",
   newvals = 0.05,
-  estimate = TRUE
+  estimate = TRUE,
+  verbose = FALSE
 )
 
-###############################################################################
 # Use marginal instead of CAAL for WCGBTS
-###############################################################################
-model_inputs <- r4ss::copy_SS_inputs(
+ignore <- r4ss::copy_SS_inputs(
   dir.old = fs::path(here::here(), user_model_current),
-  dir.new = fs::path(sensitivity_dir, "02_UseMarginalAges"),
+  dir.new = fs::path(sensitivity_dir, "UseMarginalAges"),
   overwrite = TRUE,
   verbose = FALSE
 )
+model_inputs <- r4ss::SS_read(fs::path(sensitivity_dir, "UseMarginalAges"))
 model_inputs[["dat"]][["agecomp"]] <- model_inputs[["dat"]][["agecomp"]] |> 
   dplyr::mutate(
     FltSvy = ifelse(Lbin_lo == -1, abs(FltSvy), -1 * FltSvy)
@@ -421,13 +417,11 @@ model_inputs[["dat"]][["agecomp"]] <- model_inputs[["dat"]][["agecomp"]] |>
   )
 r4ss::SS_write(
   model_inputs,
-  dir = fs::path(sensitivity_dir, "02_UseMarginalAges"),
+  dir = fs::path(sensitivity_dir, "UseMarginalAges"),
   overwrite = TRUE
 )
 
-###############################################################################
 # Use Bayesian method for environmental index
-###############################################################################
 data_env_index_bayesian <- read.csv(
   fs::path(
     here::here(),
@@ -451,72 +445,88 @@ bridge_update_data(
     verbose = FALSE
   ),
   x = data_env_index_bayesian,
-  dir_out = fs::path(sensitivity_dir, "03_BayesianIndex"),
+  dir_out = fs::path(sensitivity_dir, "BayesianIndex"),
   matched = NULL,
   type = "CPUE",
   vars_by = c("year", "index"),
   vars_arrange = c("index", "year", "seas")
 )
 
-###############################################################################
 # Non-centered recruitment deviations
-###############################################################################
-model_inputs <- r4ss::copy_SS_inputs(
-  dir.old = fs::path(here::here(), user_model_current),
-  dir.new = fs::path(sensitivity_dir, "03_NonCenteredRecruitmentDeviations"),
-  overwrite = TRUE,
-  verbose = FALSE
-)
+model_inputs <- r4ss::SS_read(fs::path(here::here(), user_model_current))
 model_inputs[["ctl"]][["do_recdev"]] <- 2
 r4ss::SS_write(
   inputlist = model_inputs,
-  dir = fs::path(sensitivity_dir, "03_NonCenteredRecruitmentDeviations"),
+  dir = fs::path(sensitivity_dir, "NonCenteredRecruitmentDeviations"),
   overwrite = TRUE
 )
 
-###############################################################################
 # Fix all parameters with high estimates of uncertainty
-###############################################################################
-model_inputs <- r4ss::copy_SS_inputs(
+ignore <- r4ss::copy_SS_inputs(
+  use_ss_new = TRUE,
   dir.old = fs::path(here::here(), user_model_current),
-  dir.new = fs::path(sensitivity_dir, "06_FixParametersWithHighVariance"),
+  dir.new = fs::path(sensitivity_dir, "FixParametersWithHighVariance"),
   overwrite = TRUE,
   verbose = FALSE
 )
-r4ss::SS_changepars(
-  dir = fs::path(sensitivity_dir, "06_FixParametersWithHighVariance"),
-  newctlfile = "control.ss",
-  estimate = FALSE,
-  strings = model[["parameters"]] |>
+strings <- r4ss::SS_output(
+    fs::path(here::here(), user_model_current),
+    verbose = FALSE,
+    printstats = FALSE
+  )[["parameters"]] |>
     dplyr::filter(Parm_StDev > 100) |>
     dplyr::pull(Label)
+r4ss::SS_changepars(
+  dir = fs::path(sensitivity_dir, "FixParametersWithHighVariance"),
+  ctlfile = "control.ss",
+  newctlfile = "control.ss",
+  estimate = rep(FALSE, length(strings)),
+  strings = strings,
+  verbose = FALSE
 )
 
-###############################################################################
 # Free up the fixed retention and selectivity parameters from bridging
-###############################################################################
 model_inputs <- r4ss::copy_SS_inputs(
   dir.old = fs::path(here::here(), user_model_current),
-  dir.new = fs::path(sensitivity_dir, "07_EstimateParametersFixedInBridging"),
+  dir.new = fs::path(sensitivity_dir, "EstimateParametersFixedInBridging"),
   overwrite = TRUE,
   verbose = FALSE
 )
 r4ss::SS_changepars(
-  dir = fs::path(sensitivity_dir, "07_EstimateParametersFixedInBridging"),
+  ctlfile = "control.ss",
+  dir = fs::path(sensitivity_dir, "EstimateParametersFixedInBridging"),
   newctlfile = "control.ss",
-  estimate = TRUE,
+  estimate = rep(TRUE, 2),
   strings = c(
     "AgeSel_P_4_TWL(2)_BLK5repl_2011",
     "SizeSel_PRet_1_FIX(1)_BLK2repl_2019"
   )
 )
 
-###############################################################################
+# Fix M selectivity parameters for relative difference between Females and
+# Males at young age, P2
+model_inputs <- r4ss::copy_SS_inputs(
+  dir.old = fs::path(here::here(), user_model_current),
+  dir.new = fs::path(sensitivity_dir, "FixMaleP2Parameters"),
+  overwrite = TRUE,
+  verbose = FALSE
+)
+r4ss::SS_changepars(
+  ctlfile = "control.ss",
+  dir = fs::path(sensitivity_dir, "FixMaleP2Parameters"),
+  newctlfile = "shit.ss",
+  estimate = rep(FALSE, 2),
+  newvals = rep(0, 2),
+  strings = c(
+    "AgeSel_PMale_2_FIX(1)",
+    "AgeSel_PMale_2_AKSHLF(4)"
+  )
+)
+
 # Data weighting using harmonic-mean approach
-###############################################################################
 bridge_output <- tune(
   dir_in = fs::path(here::here(), user_model_current),
-  dir_out = fs::path(bridging_dir, "08_TuneWithHarmonicMean"),
+  dir_out = fs::path(sensitivity_dir, "TuneWithHarmonicMean"),
   steps = 1,
   executable = fs::path(here::here(), user_model_current, "ss3")
 )
@@ -526,7 +536,7 @@ bridge_output <- tune(
 ###############################################################################
 model_paths_sensitivity <- c(
   "Current Base" = fs::path(here::here(), user_model_current),
-  fs::dir_ls(sensitivity_dir, type = "dir", pattern = "^[0-9]")
+  fs::dir_ls(sensitivity_dir, type = "dir")
 )
 # Run all the models that have not previously been ran
 furrr::future_map(
@@ -537,3 +547,61 @@ furrr::future_map(
   skipfinished = TRUE,
   verbose = FALSE
 )
+
+###############################################################################
+# Summarize the output from sensitivities
+###############################################################################
+# Split bridging into groups
+sensitivity_groups <- purrr::map(
+  c(
+    "\\sbase$|survey|marginal|index",
+    "\\sbase$|recruitment|tune",
+    "\\sbase$|parameters|estimate"
+  ),
+  .f = \(x) grep(
+    pattern = x,
+    x = names(model_paths_sensitivity),
+    ignore.case = TRUE
+  )
+)
+sensitivity_summary <- r4ss::SSsummarize(
+  biglist = purrr::map(
+    model_paths_sensitivity,
+    .f = \(x) r4ss::SS_output(
+      x,
+      verbose = FALSE,
+      printstats = FALSE,
+      wtfile = FALSE
+    )
+  ),
+  verbose = FALSE
+)
+ignore <- purrr::pmap(
+  .l = list(
+    models = sensitivity_groups,
+    filenameprefix = paste0(seq_along(sensitivity_groups), "-"),
+    legendlabels = purrr::map(
+      .x = sensitivity_groups,
+      .f = \(x) gsub(
+        "([a-z])([A-Z])",
+        "\\1 \\2",
+        basename(names(model_paths_sensitivity)[x])
+      )
+    )
+  ),
+  .f = r4ss::SSplotComparisons,
+  summaryoutput = sensitivity_summary,
+  plotdir = sensitivity_dir,
+  print = TRUE,
+  plot = FALSE,
+  png = TRUE,
+  # to do: get this to work with 2 and 4 :facepalm:
+  subplots = c(1, 3, 5, 7, 9, 11, 13, 14),
+  legendloc = "topleft"
+)
+
+###############################################################################
+# Close all the connections
+###############################################################################
+
+future::plan(future::sequential)
