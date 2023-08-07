@@ -24,3 +24,8 @@ Estimates of the current current spawning biomass (Figure \ref{fig:historical-mo
 ### Likelihood Profiles
 
 **to do**: this section is incomplete
+
+Likelihood profiles were conducted for sex-specific $M$, steepness, $R_0$ and values separately. These likelihood profiles were conducted by fixing the parameter at specific values and estimated the remaining parameters based on the fixed parameter value. The priors for all parameters, including the parameter being profiled, were included in every likelihood model. For example, including the prior on $M$ across the profiled values of $M$ provides information on the likelihood contribution of that prior as if it were estimated in the model.  
+
+The profile over female $M$ suggested the negative log-likelihood was minimized at estimate from the base model,
+`r text_parameter(model, "NatM.+Fem", "%.2f")` (yr$^{-1}$; Figure \ref{fig:profile-female-natural-mortality-piner}). This minimization occurs at the crosshair of information present in the age versus recruitment data. Though, the differences in the negative log likelihood were less than two for a range of values between 0.06--0.09, similar to the 2019 benchmark assessment [@haltuch_status_2019b].
