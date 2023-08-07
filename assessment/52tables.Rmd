@@ -1,7 +1,9 @@
 \clearpage
 # Tables
 
+
 **to do**: this section is incomplete, more tables are needed and some can be provided as external csv files
+
 ```{r, results = "asis"}
 sa4ss::table_format(
   x = model[["timeseries"]] |>
@@ -138,6 +140,8 @@ dplyr::bind_rows(
   )
 ```
 
+\input{52tables/TimeSeries.tex}
+
 ```{r tables-retro, results = "asis"}
 file_retro <- fs::dir_ls(
   dirname(model_location),
@@ -150,7 +154,7 @@ sa4ss::read_child(
 )
 ```
 
-```{r, results = "asis"}
+```{r, tables-projection, results = "asis"}
 # Yes I know this code will likely make your eye twitch... sorry
 tab <- cbind(utils::read.csv(here::here("data-processed", "harvest_spex.csv")) |>
   dplyr::filter(AREA_NAME == "CW" & YEAR >= 2023 & PECIFICATION_TYPE == "OFL") |>
