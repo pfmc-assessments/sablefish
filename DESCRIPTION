@@ -51,7 +51,8 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    utils
+    utils,
+    xfun
 Remotes: 
     pfmc-assessments/nwfscSurvey,
     pfmc-assessments/nwfscDiag@retro_figs,
