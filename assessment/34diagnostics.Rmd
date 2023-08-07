@@ -6,11 +6,11 @@
 sa4ss::read_child(file.path(here::here(), model_location, "base_model-results-jitter.md"))
 ```
 
-The estimated measures of uncertainty for `r xfun::numbers_to_words(NROW(parameters_bad))` parameters were in the hundreds, if not thousands suggesting that they were poorly informed. We chose to leave their parameterization as is but we do show a sensitivity where all of these parameters were fixed at their estimated values to characterize changes the amount of uncertainty in derived quantities when they were not estimated compared to the base model where they were estimated (see Section \@ref(sensitivity-analyses) and Figure \@ref(fig:sensitivity-3-compare3_Bratio)).
+The estimated measures of uncertainty for `r xfun::numbers_to_words(NROW(parameters_bad))` parameters were in the hundreds, if not thousands suggesting that they were poorly informed. We chose to leave their parameterization as is but we do show a sensitivity where all of these parameters were fixed at their estimated values to characterize changes the amount of uncertainty in derived quantities when they were not estimated compared to the base model where they were estimated (see Section \@ref(sensitivity-analyses) and Figure \@ref(fig:sensitivity-3-compare3-Bratio)).
 
 ### Sensitivity Analyses
 
-
+**to do**: this section is incomplete
 
 ### Retrospective Analysis
 
@@ -19,8 +19,8 @@ data removed for the past `r n_retro` years (Table \@ref(tab:RetroMohnsrho)). Al
 
 ### Historical Analysis
 
-Estimates of the current current spawning biomass (Figure \ref{fig:historical-model-comparison-sb}) and fraction unfished (Figure \ref{fig:historical-model-comparison-unfished}) were consistent with prior stock assessments, particularly from the 1980s forward, the period of time with good data for `r spp`. Estimates of recent spawning biomass are greater for this update and the 2019 update compared to the three previous models, all of which estimate a lower spawning biomass than what is currently estimated due to the recent large recruitment events. The largest differences between the models with respect to estimates of fraction unfished occur in the 1960s and the 1980s, where this assessment aligns with recent models in the 1960s and older models in the 1980s, highlighting the uncertainty in the magnitude of the large recruitment event in the early 1960s.
+Estimates of the current current spawning biomass (Figure \ref{fig:historical-model-comparison-sb}) and fraction unfished (Figure \ref{fig:historical-model-comparison-unfished}) were consistent with prior stock assessments, particularly from the 1980s forward, the period of time with good data for `r spp`. Estimates of recent spawning biomass are greater for this update and the 2019 update compared to the three previous models, all of which estimate a lower spawning biomass than what is currently estimated due to the recent large recruitment events. The historical models, i.e., models ran prior the last benchmark assessment, differ from more recent models that use a larger age group for the maximum age in the data bins. The largest differences between the models with respect to estimates of fraction unfished occur in the 1960s and the 1980s, where this assessment aligns with recent models in the 1960s and older models in the 1980s, highlighting the uncertainty in the magnitude of the large recruitment event in the early 1960s.
 
 ### Likelihood Profiles
 
-
+**to do**: this section is incomplete

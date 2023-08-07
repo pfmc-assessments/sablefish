@@ -1,5 +1,8 @@
 # To Do
 
+* Add remainder of Figures
+* Add remainder of Tables
+* Run models for the axes of uncertainty
 * write index data to a file bc right now it is just copy and pasted
 * rerun sdmTMB to get north south instead of state stratification
 * document that 2021 used season 1 for wcgbts index
@@ -31,6 +34,8 @@
 
 * turn off final years of recruitment
 * cut estimates of 2020--2021 recruitments in half
+* TOR: estimate a single $M$
+* TOR: estimate one selectivity curve as asymptotic
 ### Not So Good Ideas
 
 * Add growth parameter block for Lmin, k, and CV young for both sexes for 2022

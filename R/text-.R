@@ -29,3 +29,19 @@ edit_string <- function(x,
   gsub(pattern = "sr_bh_steep", replacement = "steepness") |>
   gsub(pattern = "sr_ln\\(r0\\)", replacement = "natural log of unfished recruitment")
 }
+
+text_parameter <- function(model,
+                           string,
+                           percent = "%f",
+                           var = Value,
+                           object = "parameters",
+                           big_mark = NULL) {
+  x <- model[[object]] |>
+    dplyr::filter(grepl(string, Label)) |>
+    dplyr::pull({{ var }}) |>
+    sprintf(fmt = percent)
+  if (!is.null(big_mark)) {
+    x <- format(as.numeric(x), big.mark = big_mark)
+  }
+  return(x)
+}

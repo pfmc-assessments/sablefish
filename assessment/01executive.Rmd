@@ -10,7 +10,7 @@ executive[["stock"]] <- paste0("This assessment update reports the status of ",
 
 ## Stock{-}
 
-`r executive[["stock"]]` The resource is modeled as a single stock; however, sablefish disperse to and from offshore seamounts, along the coastal waters of the U.S. West Coast, Canada, and Alaska, and across the Aleutian Islands to the western Pacific. This potential movement is not explicitly accounted for in this analysis.
+`r executive[["stock"]]` The resource is modeled as a single stock; however, `r spp` disperse to and from offshore seamounts, along the coastal waters of the U.S. West Coast, Canada, and Alaska, and across the Aleutian Islands to the western Pacific. This potential movement is not explicitly accounted for in this analysis.
 
 ## Landings and catches{-}
 

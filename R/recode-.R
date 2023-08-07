@@ -20,10 +20,10 @@ recode_fleet <- function(x) {
     x %in% c("fix", "pot", "hkl", "tls") ~ "1",
     x == c("twl") ~ "2",
     x %in% c("env") ~ "3",
-    x %in% c("triennial", "tri") ~ "4",
+    x %in% c("akshlf", "triennial", "tri") ~ "4",
     x %in% c("akslp", "afsc.slope", "aslope") ~ "5",
     x %in% c("nwslp", "nwfsc.slope", "nslope") ~ "6",
-    x %in% c("nwfsc.combo", "wcgbt") ~ "7",
+    x %in% c("nwcbo", "nwfsc.combo", "wcgbt") ~ "7",
     TRUE ~ NA_character_
   ) |>
   as.numeric()
