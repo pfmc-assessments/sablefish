@@ -1,19 +1,110 @@
 ## Base Model Results
 
-
-
 ### Base Model Selection
 
+Sources of structural uncertainty in this assessment remain largely the same as the previous assessment because this is an update rather than a benchmark assessment. Model selection processes were limited to fixing the two parameters related to selectivity and retention that were consistently estimated at their bounds during the bridging analysis (see Section \@ref(model-changes-from-the-last-assessment)).
 
+In reality, un-modeled spatiotemporal variation in $M$, growth, and movement because of predation, availability of food resources, or environmental factors may, to an unknown degree, impact `r spp` and the perception of the stock size and status. Potential shifts in spatial distribution in response to changes in density outside the waters of the California Current or climate impacts could substantially reduce our ability to model and predict current and future trends. However, this degree of complexity is beyond the information content of the currently available data but efforts to synthesize existing data for Northeast Pacific `r spp` with the aim of stock-wide modeling are underway. Until then, residual patterns in the length data may be present due to un-modeled time-varying processes.
 
 ### Parameter Estimates
 
+<!-- M, R_0, and growth -->
+Estimates of key parameters include 
+female $M$ =
+`r text_parameter(model, "NatM_uniform_Fem_GP_1", "%.3f")`, 
+male $M$ =
+`r text_parameter(model, "NatM_uniform_Mal_GP_1", "%.3f")`, and
+$R_0$ =
+`r text_parameter(model, "SR_LN\\(R0\\)", "%.3f")` (Table \@ref(tab:parameters)). 
+Females were estimated as growing larger than males with female length at age
+`r inputs[["ctl"]][["Growth_Age_for_L2"]]`
+(the second reference age) equal to 
+`r text_parameter(model, "L_at_Amax_Fem_GP_1", "%.1f")` cm compared to
+`r text_parameter(model, "L_at_Amax_Mal_GP_1", "%.1f")` cm for males.
+The $L_\infty$ associated with the estimated growth parameters was 
+`r round(model$Growth_Parameters$Linf[1], 1)` cm for females and
+`r round(model$Growth_Parameters$Linf[2], 1)` cm for males.
 
+<!-- Selectivity -->
+**to do**: this section is incomplete and needs information on retention
+
+Selectivity was estimated as dome shaped for all fleets. The \gls{s-tri} was estimated to select the least amount of older fish, descending to a near-zero selectivity at about the same age, age 4--5, as the peak in the fixed-gear fleet (Figure \@ref(fig:sel02-multiple-fleets-age1)). The \gls{s-nslope} was estimated to select the most oldest fish but the least youngest fish of any of the surveys. The \gls{s-wcgbt} was estimated to select the most youngest fish and a similar amount of older fish as the \gls{s-aslope}. The higher selection of young fish in the \gls{s-wcgbt} compared to the current fleets increases the potential for the \gls{s-wcgbt} to indicate strong year classes sooner than the fisheries.
+
+<!-- Fleet 1 -->
+Peak selectivity for the for the fixed-gear fleet was fixed at
+`r text_parameter(model, "Age.+peak_FIX.+\\)$", "%.0f")`
+but varied with time, decreasing in 1997 to
+`r text_parameter(model, "Age.+peak_FIX.+1997$", "%.0f")`,
+increasing in 2003 to
+`r text_parameter(model, "Age.+peak_FIX.+2003$", "%.0f")`, and
+decreasing in 2011 to
+`r text_parameter(model, "Age.+peak_FIX.+2011$", "%.0f")`.
+The peak of this selectivity curve was the furthest to the right of all the estimated curves in the model, which is not surprising given that only 21 age-1 fish and zero age-0 fish have been aged from samples taken from this fleet.
+<!-- A note about poor model configuration -->
+Despite the small number of samples at young ages from this fleet, the model parameterization includes the estimation of the male offset at age zero. This parameter is noted in the \gls{ss3} manual [@methot_stock_2013] as being difficult to estimate and often poorly informed by the data. Best practices suggests that it should be fixed at zero, though fixing it at zero led to almost no differences in parameter estimates (Figure \@ref(fig:sensitivity-3-compare1-spawnbio)). At the peak, males were selected about
+`r model[["parameters"]] |> dplyr::filter(grepl("Age.+MaleatD.+_FIX", Label)) |> dplyr::mutate(Value = exp(Value) * 100) |> dplyr::pull(Value) |> sprintf(fmt = "%2.0f")`
+percent as much as females in this fishery.
+
+<!-- Fleet 2 -->
+Selectivity for the trawl fleet was estimated as a single curve, rather than sex-specific, with four fixed parameters, one estimated time-invariant parameter, and one time-varying parameter. The width of the descending limb, which is time-varying, has been fixed for the early period since the 2019 model but this assessment also fixed the parameter at the upper bound of
+`r text_parameter(model, "desc.+TWL.+2011$", "%.1f")`
+in the terminal block because it was consistently estimated at the bound during the bridging analyses. Thus, the selectivity curve in the terminal year of the model for the trawl fleet is wider than it was in the 2019 assessment. The time-invariant parameter, the width of the ascending limb, was estimated to be
+`r text_parameter(model, "Age.+asc.+TWL", "%.3f")`
+<!-- A note about poor model configuration -->
+but the variability about this estimate is quite large, i.e.,
+`r text_parameter(model, "Age.+asc.+TWL", "%.2f", Parm_StDev)`.
+A sensitivity is included in Section \@ref(sensitivity-analyses) that fixes this parameter at the estimate but the model results are largely the same.
+
+<!-- Fleet 3 -->
+<!-- NA -->
+
+<!-- Fleet 4 -->
+Sex-specific selectivity was estimated for the \gls{s-tri}, with males selected at
+`r model[["parameters"]] |> dplyr::filter(grepl("Age.+MaleatD.+_A", Label)) |> dplyr::mutate(Value = exp(Value) * 100) |> dplyr::pull(Value) |> sprintf(fmt = "%.0f")`
+percent of females at age zero and
+`r model[["parameters"]] |> dplyr::filter(grepl("Age.+MaleatM.+_A", Label)) |> dplyr::mutate(Value = exp(Value) * 100) |> dplyr::pull(Value) |> sprintf(fmt = "%.0f")`
+percent of females at the maximum age (Figure \@ref(fig:sel02-multiple-fleets-age1)).
+Although, female selectivity at approximately 5 years and older is small in its own right.
+
+<!-- Fleet 5 -->
+<!-- Fleet 6 -->
+The time- and sex-invariant selectivities for the slope surveys are similar to their previous estimates, with the \gls{s-nslope} selecting more older fish than any other survey and the \gls{s-aslope} selecting fish at a younger age than the \gls{s-nslope} (Figure \@ref(fig:sel02-multiple-fleets-age1)). `r Spp` abundance is correlated with temperature and depth, and thus, the higher selectivities of the slope surveys may be a combination of availability and gear selectivity rather than just gear selectivity alone. The width of the descending limb for both slope surveys was poorly estimated, reflected in the high estimates of uncertainty for these parameters.
+
+<!-- Fleet 7 -->
+The \gls{s-wcgbt} was estimated to select the youngest fish out of all the surveys with a similar selectivity-at-age for young fish as the trawl fleet (Figure \@ref(fig:sel02-multiple-fleets-age1)). These two selectivities differ though for ages older than approximately four, with a sharp drop off in selectivity for the survey.
+<!-- A note about poor model configuration -->
+The estimated uncertainty in the width of the ascending limb was high and the parameter estimate was close to zero, i.e.,
+`r model[["parameters"]] |> dplyr::filter(grepl("asc.+\\(7\\)", Label)) |> dplyr::mutate(Value = exp(Value)) |> dplyr::pull(Value) |> sprintf(fmt = "%.4f")`.
+
+<!-- Catchability -->
+```{r q-estimates}
+q_parameters <- text_parameter(model, "LnQ", "%.9f") |> as.numeric() |> exp()
+q_text_range <- paste(round(range(q_parameters), 2), collapse = "--")
+q_which_fleet_max <- recode_fleet_text(as.numeric(gsub(
+  ".+\\(([0-9]+)\\)(.{0,})",
+  "\\1",
+  text_parameter(model, "LnQ", "%s", Label)
+)[which.max(q_parameters)]))
+q_4_blk <- exp(as.numeric(text_parameter(model, "LnQ.+4.+BLK", "%.2f")))
+```
+Estimates of catchability for the trawl surveys ranged from `r q_text_range` with the `r q_which_fleet_max` having the highest estimate. Although, the catchability for this survey was estimated to have decreased in 1995 to `r q_4_blk`. The input data for all historical surveys were not altered for this assessment and it could be that the estimates of abundance for the \gls{s-tri} are inflated relative to its footprint if the survey was projected to the entire California Current rather than just outside its spatial footprint. The environmental survey had the highest estimate of additional variance needed to fit the data of all the indices used in the model (Table \@ref(tab:parameters)). A sensitivity is included (see Section \@ref(sensitivity-analyses)) where the added variance for the \gls{s-wcgbt} was turned on, in which it was estimated to be non-zero, unlike in 2019 and 2021. This additional variability was needed to fit the terminal data points.
+
+<!-- recruitment -->
+Estimated annual recruitment (Table \@ref(tab:); Figure \@ref(fig:recruits)) was highest in the following ten years:
+`r model[["parameters"]] |> dplyr::filter(grepl("Dev", Label)) |> dplyr::arrange(-Value) |> dplyr::slice_head(n = 10) |> tidyr::separate_wider_delim(cols = Label, delim = "_", names = c("Period", "Type", "Year")) |> dplyr::pull(Year) |> glue::glue_collapse(", ", last = ", and ")`.
+The large recruitment event in the 1960s is uncertain and will often be estimated in a slightly different year with changes to the model parameterization.
+The smallest ten recruitment events, which are harder to estimate than large events, ocurred in the following years:
+`r model[["parameters"]] |> dplyr::filter(grepl("Dev", Label)) |> dplyr::arrange(Value) |> dplyr::slice_head(n = 10) |> tidyr::separate_wider_delim(cols = Label, delim = "_", names = c("Period", "Type", "Year")) |> dplyr::pull(Year) |> glue::glue_collapse(", ", last = ", and ")`. The bias adjustment ramp was left the same as the previous assessment except for extending the right limb by two years (Figure \@ref()). The suggested ramp is based on the environmental time series being informative about recruitment where we chose to implement the ramp with the onset of biological age samples rather than the start of the environmental time series. Recruitment is estimated based on the spawner-recruit curve in the forecast period but estimated up to the terminal year of data used to fit the model.
 
 ### Fits to the Data
 
+**to do**: this section is incomplete
 
+<!-- indices -->
+The base model fit the trend (decline, then stabilization, and increase) in the \gls{s-wcgbt} well until the two most recent years of the survey(Figure \ref{fig:index2-cpuefit-7}). The recent estimates were below the data providing some justification for estimating an additional variance parameter (see Section \@ref{sensitivity-analyses}). Fits to the \gls{s-nslope} were generally flat (Figure \ref{fig:index2-cpuefit-6}), as might be expected for such short time series. Fits to the \gls{s-aslope} suggest a decreasing trend during the late 1990s followed by and increase into the early 2000s (Figure \ref{fig:index2-cpuefit-5}). 
 
 ### Population Trajectory
 
-
+Spawning biomass, the proxy for spawning output, is estimated to have declined from an unfished equilibrium of
+`r text_parameter(model, "S.+_Virgin", "%f", object = "derived_quants", big_mark = ",")` to
+approximately 79,000 mt in the 1950s (Figure \@ref(fig:ts-spawning-biomass)). Biomass quickly turned around, increasing to unfished equilibrium by the mid-1970s, only to come right back down again to the management target in the early-2000s. Since then, two large recruitment events have led to sharp increases, though the biomass remains far from unfished levels (Figure \@ref(fig:ts-fraction-unfished)). Total biomass largely follows the same trajectory, although estimates of recent spawning biomass are larger than estimates of spawning biomass in the 1970s (Figure \@ref(fig:ts-total-biomass)).

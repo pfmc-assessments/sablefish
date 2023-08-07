@@ -8,12 +8,10 @@ Reference points were calculated using the estimated selectivities and catch dis
 
 ## Unresolved Problems and Major Uncertainties
 
-
 ```{r, echo=FALSE, results="asis"}
 filein = fs::path(here::here("assessment", "shared_text","unresolved_uncertanties.Rmd"))
 sa4ss::read_child(filein)
 ```
-
 
 ## Harvest Projections and Decision Tables
 

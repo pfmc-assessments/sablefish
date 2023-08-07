@@ -46,6 +46,7 @@ model <- r4ss::SS_output(
   printstats = FALSE,
   verbose = FALSE
 )
+inputs <- r4ss::SS_read(dir = model_location)
 model_previous <- r4ss::SS_output(
   dir = model_location_previous,
   printstats = FALSE,
@@ -76,4 +77,15 @@ last10 <- endyr - 8
 currentyr <- endyr + 1
 project_start <- min(model$timeseries$Yr[model$timeseries$Era == "FORE"])
 project_end <- max(model$timeseries$Yr[model$timeseries$Era == "FORE"])
+sex_ratio <- model[["parameters"]] |>
+  dplyr::filter(Label == "FracFemale_GP_1") |>
+  dplyr::pull(Value)
+sex_ratio_text <- sprintf("%d:%d", sex_ratio * 100, (1 - sex_ratio) * 100)
+parameters_bad <- model[["parameters"]] |>
+  dplyr::filter(Parm_StDev > 100)
+n_retro <- gsub(
+  x = basename(fs::dir_ls(dirname(model_location), regexp = "base_retro")),
+  pattern = ".+retro_|_yr_peel",
+  replacement = ""
+) |> as.numeric()
 ```
