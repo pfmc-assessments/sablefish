@@ -39,7 +39,9 @@ model_location_previous <- fs::path(
   here::here(),
  "models", "2021", "base", "base"
 )
-
+#sa4ss::read_model(mod_loc = model_location,
+#  create_plots = FALSE,
+#  save_loc = fs::path(here::here(),"assessment", "52tables"))
 # Functionality from sa4ss::read_model
 model <- r4ss::SS_output(
   dir = model_location,
@@ -77,6 +79,14 @@ last10 <- endyr - 8
 currentyr <- endyr + 1
 project_start <- min(model$timeseries$Yr[model$timeseries$Era == "FORE"])
 project_end <- max(model$timeseries$Yr[model$timeseries$Era == "FORE"])
+sb_lci <- model$derived_quants[model$derived_quants$Label == "SSB_2023", "Value"] - qnorm(1 - (1 - 0.95)/2) * 
+  model$derived_quants[model$derived_quants$Label == "SSB_2023", "StdDev"]
+sb_uci <- model$derived_quants[model$derived_quants$Label == "SSB_2023", "Value"] + qnorm(1 - (1 - 0.95)/2) * 
+  model$derived_quants[model$derived_quants$Label == "SSB_2023", "StdDev"]
+bratio_lci <- model$derived_quants[model$derived_quants$Label == "Bratio_2023", "Value"] - qnorm(1 - (1 - 0.95)/2) * 
+  model$derived_quants[model$derived_quants$Label == "Bratio_2023", "StdDev"]
+bratio_uci <- model$derived_quants[model$derived_quants$Label == "Bratio_2023", "Value"] + qnorm(1 - (1 - 0.95)/2) * 
+  model$derived_quants[model$derived_quants$Label == "Bratio_2023", "StdDev"]
 sex_ratio <- model[["parameters"]] |>
   dplyr::filter(Label == "FracFemale_GP_1") |>
   dplyr::pull(Value)
