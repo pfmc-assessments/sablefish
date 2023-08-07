@@ -11,35 +11,37 @@ In reality, un-modeled spatiotemporal variation in $M$, growth, and movement bec
 <!-- M, R_0, and growth -->
 Estimates of key parameters include 
 female $M$ =
-`r text_parameter(model, "NatM_uniform_Fem_GP_1", "%.3f")`, 
+`r text_parameter(model, "NatM_uniform_Fem_GP_1", "%.3f")` yr$^{-1}$, 
 male $M$ =
-`r text_parameter(model, "NatM_uniform_Mal_GP_1", "%.3f")`, and
+`r text_parameter(model, "NatM_uniform_Mal_GP_1", "%.3f")` yr$^{-1}$, and
 $R_0$ =
 `r text_parameter(model, "SR_LN\\(R0\\)", "%.3f")` (Table \@ref(tab:parameters)). 
-Females were estimated as growing larger than males with female length at age
+Females were estimated as growing larger than males with female length-at-age
 `r inputs[["ctl"]][["Growth_Age_for_L2"]]`
 (the second reference age) equal to 
 `r text_parameter(model, "L_at_Amax_Fem_GP_1", "%.1f")` cm compared to
-`r text_parameter(model, "L_at_Amax_Mal_GP_1", "%.1f")` cm for males.
-The $L_\infty$ associated with the estimated growth parameters was 
-`r round(model$Growth_Parameters$Linf[1], 1)` cm for females and
-`r round(model$Growth_Parameters$Linf[2], 1)` cm for males.
+`r text_parameter(model, "L_at_Amax_Mal_GP_1", "%.1f")` cm for males with each sex having relatively similar growth rates (
+`r text_parameter(model, "VonBert_K_Fem_GP_1", "%.3f")` yr$^{-1}$ for females compared to
+`r text_parameter(model, "VonBert_K_Mal_GP_1", "%.3f")` yr$^{-1}$ for males).
 
-<!-- Selectivity -->
-**to do**: this section is incomplete and needs information on retention
-
-Selectivity was estimated as dome shaped for all fleets. The \gls{s-tri} was estimated to select the least amount of older fish, descending to a near-zero selectivity at about the same age, age 4--5, as the peak in the fixed-gear fleet (Figure \@ref(fig:sel02-multiple-fleets-age1)). The \gls{s-nslope} was estimated to select the most oldest fish but the least youngest fish of any of the surveys. The \gls{s-wcgbt} was estimated to select the most youngest fish and a similar amount of older fish as the \gls{s-aslope}. The higher selection of young fish in the \gls{s-wcgbt} compared to the current fleets increases the potential for the \gls{s-wcgbt} to indicate strong year classes sooner than the fisheries.
+Age-based selectivity was estimated as dome shaped for all fishery and survey fleets in the model. The \gls{s-tri} was estimated to select the least amount of older fish, descending to a near-zero selectivity at about the same age, age 4--5, as the peak in the fixed-gear fleet (Figure \@ref(fig:sel02-multiple-fleets-age1)). The \gls{s-nslope} was estimated to select the most oldest fish but the least youngest fish of any of the surveys. The \gls{s-wcgbt} was estimated to select fish at the youngest age (age of peak selectivity of `r text_parameter(model, "Age.+_peak_NWCBO", "%.2f")`) and a similar amount of older fish as the \gls{s-aslope}. The higher selection of young fish in the \gls{s-wcgbt} compared to the current fleets increases the potential for the \gls{s-wcgbt} to indicate strong year classes sooner than the fisheries.
 
 <!-- Fleet 1 -->
-Peak selectivity for the for the fixed-gear fleet was fixed at
-`r text_parameter(model, "Age.+peak_FIX.+\\)$", "%.0f")`
+The age of peak selectivity for the for the fixed-gear fleet was fixed at
+`r text_parameter(model, "Age.+peak_FIX.+\\)$", "%.0f")` for the historical period between `r startyr`--1996
 but varied with time, decreasing in 1997 to
 `r text_parameter(model, "Age.+peak_FIX.+1997$", "%.0f")`,
 increasing in 2003 to
 `r text_parameter(model, "Age.+peak_FIX.+2003$", "%.0f")`, and
 decreasing in 2011 to
 `r text_parameter(model, "Age.+peak_FIX.+2011$", "%.0f")`.
-The peak of this selectivity curve was the furthest to the right of all the estimated curves in the model, which is not surprising given that only 21 age-1 fish and zero age-0 fish have been aged from samples taken from this fleet.
+The peak of this selectivity curve was the furthest to the right (selectivity peaking at older ages) of all the estimated curves in the model (Figure \@ref(fig:sel02-multiple-fleets-age1)), which is not surprising given that only 21 age-1 fish and zero age-0 fish have been aged from samples taken from this fleet. This assessment update added recent WCGOP data between 2020--2021 (discard rates, mean weights, and lengths) to better inform the final retention time period between 2019--`r endyr`. The retention curve shifted leftward, retaining an increased proportion of small fish, but a decreased proportion of retained fish of all sizes relative to the previous time block between 2011--2019 (Figure \@ref(fig:sel09-len-flt2sex2)). 
+
+The trawl fleet selects the largest range of `r spp` by age compared to all other fleets in the model. The initial age of peak selectivity for the for the trawl fleet was fixed at `r text_parameter(model, "Age.+peak_TWL.+\\)$", "%.0f")` across the time series with the model estimating changes in the descending limb of the selectivity curve to select a higher proportion of older increasing across time: `r startyr`--1981, 1982--2002 , 2003--2010, and 2011--2022. 
+
+
+
+
 <!-- A note about poor model configuration -->
 Despite the small number of samples at young ages from this fleet, the model parameterization includes the estimation of the male offset at age zero. This parameter is noted in the \gls{ss3} manual [@methot_stock_2013] as being difficult to estimate and often poorly informed by the data. Best practices suggests that it should be fixed at zero, though fixing it at zero led to almost no differences in parameter estimates (Figure \@ref(fig:sensitivity-3-compare1-spawnbio)). At the peak, males were selected about
 `r model[["parameters"]] |> dplyr::filter(grepl("Age.+MaleatD.+_FIX", Label)) |> dplyr::mutate(Value = exp(Value) * 100) |> dplyr::pull(Value) |> sprintf(fmt = "%2.0f")`
@@ -107,4 +109,4 @@ The base model fit the trend (decline, then stabilization, and increase) in the 
 
 Spawning biomass, the proxy for spawning output, is estimated to have declined from an unfished equilibrium of
 `r text_parameter(model, "S.+_Virgin", "%f", object = "derived_quants", big_mark = ",")` to
-approximately 79,000 mt in the 1950s (Figure \@ref(fig:ts-spawning-biomass)). Biomass quickly turned around, increasing to unfished equilibrium by the mid-1970s, only to come right back down again to the management target in the early-2000s. Since then, two large recruitment events have led to sharp increases, though the biomass remains far from unfished levels (Figure \@ref(fig:ts-fraction-unfished)). Total biomass largely follows the same trajectory, although estimates of recent spawning biomass are larger than estimates of spawning biomass in the 1970s (Figure \@ref(fig:ts-total-biomass)).
+approximately 79,000 mt in the 1950s (Table \@ref(tab:timeseries) and Figure \@ref(fig:ts-spawning-biomass)). Biomass quickly turned around, increasing to unfished equilibrium by the mid-1970s, only to come right back down again to the management target in the early-2000s. Since then, two large recruitment events have led to sharp increases, though the biomass remains far from unfished levels (Figure \@ref(fig:ts-fraction-unfished)). Total biomass largely follows the same trajectory, although estimates of recent spawning biomass are larger than estimates of spawning biomass in the 1970s (Figure \@ref(fig:ts-total-biomass)).
