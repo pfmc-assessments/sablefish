@@ -64,11 +64,15 @@ sigma_r <- model[["parameters"]] %>%
 # to do - Could format the names
 recode_parameters <- function(x) {
   x |>
-    gsub(pattern = "_base", replacement = "") |>
+    gsub(pattern = "(.+)_(Fem)(.+)", replacement = "\\2ale \\1") |>
+    gsub(pattern = "(.+)_(Mal)(.+)", replacement = "\\2e \\1") |>
+    gsub(pattern = "NatM", replacement = "\\$M\\$") |>
+    gsub(pattern = "_base|_uniform", replacement = "") |>
     gsub(pattern = "_I.+Age_", replacement = " age ") |>
     gsub(pattern = "_BLK[0-9]+repl", replacement = "") |>
     gsub(pattern = "_([A-Za-z]+)\\([0-9]+\\)", replacement = "_\\1") |>
     gsub(pattern = "_logit|_DblN|_se|Mort|", replacement = "") |>
+    gsub(pattern = "_at_", replacement = "-at-") |>
     gsub(pattern = "Retain", replacement = "Ret") |>
     gsub(pattern = "AgeSel", replacement = "Age") |>
     # Remove the following if more than 1 area
