@@ -15,7 +15,7 @@ The estimated measures of uncertainty for `r xfun::numbers_to_words(NROW(paramet
 ### Retrospective Analysis
 
 A retrospective analysis was conducted by running the base model with
-data removed for the past `r n_retro` years (Table \@ref(tab:RetroMohnsrho)). All retrospective model runs fell within the uncertainty estimates from the base model. There was limited evidence of a retrospective pattern in estimates of spawning biomass (Figure \@ref(fig:RetroSsb)) and stock status (Figure \@ref(fig:RetroFractionunfished)). The retrospective pattern in stock status is largely driven by the relative amount of data available to inform the estimates of some of the largest recruitment events observed for `r spp`.
+data removed for the past `r n_retro` years (Table \@ref(tab:RetroMohnsrho)). All retrospective model runs fell within the uncertainty estimates from the base model. There was limited evidence of a retrospective pattern in estimates of spawning biomass (Figure \@ref(fig:RetroSsb)) and stock status (Figure \@ref(fig:RetroFractionunfished)). The retrospective pattern in stock status is largely driven by the relative amount of data available to inform the estimates of some of the largest recruitment events observed for `r spp`. The estimated likelihood components and select parameter estimates are shown in Table \@ref(tab:retro-ests).
 
 ### Historical Analysis
 
