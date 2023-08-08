@@ -72,6 +72,7 @@ r4ss::SS_plots(
   # fleetnames = c(),
   verbose = FALSE
 )
+plot_retention(model = model, width = 7, height = 10)
 ```
 
 ```{r env-model-objects}
