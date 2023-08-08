@@ -24,10 +24,7 @@ Females were estimated as growing larger than males with female length-at-age
 `r text_parameter(model, "VonBert_K_Fem_GP_1", "%.3f")` yr$^{-1}$ for females compared to
 `r text_parameter(model, "VonBert_K_Mal_GP_1", "%.3f")` yr$^{-1}$ for males).
 
-Age-based selectivity was estimated as dome shaped for all fishery and survey fleets in the model. The \gls{s-tri} was estimated to select the least amount of older fish, descending to a near-zero selectivity at about the same age, age 4--5, as the peak in the fixed-gear fleet (Figure \@ref(fig:sel02-multiple-fleets-age1)). The \gls{s-nslope} was estimated to select the most oldest fish but the least youngest fish of any of the surveys. The \gls{s-wcgbt} was estimated to select fish at the youngest age (age of peak selectivity of `r text_parameter(model, "Age.+_peak_NWCBO", "%.2f")`) and a similar amount of older fish as the \gls{s-aslope}. The higher selection of young fish in the \gls{s-wcgbt} compared to the current fleets increases the potential for the \gls{s-wcgbt} to indicate strong year classes sooner than the fisheries.
-
-<!-- Fleet 1 -->
-The age of peak selectivity for the for the fixed-gear fleet was fixed at
+Age-based selectivity was estimated as dome shaped for all fishery and survey fleets in the model. <!-- Fleet 1 --> The model estimated sex-specific selectivity for the fixed-gear fleet with a higher selectivity on female fish compared to male `r spp`. The age of peak female selectivity for the for the fixed-gear fleet was fixed at
 `r text_parameter(model, "Age.+peak_FIX.+\\)$", "%.0f")` for the historical period between `r startyr`--1996
 but varied with time, decreasing in 1997 to
 `r text_parameter(model, "Age.+peak_FIX.+1997$", "%.0f")`,
@@ -35,33 +32,18 @@ increasing in 2003 to
 `r text_parameter(model, "Age.+peak_FIX.+2003$", "%.0f")`, and
 decreasing in 2011 to
 `r text_parameter(model, "Age.+peak_FIX.+2011$", "%.0f")`.
-The peak of this selectivity curve was the furthest to the right (selectivity peaking at older ages) of all the estimated curves in the model (Figure \@ref(fig:sel02-multiple-fleets-age1)), which is not surprising given that only 21 age-1 fish and zero age-0 fish have been aged from samples taken from this fleet. This assessment update added recent WCGOP data between 2020--2021 (discard rates, mean weights, and lengths) to better inform the final retention time period between 2019--`r endyr`. The retention curve shifted leftward, retaining an increased proportion of small fish, but a decreased proportion of retained fish across all sizes relative to the previous time block between 2011--2019 (Figures \@ref(fig:retention) - \@ref(fig:sel09-len-flt1sex2)). 
-
-The trawl fleet selects the largest range of `r spp` by age compared to all other fleets in the model. The initial age of peak selectivity for the for the trawl fleet was fixed at `r text_parameter(model, "Age.+peak_TWL.+\\)$", "%.0f")` across the time series with the model estimating changes in the descending limb of the selectivity curve to select a higher proportion of older increasing across time: `r startyr`--1981, 1982--2002 , 2003--2010, and 2011--2022. The retention curve shifted rightward, retaining an decreased proportion of small fish relative to the previous time block between 2011--2019 (Figures \@ref(fig:retention), \@ref(fig:sel09-len-flt2sex1), and \@ref(fig:sel09-len-flt2sex2)). 
-
-
-
-
-<!-- A note about poor model configuration -->
-Despite the small number of samples at young ages from this fleet, the model parameterization includes the estimation of the male offset at age zero. This parameter is noted in the \gls{ss3} manual [@methot_stock_2013] as being difficult to estimate and often poorly informed by the data. Best practices suggests that it should be fixed at zero, though fixing it at zero led to almost no differences in parameter estimates (Figure \@ref(fig:sensitivity-3-compare1-spawnbio)). At the peak, males were selected about
-`r model[["parameters"]] |> dplyr::filter(grepl("Age.+MaleatD.+_FIX", Label)) |> dplyr::mutate(Value = exp(Value) * 100) |> dplyr::pull(Value) |> sprintf(fmt = "%2.0f")`
-percent as much as females in this fishery.
+The peak of the fixed-gear female selectivity curve was the furthest to the right (selectivity peaking at older ages) of all the estimated curves in the model (Figure \@ref(fig:sel02-multiple-fleets-age1)), which is not surprising given that only 21 age-1 fish and zero age-0 fish have been aged from samples taken from this fleet. This assessment update added recent WCGOP data between 2020--2021 (discard rates, mean weights, and lengths) to better inform the final retention time period between 2019--`r endyr`. The retention curve shifted leftward, retaining an increased proportion of small fish, but a decreased proportion (< 1.0) of retained fish across all sizes relative to the previous time block between 2011--2019 (Figures \@ref(fig:retention) - \@ref(fig:sel09-len-flt1sex2)). 
 
 <!-- Fleet 2 -->
 Selectivity for the trawl fleet was estimated as a single curve, rather than sex-specific, with four fixed parameters, one estimated time-invariant parameter, and one time-varying parameter. The width of the descending limb, which is time-varying, has been fixed for the early period since the 2019 model but this assessment also fixed the parameter at the upper bound of
 `r text_parameter(model, "desc.+TWL.+2011$", "%.1f")`
-in the terminal block because it was consistently estimated at the bound during the bridging analyses. Thus, the selectivity curve in the terminal year of the model for the trawl fleet is wider than it was in the 2019 assessment. The time-invariant parameter, the width of the ascending limb, was estimated to be
-`r text_parameter(model, "Age.+asc.+TWL", "%.3f")`
-<!-- A note about poor model configuration -->
-but the variability about this estimate is quite large, i.e.,
-`r text_parameter(model, "Age.+asc.+TWL", "%.2f", Parm_StDev)`.
-A sensitivity is included in Section \@ref(sensitivity-analyses) that fixes this parameter at the estimate but the model results are largely the same.
+in the terminal block because it was consistently estimated at the bound during the bridging analyses. The trawl fleet selects the largest range of `r spp` by age compared to all other fleets in the model. The initial age of peak selectivity for the for the trawl fleet was fixed at `r text_parameter(model, "Age.+peak_TWL.+\\)$", "%.0f")` across the time series with the model estimating changes in the descending limb of the selectivity curve to select a increasing proportion of older fish across time blocks: `r startyr`--1981, 1982--2002 , 2003--2010, and 2011--2022. The retention curve shifted rightward in the final time block (2019--2022), only retaining fish at larger sizes relative to the previous time block between 2011--201 (Figures \@ref(fig:retention), \@ref(fig:sel09-len-flt2sex1), and \@ref(fig:sel09-len-flt2sex2)).
 
-<!-- Fleet 3 -->
+<!-- Fleet 3 Environmental Index -->
 <!-- NA -->
 
 <!-- Fleet 4 -->
-Sex-specific selectivity was estimated for the \gls{s-tri}, with males selected at
+The \gls{s-tri} was estimated to select the least amount of older fish, descending to a near-zero selectivity at about the same age, age 4--5, as the peak in the fixed-gear fleet (Figure \@ref(fig:sel02-multiple-fleets-age1)). Sex-specific selectivity was estimated for the \gls{s-tri}, with males selected at
 `r model[["parameters"]] |> dplyr::filter(grepl("Age.+MaleatD.+_A", Label)) |> dplyr::mutate(Value = exp(Value) * 100) |> dplyr::pull(Value) |> sprintf(fmt = "%.0f")`
 percent of females at age zero and
 `r model[["parameters"]] |> dplyr::filter(grepl("Age.+MaleatM.+_A", Label)) |> dplyr::mutate(Value = exp(Value) * 100) |> dplyr::pull(Value) |> sprintf(fmt = "%.0f")`
@@ -73,10 +55,16 @@ Although, female selectivity at approximately 5 years and older is small in its 
 The time- and sex-invariant selectivities for the slope surveys are similar to their previous estimates, with the \gls{s-nslope} selecting more older fish than any other survey and the \gls{s-aslope} selecting fish at a younger age than the \gls{s-nslope} (Figure \@ref(fig:sel02-multiple-fleets-age1)). `r Spp` abundance is correlated with temperature and depth, and thus, the higher selectivities of the slope surveys may be a combination of availability and gear selectivity rather than just gear selectivity alone. The width of the descending limb for both slope surveys was poorly estimated, reflected in the high estimates of uncertainty for these parameters.
 
 <!-- Fleet 7 -->
-The \gls{s-wcgbt} was estimated to select the youngest fish out of all the surveys with a similar selectivity-at-age for young fish as the trawl fleet (Figure \@ref(fig:sel02-multiple-fleets-age1)). These two selectivities differ though for ages older than approximately four, with a sharp drop off in selectivity for the survey.
+The \gls{s-wcgbt} was estimated to select fish at the youngest age (peak selectivity at age `r text_parameter(model, "Age.+_peak_NWCBO", "%.2f")`) and a similar amount of older fish as the \gls{s-aslope} (Figure \@ref(fig:sel02-multiple-fleets-age1)). The higher selection of young fish in the \gls{s-wcgbt} compared to the current fleets increases the potential for the \gls{s-wcgbt} to provide information about strong year classes sooner than the fisheries. 
+
 <!-- A note about poor model configuration -->
-The estimated uncertainty in the width of the ascending limb was high and the parameter estimate was close to zero, i.e.,
-`r model[["parameters"]] |> dplyr::filter(grepl("asc.+\\(7\\)", Label)) |> dplyr::mutate(Value = exp(Value)) |> dplyr::pull(Value) |> sprintf(fmt = "%.4f")`.
+A number of issues were noticed when reviewing the estimation of selectivity and retention in this assessment update. Across all fleets, there were a number of selectivity parameters that were estimated with high uncertainty that may indicate a lack of information in the data to estimate these parameters.  This assessment was also required to fixed several selectivity parameters that were estimated at parameter bounds. These general behaviors were also encountered in the 2019 assessment resulting in a number of selectivity parameters being fixed during model development due to poor estimation behavior at that time.  These issues in totally indicate that selectivity may be overparameterized.  The next benchmark assessments should explore simplifying selectivity as well as alternative parameterization. To better understand the impact of estimating poorly informed selectivity parameters, a sensitivity is included in Section \@ref(sensitivity-analyses) that fixes selectivity parameters with high uncertainty at their estimates but the model results are largely the same.
+
+<!-- A note about poor model configuration 
+Despite the small number of samples at young ages from this fleet, the model parameterization includes the estimation of the male offset at age zero. This parameter is noted in the \gls{ss3} manual [@methot_stock_2013] as being difficult to estimate and often poorly informed by the data. Best practices suggests that it should be fixed at zero, though fixing it at zero led to almost no differences in parameter estimates (Figure \@ref(fig:sensitivity-3-compare1-spawnbio)). At the peak, males were selected about
+`r model[["parameters"]] |> dplyr::filter(grepl("Age.+MaleatD.+_FIX", Label)) |> dplyr::mutate(Value = exp(Value) * 100) |> dplyr::pull(Value) |> sprintf(fmt = "%2.0f")`
+percent as much as females in this fishery.
+-->
 
 <!-- Catchability -->
 ```{r q-estimates}
