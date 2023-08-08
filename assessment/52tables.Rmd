@@ -50,6 +50,9 @@ sa4ss::table_format(
 )
 ```
 
+```{r tables-process-survey, eval = !fs::file_exists(fs::path(tables_location, "data-survey-n.tex"))}
+process_survey()
+```
 \include{52tables/data-survey-n.tex}
 
 ## Model
