@@ -218,6 +218,44 @@ ignore <- fs::dir_ls(
 
 ### Estimated Biology
 
+```{r figures-biology, results = "asis"}
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "bio6_maturity.png"
+  ),
+  caption = "Maturity at length.",
+  alt_caption = "",
+  label = "maturity"
+)
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "bio5_weightatsize.png"
+  ),
+  caption = "Weight-length relationship.",
+  alt_caption = "",
+  label = "weight-at-length"
+)
+
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "bio1_sizeatage.png
+"
+  ),
+  caption = "Length at age in the beginning of the year in the ending year of the model. Shaded area indicates 95% distribution of length at age around estimated growth curve.",
+  alt_caption = "",
+  label = "growth"
+)
+
+```
+
+
+
 ### Selectivity
 
 ```{r figures-selectivity, results = "asis"}
@@ -235,7 +273,6 @@ sa4ss::add_figure(
 ```
 
 ```{r figures-retention, results = "asis"}
-plot_retention(model = model, width = 7, height = 10)
 sa4ss::add_figure(
   filein = fs::path(
     here::here(),
@@ -263,20 +300,20 @@ ignore <- fs::dir_ls(
   dplyr::select(filein, caption, label) |>
   purrr::pmap(.f = sa4ss::add_figure)
 
-ignore <- fs::dir_ls(
-  path = fs::path(model_location, "plots"),
-  regex = "sel05.+flt[2]"
-) |>
-  tibble::as_tibble_col(column_name = "filein") |>
-  dplyr::mutate(
-    sex = ifelse(grepl("sex1", basename(filein)), "females", "males"),
-    fleet_numeric = as.numeric(gsub(".+flt([0-9]+)sex.+", "\\1", filein)),
-    fleet = recode_fleet_text(fleet_numeric),
-    caption = glue::glue("Estimated time-varying retention and discard mortality for {sex} for the {fleet}."),
-    label = gsub(pattern = "_", "-", gsub("\\.png", "", basename(filein)))
-  ) |>
-  dplyr::select(filein, caption, label) |>
-  purrr::pmap(.f = sa4ss::add_figure)
+#ignore <- fs::dir_ls(
+#  path = fs::path(model_location, "plots"),
+#  regex = "sel05.+flt[2]"
+#) |>
+#  tibble::as_tibble_col(column_name = "filein") |>
+#  dplyr::mutate(
+#    sex = ifelse(grepl("sex1", basename(filein)), "females", "males"),
+#    fleet_numeric = as.numeric(gsub(".+flt([0-9]+)sex.+", "\\1", filein)),
+#    fleet = recode_fleet_text(fleet_numeric),
+#    caption = glue::glue("Estimated time-varying retention and discard mortality for {sex} for the {fleet}."),
+#    label = gsub(pattern = "_", "-", gsub("\\.png", "", basename(filein)))
+#  ) |>
+#  dplyr::select(filein, caption, label) |>
+#  purrr::pmap(.f = sa4ss::add_figure)
 ```
 
 ### Recruitment
@@ -321,6 +358,7 @@ ignore <- fs::dir_ls(
   dplyr::arrange(fleet_numeric) |>
   dplyr::select(filein, caption, label) |>
   purrr::pmap(.f = sa4ss::add_figure)
+```
 
 ```{r figures-fit-lengths, results = "asis"}
 sa4ss::add_figure(

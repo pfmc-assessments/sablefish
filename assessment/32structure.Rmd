@@ -80,6 +80,6 @@ The stock-recruitment relationship follows a Beverton--Holt parameterization wit
 
 The standard deviation of recruitment deviates remained fixed at 1.4 and was not iteratively tuned when running the model. Model results suggest that recruitment may be more variable but since 2019 the value has not been allowed to be higher than 1.4.
 
-Maturity-at-length and length-weight parameters also remained fixed at the values that were externally estimated in 2019 and used in the 2019 benchmark assessment [@haltuch_status_2019b]. The fecundity relationship was not updated here or in 2019.
+Maturity-at-length and length-weight parameters also remained fixed at the values that were externally estimated in 2019 and used in the 2019 benchmark assessment [@haltuch_status_2019b] (Figures \@ref(fig:maturity) and \@ref(fig:weight-at-length)). The fecundity relationship was not updated here or in 2019 and is assumed equal to female weight-at-length.
 
 Selectivity curves remained dome shaped for all fleets within the model. The dome-shaped curves are appropriate given that older `r spp` are often found in deeper waters and may move into areas that limit their availability to fishing gear. The descending limb of dome-shaped age selectivity in the fixed gear fleet remained fixed at the value used in the 2019 benchmark assessment, which was based on the results of likelihood profiles [@haltuch_status_2019b].
