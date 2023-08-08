@@ -31,7 +31,7 @@ knitr::knit_hooks$set(plot = function(x,options) {
 load("00opts.Rdata")
 tables_location <- fs::path(here::here(), "assessment", "52Tables")
 figures_location <- fs::path(here::here(), "assessment", "53Figures")
-fs::dir_create(c(table_location, figure_location))
+fs::dir_create(c(tables_location, figures_location))
 ```
 
 ```{r inputs-load-model, cache = TRUE, include = FALSE}
