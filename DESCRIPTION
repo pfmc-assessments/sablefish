@@ -52,6 +52,7 @@ Imports:
     tibble,
     tidyr,
     utils,
+    viridis,
     xfun
 Remotes: 
     pfmc-assessments/nwfscSurvey,
