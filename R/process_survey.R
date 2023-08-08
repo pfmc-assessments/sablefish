@@ -233,6 +233,8 @@ process_survey <- function() {
       figure_dir,
       "data_survey_wcgbt_proportion-by-depth.png"
     ),
+    width = 10, 
+    heigth = 10,
     plot = gg
   )
 
