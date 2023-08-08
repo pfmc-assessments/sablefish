@@ -523,7 +523,7 @@ names(model_historical) <- fs::dir_ls(
 ```{r figures-historical, results = "asis"}
 r4ss::SSplotComparisons(
   r4ss::SSsummarize(c(model_historical, list(model)), verbose = FALSE),
-  plotdir = "53Figures",
+  plotdir = figures_location,
   subplots = c(2, 4),
   print = TRUE,
   plot = FALSE,
@@ -531,13 +531,13 @@ r4ss::SSplotComparisons(
   filenameprefix = "historical_"
 )
 sa4ss::add_figure(
-  fs::path("53Figures", "historical_compare2_spawnbio_uncertainty.png"),
+  fs::path(figures_location, "historical_compare2_spawnbio_uncertainty.png"),
   caption = glue::glue("Comparisons of spawning biomass (mt) between the current assessment and recent benchmark and update assessments since {min(names(model_historical))}."),
   alt_caption = "All trajectories of spawning biomass from the most recent assessments are encapsulated within the estimated uncertainty from the current model.",
   label = "historical-model-comparison-sb"
 )
 sa4ss::add_figure(
-  fs::path("53Figures", "historical_compare4_Bratio_uncertainty.png"),
+  fs::path(figures_location, "historical_compare4_Bratio_uncertainty.png"),
   caption = glue::glue("Comparisons of fraction unfished between the current assessment and recent benchmark and update assessments since {min(names(model_historical))}."),
   alt_caption = "All trajectories of fraction unfished from the most recent assessments are encapsulated within the estimated uncertainty from the current model.",
   label = "historical-model-comparison-unfished"
