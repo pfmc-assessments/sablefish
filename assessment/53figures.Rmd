@@ -395,6 +395,26 @@ sa4ss::add_figure(
   caption = "Length composition aggregated across years by fleet with the model estimated fit to the data by sex (green unsexed, red female, and blue male).",
   label = "comp-agefit--aggregated-across-time"
 )
+sa4ss::add_figure(
+  filein = fs::path(model_location, "plots",  "comp_lenfit_flt1mkt1_page1.png"), 
+  caption = "Fits to the discard length composition by year for the fixed gear fleet.",
+  label = "comp-disc-len-fixed-1"
+)
+sa4ss::add_figure(
+  filein = fs::path(model_location, "plots",  "comp_lenfit_flt1mkt1_page2.png"), 
+  caption = "Fits to the discard length composition by year for the fixed gear fleet.",
+  label = "comp-disc-len-fixed-2"
+)
+sa4ss::add_figure(
+  filein = fs::path(model_location, "plots",  "comp_lenfit_flt2mkt1_page1.png"), 
+  caption = "Fits to the discard length composition by year for the trawl gear fleet.",
+  label = "comp-disc-len-trawl-1"
+)
+sa4ss::add_figure(
+  filein = fs::path(model_location, "plots",  "comp_lenfit_flt2mkt1_page2.png"), 
+  caption = "Fits to the discard length composition by year for the trawl gear fleet.",
+  label = "comp-disc-len-trawl-2"
+)
 ignore <- fs::dir_ls(
   path = fs::path(model_location, "plots"),
   regex = "agefit.+residsflt"
