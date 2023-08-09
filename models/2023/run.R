@@ -48,6 +48,7 @@ fs::dir_create(model_dir)
 fs::dir_create(bridging_dir)
 fs::dir_create(sensitivity_dir)
 model_ss3_path <- r4ss::get_ss3_exe(dir = model_dir)
+# model_ss3_path <- fs::path(dir = model_dir, "ss3")
 
 ###############################################################################
 # Clean up the model files
@@ -420,6 +421,18 @@ r4ss::SS_write(
   dir = fs::path(sensitivity_dir, "UseMarginalAges"),
   overwrite = TRUE
 )
+r4ss::tune_comps(
+  replist = NULL,
+  fleets = "all",
+  option = "Francis",
+  digits = 6,
+  write = TRUE,
+  niters_tuning = 1,
+  init_run = TRUE,
+  dir = fs::path(sensitivity_dir, "UseMarginalAges"),
+  exe = model_ss3_path,
+  verbose = FALSE
+)
 
 # Use Bayesian method for environmental index
 data_env_index_bayesian <- read.csv(
@@ -528,7 +541,27 @@ bridge_output <- tune(
   dir_in = fs::path(here::here(), user_model_current),
   dir_out = fs::path(sensitivity_dir, "TuneWithHarmonicMean"),
   steps = 1,
-  executable = fs::path(here::here(), user_model_current, "ss3")
+  type = "MI",
+  executable = model_ss3_path
+)
+
+# Turn on added variance for WCGBTS
+model_inputs <- r4ss::copy_SS_inputs(
+  dir.old = fs::path(here::here(), user_model_current),
+  dir.new = fs::path(sensitivity_dir, "SingleNaturalMortality"),
+  use_ss_new = TRUE,
+  overwrite = TRUE,
+  verbose = FALSE
+)
+r4ss::SS_changepars(
+  dir = fs::path(sensitivity_dir, "SingleNaturalMortality"),
+  newctlfile = "control.ss",
+  ctlfile = "control.ss",
+  strings = "NatM_uniform_Mal_GP_1",
+  newvals = 0,
+  newlos = 0,
+  estimate = FALSE,
+  verbose = FALSE
 )
 
 ###############################################################################
@@ -552,17 +585,22 @@ furrr::future_map(
 # Summarize the output from sensitivities
 ###############################################################################
 # Split bridging into groups
+# to do: make this a model object so it is available in the assessment
 sensitivity_groups <- purrr::map(
   c(
-    "\\sbase$|survey|marginal|index",
-    "\\sbase$|recruitment|tune",
-    "\\sbase$|parameters|estimate"
+    "\\sbase$|index|estimate|parameter",
+    "\\sbase$|recruitment|survey",
+    "\\sbase$|mortality|marginal|tune"
   ),
   .f = \(x) grep(
     pattern = x,
     x = names(model_paths_sensitivity),
     ignore.case = TRUE
   )
+)
+stopifnot(
+  length(unique(unlist(sensitivity_groups))) ==
+  length(model_paths_sensitivity)
 )
 sensitivity_summary <- r4ss::SSsummarize(
   biglist = purrr::map(
@@ -576,6 +614,48 @@ sensitivity_summary <- r4ss::SSsummarize(
   ),
   verbose = FALSE
 )
+data <- r4ss::SStableComparisons(sensitivity_summary,
+  modelnames = ifelse(
+    grepl(" Base", sensitivity_summary$modelnames),
+    "Base",
+    gsub("([a-z])([A-Z])", "\\1 \\2", basename(sensitivity_summary[["modelnames"]]))
+  ),
+  names = c(
+    "SR_LN(R0)",
+    "SSB_Virgin",
+    paste0("SSB_", 2022 + 1),
+    paste0("Bratio_", 2022 + 1),
+    "Dead_Catch_SPR",
+    "SR_BH_steep",
+    "NatM_uniform_Fem_GP_1",
+    "L_at_Amin_Fem_GP_1",
+    "L_at_Amax_Fem_GP_1",
+    "VonBert_K_Fem_GP_1",
+    "young_Fem_GP_1",
+    "old_Fem_GP_1",
+    "NatM_uniform_Mal_GP_1",
+    "L_at_Amin_Mal_GP_1",
+    "L_at_Amax_Mal_GP_1", 
+    "VonBert_K_Mal_GP_1",
+    "young_Mal_GP_1",
+    "old_Mal_GP_1"
+  ),
+    likenames = c(
+      "TOTAL",
+      "Survey",
+      "Discard",
+      "Length_comp",
+      "Age_comp",
+      "Recruitment",
+      "Forecast_",
+      "priors",
+      "Parm_devs"
+    ),
+    verbose = FALSE,
+    csv = TRUE,
+    csvdir = sensitivity_dir,
+    csvfile = "sensitivity_table.csv"
+  )
 ignore <- purrr::pmap(
   .l = list(
     models = sensitivity_groups,
@@ -595,8 +675,8 @@ ignore <- purrr::pmap(
   print = TRUE,
   plot = FALSE,
   png = TRUE,
-  # to do: get this to work with 2 and 4 :facepalm:
-  subplots = c(1, 3, 5, 7, 9, 11, 13, 14),
+  uncertainty = 1,
+  subplots = c(2, 4, 5, 7, 9, 11, 13, 14),
   legendloc = "topleft"
 )
 
