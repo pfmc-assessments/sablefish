@@ -57,7 +57,7 @@ sa4ss::add_figure(
 
 ## Data and assessment{-}
 
-The last benchmark stock assessment for sablefish took place during 2019 [@haltuch_status_2019b], followed by an update assessment conducted in 2021 [@Kapur:2021:SSA].  This assessment update uses the stock assessment framework \gls{ss3} version `r ss3_version[["current"]]`. Primary data sources include fishery landings and age-composition data from the retained catch. Only the fishery landings were re-evaluated for this assessment update and extended through `r endyr`.  Recent years data, 2020--2021, on the discarded portion of commercial catch, including discard lengths, rates, and mean observed individual body weight of the discarded catch were included in this analysis. The relative index of abundance estimated from the Northwest Fisheries Science Center (NWFSC) West Coast Groundfish Bottom Trawl (WCGBT) survey, which samples depths from 55 - 1,280 m, represents the primary source of information on the stock’s trend and was updated and re-analyzed to include the most recent data, covering the period 2003--`r endyr`. Other, discontinued, survey indices contribute information on trend and sablefish demographics: (a) NWFSC Slope Survey conducted from 1998-2002, (b) Alaska Fisheries Science Center (AFSC) Slope Survey (1997-2001), and (c) AFSC/NWFSC Triennial Shelf Survey (1980-2004). Data from the historical surveys were not re-evaluated for this assessment update. Additionally, an environmental time-series of sea level was used as a survey index of recruitment in the base model; this time-series was updated and re-analyzed using the latest tide gauge data.
+The last benchmark stock assessment for sablefish took place during 2019 [@haltuch_status_2019b], followed by an update assessment conducted in 2021 [@Kapur:2021:SSA].  This assessment update uses the stock assessment framework \gls{ss3} version `r ss3_version[["current"]]`. Primary data sources include fishery landings and age-composition data from the retained catch. Only the fishery landings were re-evaluated for this assessment update and extended through `r endyr`.  Recent years data, 2020--2021, on the discarded portion of commercial catch, including discard lengths, rates, and mean observed individual body weight of the discarded catch were included in this analysis. The relative index of abundance estimated from the Northwest Fisheries Science Center (NWFSC) West Coast Groundfish Bottom Trawl (WCGBT) survey, which samples depths from 55 - 1,280 m, represents the primary source of information on the stock's trend and was updated and re-analyzed to include the most recent data, covering the period 2003--`r endyr`. Other, discontinued, survey indices contribute information on trend and sablefish demographics: (a) NWFSC Slope Survey conducted from 1998--2002, (b) Alaska Fisheries Science Center (AFSC) Slope Survey (1997--2001), and (c) AFSC/NWFSC Triennial Shelf Survey (1980--2004). Data from the historical surveys were not re-evaluated for this assessment update. Additionally, an environmental time-series of sea level was used as a survey index of recruitment in the base model; this time-series was updated and re-analyzed using the latest tide gauge data.
 
 All externally estimated model parameters, (a) weight-length relationship, (b) maturity schedule, and (c) fecundity relationships remained unchanged from the 2019 benchmark assessment. As in previous assessments, growth and natural mortality were estimated using sex-specific relationships. Uncertainty in recruitment was included by estimating a full time-series of deviations from the stock-recruitment curve. The ‘one-way-trip’ nature of the time-series does not facilitate estimation of the steepness parameter ($h$) of the stock-recruitment relationship. Therefore, $h$ was fixed at 0.7, similar to values used on other groundfish stock assessments, and was explored via sensitivity analysis in 2019; and information regarding $h$ is explored in this analysis via likelihood profiles.
 
@@ -67,9 +67,9 @@ During the first half of the 20th century it is estimated that `r spp` were expl
 
 The estimated relative stock trajectory across the times series is highly variable, with the population increasing to near unfished levels in the 1970s, declining to at or near the target relative biomass of 40% around 2000, and then increasing at the end of the modeled period (Table \@ref(tab:ssbES) and Figure \@ref(fig:es-depl)). The estimated fraction unfished in `r endyr+1` from the base model is `r  round(model$derived_quants[grep('Bratio_2023', model$derived_quants$Label),'Value']*100, 1)`% (95\% confidence interval `r round(bratio_lci*100, 1)`%--`r round(bratio_uci*100, 1)`%) increasing from the estimated fraction unfished in 2021 of 58% [@Kapur:2021:SSA].
 
-
-\input{52tables/b_SSB_ES.tex}
-
+```{r, results = "asis"}
+sa4ss::read_child(fs::path(model_location, "tables", "b_SSB_ES.tex"))
+```
 
 ```{r, results = "asis"}
 sa4ss::add_figure(
@@ -101,7 +101,9 @@ sa4ss::add_figure(
 
 `r Spp` recruitment is estimated to be quite variable with large amounts of uncertainty in individual recruitment events. A period with generally higher frequencies of strong recruitments spans from the early 1950s through the 1970s, followed by a lower frequency of large recruitments during 1980 forward, contributing to stock declines, with some recent larger recuritments pushing the population higher in the past few years. The period with a higher frequency of high recruitments contributed to a large increase in stock biomass that subsequently declined throughout much of the 1970s forward. Less frequent large recruitments during the mid-1980s through 1990 slowed the rate of stock decline, with another series of large recruitments during 1999 and 2000 leading to a leveling off in the stock decline. The above-average cohorts from 2008, 2013, 2015, and 2016 are contributing to an increasing spawning stock size (Table \@ref(tab:recrES) and Figures \@ref(fig:es-recruits) and \@ref(fig:es-rec-devs)). Near the end of the time series, in 2020 and 2021, two recruitment events that are estimated to be greater than any other recruitment across the modeled period (Table \@ref(tab:recrES) and Figure \@ref(fig:es-rec-devs)).
 
-\input{52tables/c_Recr_ES.tex}
+```{r results = "asis"}
+sa4ss::read_child(fs::path(model_location, "tables", "c_Recr_ES.tex"))
+```
 
 ```{r, results = "asis"}
 sa4ss::add_figure(
@@ -138,10 +140,9 @@ Include Figure with trend in f relative to target vs. trend in biomass relative 
 
 Table \@ref(tab:exploitES)
 
-\input{52tables/d_SPR_ES.tex}
 
-
-```{r, results = "asis"}
+```{r results = "asis"}
+sa4ss::read_child(fs::path(model_location, "tables", "d_SPR_ES.tex"))
 sa4ss::add_figure(
   filein = fs::path(
     model_location,
@@ -166,16 +167,16 @@ Note which, if any, ecosystem factors are used in the assessment and how (e.g., 
 
 ## Reference points{-}
 
-The estimated 2023 spawning biomass relative to unfished equilibrium spawning biomass is `r round(100*model[["current_depletion"]], 2)` percent, well above the management target of 40 percent of unfished spawning output. The fishing intensity has been at or below the current management harvest rate limit (spawning potential ratio [SPR], $\text{SPR}_{45\%}$) since the mid 1980s and declining in the last ten years (Figure \@ref(fig:es-spr)).  The relative biomass compared to the ratio of the estimated SPR to the management target ($\text{SPR}_{45\%}$) across all model years are shown in Figure \@ref(fig:es-phase) where warmer colors (red) represent early years and colder colors (blue) represent recent years. The relative biomass and estimated SPR has been well above the-es) shows the equilibrium curve based on a steepness value fixed at `r round(model$parameters[model$parameters$Label == "SR_BH_steep","Value"], 2)` with vertical dashed lines to indicate the estimate of fraction unfished at the start of `r endyr +1` (current) and the estimated management targets calculated based on the relative target biomass (B target), the SPR target, and the maximum sustainable yield (MSY).
+The estimated 2023 spawning biomass relative to unfished equilibrium spawning biomass is `r round(100*model[["current_depletion"]], 2)` percent, well above the management target of 40 percent of unfished spawning output. The fishing intensity has been at or below the current management harvest rate limit (spawning potential ratio [SPR], $\text{SPR}_{45\%}$) since the mid 1980s and declining in the last ten years (Figure \@ref(fig:es-phase)).  The relative biomass compared to the ratio of the estimated SPR to the management target ($\text{SPR}_{45\%}$) across all model years are shown in Figure \@ref(fig:es-phase) where warmer colors (red) represent early years and colder colors (blue) represent recent years. The relative biomass and estimated SPR has been well above the-es) shows the equilibrium curve based on a steepness value fixed at `r round(model$parameters[model$parameters$Label == "SR_BH_steep","Value"], 2)` with vertical dashed lines to indicate the estimate of fraction unfished at the start of `r endyr +1` (current) and the estimated management targets calculated based on the relative target biomass (B target), the SPR target, and the maximum sustainable yield (MSY).
 
 Reerence points were calculated using the estimated selectivities and catch distributions among fleets in the most recent year of the model, `r endyr` (Table XX). Sustainable total yield, landings plus discards, using an $\text{SPR}_{45\%}$ is `r format(model$derived_quants[model$derived_quants$Label == "Dead_Catch_SPR", "Value"], scientific = FALSE, big.mark = ",")` mt. The spawning biomass equivalent to 40 percent of the unfished spawning biomass ($\text{SB}_{40\%}$) calculated using the SPR target ($\text{SPR}_{45\%}$) was `r format(model$derived_quants[model$derived_quants$Label == "SSB_SPR", "Value"],  scientific = FALSE, big.mark = ",")` mt. 
 
 Table \@ref(tab:referenceES)
 
-\input{52tables/e_ReferencePoints_ES.tex}
-
 ```{r, results = "asis"}
-
+sa4ss::read_child(
+  fs::path(model_location, "tables", "e_ReferencePoints_ES.tex")
+)
 sa4ss::add_figure(
   filein = fs::path(
     model_location,
@@ -236,7 +237,7 @@ out <- cbind(tab, df)
 
 sa4ss::table_format(
   x = out,
-  caption = "The  OFL (mt), ACL (mt), landings (mt) and estimated catch (mt) between 2013-2022.",
+  caption = "The  OFL (mt), ACL (mt), landings (mt) and estimated catch (mt) between 2013--2022.",
   label = "es-manage",
   align = "l",
   col_names = c("Year", "OFL", "ACL", "Landings", "Catch")
@@ -253,7 +254,7 @@ sa4ss::read_child(filein)
 
 ## Decision table and projections{-}
 
-The projection of stock biomass, status, and harvest limits was developed using the base model. The total catches in 2023 and 2024 were set at 9,118 and 8,359 mt, respectively, based on recommendations from the Groundfish Management Team (GMT). The ABC values were estimated using a category 1 time-varying $\sigma_y$ starting at 0.50 combined with a P* value of 0.45. The catches during the projection period, 2025 - 2034 were set equal to the year-specific ABC (Table \@ref(tab:projection-es)). The spawning biomass and fraction unfished increase sharply during the projection due to the estimated large recruitments in 2020 and 2021 maturing and entering the spawning population, resulting in future OFLs and ABCs that are substantially higher than those set for 2023-24.
+The projection of stock biomass, status, and harvest limits was developed using the base model. The total catches in 2023 and 2024 were set at 9,118 and 8,359 mt, respectively, based on recommendations from the Groundfish Management Team (GMT). The ABC values were estimated using a category 1 time-varying $\sigma_y$ starting at 0.50 combined with a P* value of 0.45. The catches during the projection period, 2025--2034 were set equal to the year-specific ABC (Table \@ref(tab:projection-es)). The spawning biomass and fraction unfished increase sharply during the projection due to the estimated large recruitments in 2020 and 2021 maturing and entering the spawning population, resulting in future OFLs and ABCs that are substantially higher than those set for 2023--2024.
 
 ```{r, tables-projection-es, results = "asis"}
 # Yes I know this code will likely make your eye twitch... sorry

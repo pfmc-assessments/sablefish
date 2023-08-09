@@ -4,7 +4,15 @@
 
 # Figures
 
+```{r figure-information-data-frames}
+information_comp_figures <- figure_information(regex = "comp_lendat_f|gstagedat_bub|comp_cond.+_bub")
+information_fit_figures <- figure_information(regex = "agefit_flt|lenfit_flt|Andre")
+information_weight_figures <- figure_information(regex = "bodywt_fit")
+```
+
 ## Data
+
+### Summary
 
 ```{r, figures-data-summary, results = "asis"}
 sa4ss::add_figure(
@@ -19,6 +27,7 @@ sa4ss::add_figure(
 )
 ```
 
+### Fishery-Dependent Data
 
 ```{r, figures-data-landings, results = "asis"}
 sa4ss::add_figure(
@@ -33,6 +42,57 @@ sa4ss::add_figure(
 )
 ```
 
+
+```{r figures-discard-data, results = "asis"}
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "discard_dataFIX.png"
+  ),
+  caption = "Annual \\glsentrylong{wcgop} discard rates for the fixed-gear fleet.",
+  alt_caption = "",
+  label = "data-wcgop-discard-rates-fixed"
+)
+
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "discard_dataTWL.png"
+  ),
+  caption = "Annual \\glsentrylong{wcgop} discard rates for the trawl fleet.",
+  alt_caption = "",
+  label = "data-wcgop-discard-rates-trawl"
+)
+
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "bodywt_data_fltFIX.png"
+  ),
+  caption = "Annual \\glsentrylong{wcgop} mean weights of discarded fish for the fixed-gear fleet.",
+  alt_caption = "",
+  label = "data-wcgop-discard-wghts-fixed"
+)
+
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "bodywt_data_fltTWL.png"
+  ),
+  caption = "Annual \\glsentrylong{wcgop} mean weights of discarded fish for the trawl fleet.",
+  alt_caption = "",
+  label = "data-wcgop-discard-wghts-trawl"
+)
+
+ignore <- information_comp_figures |>
+  dplyr::filter(fleet_number %in% 1:2) |>
+  dplyr::select(filein, label, caption) |>
+  purrr::pmap(.f = sa4ss::add_figure)
+```
 
 ### Fishery-Independent Data
 
@@ -71,26 +131,15 @@ sa4ss::add_figure(
 )
 
 sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "comp_lendat_flt7mkt0.png"
-  ),
-  caption = "Annual length-composition data for the \\glsentrylong{s-wcgbt}.",
-  alt_caption = "",
-  label = "data-survey-wcgbt-lengths"
+  fs::path(figures_location, "qq.png"),
+  caption = "Quantile-quantile plot for \\glsentrylong{s-wcgbt} index fit using a gamma distribution for the rate component of the delta model.",
+  label = "qq"
 )
 
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "comp_gstagedat_bubflt7mkt0.png"
-  ),
-  caption = "Annual age-composition data for the \\glsentrylong{s-wcgbt}.",
-  alt_caption = "",
-  label = "data-survey-wcgbt-ages"
-)
+ignore <- information_comp_figures |>
+  dplyr::filter(fleet_number == 7) |>
+  dplyr::select(filein, label, caption) |>
+  purrr::pmap(.f = sa4ss::add_figure)
 
 sa4ss::add_figure(
   filein = fs::path(
@@ -113,77 +162,6 @@ sa4ss::add_figure(
 #   alt_caption = glue::glue("Observations of female {spp} are 50 percent or slightly greater between 150--400 m, with males being observed greater than 50 percent of the tows between 400--1,050 m. At the deepest depths sampled, between 1,050--1,280 m, females are observed in greater than 50 percent of the tows."),
 #   label = "data-survey-wcgbt-sex-by-depth"
 # )
-
-
-
-```
-
-```{r figures-discard-data, results = "asis"}
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "discard_dataFIX.png"
-  ),
-  caption = "Annual \\glsentrylong{wcgop} discard rates for the fixed gear fleet.",
-  alt_caption = "",
-  label = "data-wcgop-discard-rates-fixed"
-)
-
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "discard_dataTWL.png"
-  ),
-  caption = "Annual \\glsentrylong{wcgop} discard rates for the trawl fleet.",
-  alt_caption = "",
-  label = "data-wcgop-discard-rates-trawl"
-)
-
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "bodywt_data_fltFIX.png"
-  ),
-  caption = "Annual \\glsentrylong{wcgop} mean weights of discarded fish for the fixed gear fleet.",
-  alt_caption = "",
-  label = "data-wcgop-discard-wghts-fixed"
-)
-
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "bodywt_data_fltTWL.png"
-  ),
-  caption = "Annual \\glsentrylong{wcgop} mean weights of discarded fish for the trawl fleet.",
-  alt_caption = "",
-  label = "data-wcgop-discard-wghts-trawl"
-)
-
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "comp_lendat_flt1mkt1.png"
-  ),
-  caption = "Annual distribution of observed discarded fish by length in \\glsentrylong{wcgop} data for the fixed gear fleet.",
-  alt_caption = "",
-  label = "data-wcgop-discard-len-fixed"
-)
-
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "comp_lendat_flt2mkt1.png"
-  ),
-  caption = "Annual distribution of observed discarded fish by length in \\glsentrylong{wcgop} data for the trawl fleet.",
-  alt_caption = "",
-  label = "data-wcgop-discard-len-trawl"
-)
 ```
 
 ## Model Results
@@ -194,27 +172,27 @@ sa4ss::add_figure(
 ignore <- fs::dir_ls(
   fs::path(dirname(model_location), "bridging"),
   type = "file",
-  regex = "compare1_|compare3"
+  regex = "compare1_|compare2_|s_index5|flt7"
 ) |>
   tibble::as_tibble_col(column_name = "filein") |>
   dplyr::mutate(
     label = paste(
       "bridging",
-      gsub("(.+)_(.+)(\\.png)", "\\1-\\2", basename(filein)),
+      gsub("(.+)(_)(.+)(\\.png)", "\\1", basename(filein)),
       sep = "-"
     ),
     type = dplyr::case_when(
-      grepl("1|2", basename(filein)) ~ "Spawning output",
-      grepl("3|4", basename(filein)) ~ "Fraction unfished"
+      grepl("compare[1-2]", basename(filein)) ~ "Spawning output",
+      grepl("compare[3-4]", basename(filein)) ~ "Fraction unfished",
+      grepl("compare13", basename(filein)) ~ "Recent survey"
     ),
     caption = glue::glue(
-      "{type} across a range of sensitivity analyses and the base model."
+      "{type} across several steps towards creating the base model from the previous assessment model."
     )
   ) |>
     dplyr::select(filein, caption, label) |>
     purrr::pmap(.f = sa4ss::add_figure)
 ```
-
 
 ### Estimated Biology
 
@@ -254,9 +232,7 @@ sa4ss::add_figure(
 
 ```
 
-
-
-### Selectivity
+### Estimated Selectivity
 
 ```{r figures-selectivity, results = "asis"}
 sa4ss::add_figure(
@@ -316,7 +292,7 @@ ignore <- fs::dir_ls(
 #  purrr::pmap(.f = sa4ss::add_figure)
 ```
 
-### Recruitment
+### Estimated Recruitment
 
 ```{r, figures-recruitment, results = "asis"}
 sa4ss::add_figure(
@@ -339,6 +315,28 @@ sa4ss::add_figure(
   caption = "Stock-recruit curve. Point colors indicate year, with warmer colors indicating earlier years and cooler colors in later years",
   label = "bh-curve"
 )
+```
+
+### Estimated Time series
+
+```{r figures-time-series, results = "asis"}
+ignore <- fs::dir_ls(
+  path = fs::path(model_location, "plots"),
+  regex = "ts[14]_.+forecast|ts[79]_.+f.+_inter"
+) |>
+  tibble::as_tibble_col(column_name = "filein") |>
+  dplyr::mutate(
+    type = gsub("_", " ", gsub(".+ts[0-9]+_(.+)_[\\(i].+", "\\L\\1", perl = TRUE, filein)),
+    type = ifelse(
+      type == "relative spawning biomass",
+      "fraction unfished",
+      type
+    ),
+    caption = glue::glue("Estimated time series of {type}."),
+    label = paste0("ts-", gsub("-\\(mt.+", "", gsub(pattern = " ", "-", type)))
+  ) |>
+  dplyr::select(filein, caption, label) |>
+  purrr::pmap(.f = sa4ss::add_figure)
 ```
 
 ### Fits to Data
@@ -366,126 +364,49 @@ sa4ss::add_figure(
   caption = "Length composition aggregated across years by fleet with the model estimated fit to the data by sex (green unsexed, red female, and blue male).",
   label = "comp-lenfit--aggregated-across-time"
 )
-sa4ss::add_figure(
-  filein = file.path(model_location, "plots", "comp_lenfit_flt7mkt0.png"), 
-  caption = "Pearson residuals for \\glsentrylong{s-wcgbt} length data. Closed bubble are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)",
-  label = "comp-lenfit-flt7mkt0"
-)
-```
-
-```{r figures-fit-caal, results = "asis"}
-ignore <- fs::dir_ls(
-  path = fs::path(model_location, "plots"),
-  regex = "comp_condAALfit_Andre"
-) |>
-  tibble::as_tibble_col(column_name = "filein") |>
-  dplyr::mutate(
-    fleet_numeric = as.numeric(gsub(".+flt([0-9]+)mkt.+", "\\1", filein)),
-    fleet = recode_fleet_text(fleet_numeric),
-    caption = glue::glue("Year-specific conditional age-at-length data (left) and standard deviation (stdev) at age (right) from the {fleet}. Shaded areas are confidence intervals based on adding 1.64 standard errors of the mean to the mean age and 90 percent intervals from a chi-square distribution for the standard deviation of mean age."),
-    label = gsub(pattern = "_", "-", gsub("\\.png", "", basename(filein)))
-  ) |>
-  dplyr::select(filein, caption, label) |>
+ignore <- information_fit_figures |>
+  dplyr::filter(type == "length") |>
+  dplyr::select(filein, label, caption) |>
   purrr::pmap(.f = sa4ss::add_figure)
 ```
 
-```{r figures-fit-ages, results = "asis"}
+```{r figures-fit-age, results = "asis"}
 sa4ss::add_figure(
   filein = fs::path(model_location, "plots",  "comp_agefit__aggregated_across_time.png"), 
   caption = "Length composition aggregated across years by fleet with the model estimated fit to the data by sex (green unsexed, red female, and blue male).",
   label = "comp-agefit--aggregated-across-time"
 )
-sa4ss::add_figure(
-  filein = fs::path(model_location, "plots",  "comp_lenfit_flt1mkt1_page1.png"), 
-  caption = "Fits to the discard length composition by year for the fixed gear fleet.",
-  label = "comp-disc-len-fixed-1"
-)
-sa4ss::add_figure(
-  filein = fs::path(model_location, "plots",  "comp_lenfit_flt1mkt1_page2.png"), 
-  caption = "Fits to the discard length composition by year for the fixed gear fleet.",
-  label = "comp-disc-len-fixed-2"
-)
-sa4ss::add_figure(
-  filein = fs::path(model_location, "plots",  "comp_lenfit_flt2mkt1_page1.png"), 
-  caption = "Fits to the discard length composition by year for the trawl gear fleet.",
-  label = "comp-disc-len-trawl-1"
-)
-sa4ss::add_figure(
-  filein = fs::path(model_location, "plots",  "comp_lenfit_flt2mkt1_page2.png"), 
-  caption = "Fits to the discard length composition by year for the trawl gear fleet.",
-  label = "comp-disc-len-trawl-2"
-)
-ignore <- fs::dir_ls(
-  path = fs::path(model_location, "plots"),
-  regex = "agefit.+residsflt"
-) |>
-  tibble::as_tibble_col(column_name = "filein") |>
-  dplyr::mutate(
-    fleet_numeric = as.numeric(gsub(".+flt([0-9]+)mkt.+", "\\1", filein)),
-    fleet = recode_fleet_text(fleet_numeric),
-    type = dplyr::case_when(
-      grepl("mkt0", filein) ~ "",
-      grepl("mkt1", filein) ~ "discarded",
-      grepl("mkt2", filein) ~ "retained"
-    ),
-    caption = glue::glue("Pearson residuals for the fits to the {fleet} {type} age-composition data. Filled circles represent positive residuals (observed-expected) where red and blue are female and male, respectively."),
-    label = gsub(pattern = "_", "-", gsub("\\.png", "", basename(filein)))
+ignore <- information_fit_figures |>
+  dplyr::filter(type %in% c("age", "conditional")) |>
+  dplyr::arrange(
+    factor(model[["fleet_type"]][fleet_number], levels = c(3, 1)),
+    type
   ) |>
-  dplyr::select(filein, caption, label) |>
+  dplyr::select(filein, label, caption) |>
   purrr::pmap(.f = sa4ss::add_figure)
 ```
 
 ```{r figures-fit-mean-weight, results = "asis"}
-ignore <- fs::dir_ls(
-  path = fs::path(model_location, "plots"),
-  regex = "bodywt_fit"
-) |>
-  tibble::as_tibble_col(column_name = "filein") |>
-  dplyr::mutate(
-    fleet = recode_fleet_text(as.numeric(recode_fleet(gsub(".+flt(.+)\\.png", "\\1", filein)))),
-    caption = glue::glue("Fits to the {fleet} discard mean body weight data."),
-    label = gsub(pattern = "_", "-", gsub("\\.png", "", basename(filein)))
-  ) |>
-  dplyr::select(filein, caption, label) |>
+ignote <- information_weight_figures  |>
+  dplyr::select(filein, label, caption) |>
   purrr::pmap(.f = sa4ss::add_figure)
 ```
 
-### Time series
-
-```{r figures-time-series, results = "asis"}
-ignore <- fs::dir_ls(
-  path = fs::path(model_location, "plots"),
-  regex = "ts1_|ts[79]_.+intervals"
-) |>
-  tibble::as_tibble_col(column_name = "filein") |>
-  dplyr::mutate(
-    type = gsub("_", " ", gsub(".+ts[0-9]+_(.+)_[\\(i].+", "\\L\\1", perl = TRUE, filein)),
-    type = ifelse(
-      type == "relative spawning biomass",
-      "fraction unfished",
-      type
-    ),
-    caption = glue::glue("Estimated time series of {type}."),
-    label = paste0("ts-", gsub("-\\(mt.+", "", gsub(pattern = " ", "-", type)))
-  ) |>
-  dplyr::select(filein, caption, label) |>
-  purrr::pmap(.f = sa4ss::add_figure)
-```
-
-### Sensitivity Analyses and Retrospectives
+### Sensitivity and Retrospectives Analyses
 
 ```{r figures-sensitivity, results = "asis"}
 ignore <- fs::dir_ls(
   fs::path(dirname(model_location), "sensitivities"),
   type = "file",
-  regex = "compare1_|compare3"
+  regex = "compare2_|compare4|compare13.+flt7"
 ) |>
   tibble::as_tibble_col(column_name = "filein") |>
   dplyr::mutate(
-    label = paste("sensitivity", gsub("(.+)_(.+)(\\.png)", "\\1-\\2", basename(filein)), sep = "-"),
+    label = paste("sensitivity", gsub("(.+)(_.+_.+\\.png)", "\\1", basename(filein)), sep = "-"),
     type = dplyr::case_when(
-      grepl("1|2", basename(filein)) ~ "Spawning output",
-      grepl("3|4", basename(filein)) ~ "Fraction unfished"
+      grepl("compare[1-2]", basename(filein)) ~ "Spawning output",
+      grepl("compare[3-4]", basename(filein)) ~ "Fraction unfished",
+      grepl("compare13", basename(filein)) ~ "Recent survey index"
     ),
     caption = glue::glue(
       "{type} across a range of sensitivity analyses and the base model."
@@ -539,6 +460,7 @@ names(model_historical) <- fs::dir_ls(
   fs::path(here::here(), "models"),
   type = "directory"
 ) |> basename()
+```
 
 ```{r figures-historical, results = "asis"}
 r4ss::SSplotComparisons(
@@ -583,8 +505,8 @@ ignore <- tidyr::expand_grid(
     label = paste("profile", gsub(" ", "-", parameter), string, sep = "-"),
     type = dplyr::case_when(
       grepl("piner", string) ~ "negative log-likelihood",
-      grepl("1", string) ~ "spawning output",
-      grepl("3", string) ~ "fraction unfished"
+      grepl("compare[1-2]", string) ~ "spawning output",
+      grepl("compare[3-4]", string) ~ "fraction unfished"
     ),
     caption = glue::glue(
       "Change in the {type} across a range of {parameter} values."

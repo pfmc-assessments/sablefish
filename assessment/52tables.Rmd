@@ -25,8 +25,8 @@ sa4ss::table_format(
 )
 ```
 
-
-```{r tab-data-strata, results = "asis"}
+<!-- to do: provide this as a csv -->
+```{r tab-data-strata, results = "asis", eval = TRUE}
 sa4ss::table_format(
   x = strata |>
     dplyr::select(-name) |>
@@ -50,12 +50,14 @@ sa4ss::table_format(
 )
 ```
 
-```{r tables-process-survey, eval = !fs::file_exists(fs::path(tables_location, "data-survey-n.tex"))}
-process_survey()
-```
 \include{52tables/data-survey-n.tex}
 
-## Model
+## Model Results
+
+**to do** missing model set up table
+
+### Estimated Parameters
+
 ```{r table-parameters, results = "asis"}
 # Find sigma R
 sigma_r <- model[["parameters"]] %>%
@@ -64,9 +66,9 @@ sigma_r <- model[["parameters"]] %>%
 # to do - Could format the names
 recode_parameters <- function(x) {
   x |>
-    gsub(pattern = "(.+)_(Fem)(.+)", replacement = "\\2ale \\1") |>
-    gsub(pattern = "(.+)_(Mal)(.+)", replacement = "\\2e \\1") |>
-    gsub(pattern = "NatM", replacement = "\\$M\\$") |>
+    gsub(pattern = "(.+)_(Fem)(.+)", replacement = "\\1 (female)") |>
+    gsub(pattern = "(.+)_(Mal)(.+)", replacement = "\\1 (male)") |>
+    gsub(pattern = "NatM", replacement = "$M$") |>
     gsub(pattern = "_base|_uniform", replacement = "") |>
     gsub(pattern = "_I.+Age_", replacement = " age ") |>
     gsub(pattern = "_BLK[0-9]+repl", replacement = "") |>
@@ -93,7 +95,11 @@ model[["parameters"]] %>%
   ) %>%
   dplyr::mutate(
     Label = recode_parameters(Label),
-    Value = sprintf("%8.3f", Value),
+    Value = ifelse(
+      grepl("Wtlen[_]{0,}1", Label),
+      sprintf("%.3e", Value),
+      sprintf("%8.3f", Value)
+    ),
     Min = sprintf("%8.3f", Min),
     Max = sprintf("%8.3f", Max),
     Status = dplyr::case_when(
@@ -148,7 +154,56 @@ dplyr::bind_rows(
   )
 ```
 
-\input{52tables/TimeSeries.tex}
+```{r tables-time-series, results = "asis"}
+sa4ss::read_child(fs::path(model_location, "tables", "TimeSeries.tex"))
+```
+
+### Sensitivity and Retrospective Analyses
+
+```{r tables-sensitivity, results = "asis"}
+tab <- utils::read.csv(fs::dir_ls(
+  dirname(model_location),
+  regexp = "sensitivity_table.csv",
+  recurse = TRUE
+), check.names = FALSE)
+colnames(tab)[1:2] <- c("Likelihood or Parameter", "Base Model")
+sensitivity_groups <- purrr::map(
+  c(
+    "base|index|estimate|bridging|Fix",
+    "base|recruitment|survey",
+    "base|mortality|marginal|tune"
+  ),
+  .f = \(x) grep(
+    pattern = x,
+    x = colnames(tab),
+    ignore.case = TRUE
+  )
+)
+tab[,-1] <- round(tab[,-1], 2)
+tab[,1] <- c(
+                   "Total Likelihood",
+                   "Survey Likelihood", 
+                   "Discard Likelihood", 
+                   "Length Likelihood",
+                   "Age Likelihood",
+                   "Recruitment Likelihood", 
+                   "Forecast Rec. Likelihood",
+                   "Prior Likelihood",
+                   "Parameter Devs. Likelihood",
+                   "R0", "SB0", "SB 2023", "Fraction Unfished 2023",
+                   "Yield at SPR", "Steepness", 
+                   "M (female)", "Lmin (female)", "Lmax (female)", "k (female)", "CV1 (female)", "CV2 (female)",
+                   "M (male)", "Lmin (male)", "Lmax (male)", "k (male)", "CV1 (male)", "CV2 (male)")
+for(i in 1:3) {
+  out <- sa4ss::table_format(
+  x = purrr::map(sensitivity_groups, .f = \(x) tab[c(1, x)])[[i]],
+  caption = glue::glue("The total and likelihood contribution by data type and parameter estimates for the sensitivity group {1:3}.")[i],
+  label = glue::glue("sensitivity-ests-{1:3}")[i],
+  align = "r"
+)
+cat(out, sep = "/n")
+}
+```
 
 ```{r tables-retro, results = "asis"}
 file_retro <- fs::dir_ls(
@@ -191,6 +246,8 @@ sa4ss::table_format(
 )
 ```
 
+## Reference Points and Projections
+
 ```{r, tables-projection, results = "asis"}
 # Yes I know this code will likely make your eye twitch... sorry
 tab <- cbind(utils::read.csv(here::here("data-processed", "harvest_spex.csv")) |>
@@ -223,10 +280,16 @@ out <- cbind(tab, x[, "Assumed Removals"], OFL, x[,c(-1, -2)])
 colnames(out)[4] <- "Assumed Removals"
 sa4ss::table_format(
   x = out,
-  caption = "The adopted OFL (mt), ACL (mt), and assumed removals (mt) in 2023-24 and the projected OFL (mt), ABC (mt), spawning biomass, and fraction unfished for 2025-2034.",
+  caption = "The adopted OFL (mt), ACL (mt), and assumed removals (mt) in 2023--24 and the projected OFL (mt), ABC (mt), spawning biomass, and fraction unfished for 2025--2034.",
   label = "model-projection",
   align = "l"
 )
 ```
 
-\input{52tables/e_ReferencePoints.tex}
+```{r results = "asis"}
+es_text <- readLines(
+  fs::path(model_location, "tables", "e_ReferencePoints_ES.tex")
+) |>
+  purrr::map_chr(.f = \(x) gsub("(tab:reference)ES", "\\1", x))
+cat(es_text, sep = "\n")
+```

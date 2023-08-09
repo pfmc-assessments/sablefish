@@ -45,7 +45,7 @@ Beginning in the late-1980s, the fixed-gear `r spp` fishery was managed as a `de
 
 Additionally, `r spp` are harvested by the trawl fishery in association with a variety of other species that are distributed to domestic and foreign markets. Prior to 2011, the trawl fishery was managed primarily through the use of trip limits. These evolved from simple per-trip limits in the 1980s to cumulative periodic (monthly or bi-monthly) limits by the mid-1990s. In addition to `r spp`-specific limits, various limits were in place for the overall landings of deep-water complex species [@stewart_status_2011].
 
-Coastwide yield targets are divided among the different gears, fishery sectors (including both limited entry and open access), as well as north and south of 36\textdegree N. latitude. The \gls{ofl} for `r spp` has ranged from 6,621 to 11,577 mt between 2013-2025. \Glsplural{acl} ranged from 5,451 to 10,824 mt over the same period. Landings have been estimated to be below the \glsplural{acl} in all years.
+Coastwide yield targets are divided among the different gears, fishery sectors (including both limited entry and open access), as well as north and south of 36\textdegree N. latitude. The \gls{ofl} for `r spp` has ranged from 6,621 to 11,577 mt between 2013--2025. \Glsplural{acl} ranged from 5,451 to 10,824 mt over the same period. Landings have been estimated to be below the \glsplural{acl} in all years.
 -->
 
 ## Foreign Fisheries

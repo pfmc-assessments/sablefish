@@ -4,8 +4,6 @@ year: "`r format(Sys.Date(), '%Y')`"
 preamble: |
 csl: canadian-journal-of-fisheries-and-aquatic-sciences.csl
 disclaimer: true
-header-includes:
-  - \usepackage[inline]{showlabels}
 output:
   sa4ss::techreport_pdf:
     default
@@ -44,9 +42,24 @@ model_location_previous <- fs::path(
   here::here(),
  "models", "2021", "base", "base"
 )
+tex_table_location <- fs::path(model_location, "tex_tables")
+fs::dir_create(tex_table_location)
+fleetnames <- if (FALSE) {
+  c(
+    "fixed gear",
+    "trawl",
+    "environment",
+    "triennial",
+    "AK slope",
+    "NW slope",
+    "WCGBT"
+  )
+} else {
+  "default"
+}
 #sa4ss::read_model(mod_loc = model_location,
 #  create_plots = FALSE,
-#  save_loc = fs::path(here::here(),"assessment", "52tables"))
+#  save_loc = fs::path(model_location, "tables"))
 # Functionality from sa4ss::read_model
 model <- r4ss::SS_output(
   dir = model_location,
@@ -70,10 +83,34 @@ ss3_version <- strsplit(
   purrr::map(1)
 r4ss::SS_plots(
   replist = model,
+  html = FALSE,
+  forecastplot = TRUE,
+  # maxrows = 4,
+  # maxcols = 4,
   dir = model_location,
-  # to do
-  # fleetnames = c(),
+  fleetnames = fleetnames,
+  verbose = FALSE,
+  bub.scale.dat = 6
+)
+sa4ss:::get_plotinfo(model_location, "plots")
+r4ss::SSexecutivesummary(
+  replist = model,
+  ci_value = 0.95,
+  es_only = FALSE,
+  tables = c(letters[1:9], "catch", "timeseries", "numbers"),
+  fleetnames = fleetnames,
+  endyr = model$endyr,
+  adopted_ofl = NULL,
+  adopted_abc = NULL,
+  adopted_acl = NULL,
+  forecast_ofl = NULL,
+  forecast_abc = NULL,
+  format = FALSE,
   verbose = FALSE
+)
+sa4ss::es_table_tex(
+  model_location,
+  table_folder = "tables"
 )
 plot_retention(model = model, width = 7, height = 10)
 ```
@@ -104,4 +141,15 @@ n_retro <- gsub(
   pattern = ".+retro_|_yr_peel",
   replacement = ""
 ) |> as.numeric()
+fecund_unit <- dplyr::case_when(
+  model[["SpawnOutputUnits"]] == "numbers" ~ "numbers",
+  TRUE ~ "mt"
+)
+spr_target <- inputs[["fore"]][["SPRtarget"]]
+bio_target <- inputs[["fore"]][["Btarget"]]
+msst <- dplyr::case_when(
+  bio_target == 0.40 ~ 0.25,
+  TRUE ~ 0.125
+)
+min_sum_age <- paste0(inputs[["start"]][["min_age_summary_bio"]], "+")
 ```
