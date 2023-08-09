@@ -120,6 +120,12 @@ sa4ss::add_figure(
 )
 
 sa4ss::add_figure(
+  fs::path(figures_location, "qq.png"),
+  caption = "Quantile-quantile plot for \\glsentrylong{s-wcgbt} index fit using a gamma distribution for the rate component of the delta model.",
+  label = "qq"
+)
+
+sa4ss::add_figure(
   filein = fs::path(
     model_location,
     "plots",
@@ -129,17 +135,6 @@ sa4ss::add_figure(
   alt_caption = "",
   label = "data-survey-wcgbt-index"
 )
-
-sa4ss::add_figure(
-  fs::path(figures_location, "qq.png"),
-  caption = "Quantile-quantile plot for \\glsentrylong{s-wcgbt} index fit using a gamma distribution for the rate component of the delta model.",
-  label = "qq"
-)
-
-ignore <- information_comp_figures |>
-  dplyr::filter(fleet_number == 7) |>
-  dplyr::select(filein, label, caption) |>
-  purrr::pmap(.f = sa4ss::add_figure)
 
 sa4ss::add_figure(
   filein = fs::path(
@@ -162,6 +157,12 @@ sa4ss::add_figure(
 #   alt_caption = glue::glue("Observations of female {spp} are 50 percent or slightly greater between 150--400 m, with males being observed greater than 50 percent of the tows between 400--1,050 m. At the deepest depths sampled, between 1,050--1,280 m, females are observed in greater than 50 percent of the tows."),
 #   label = "data-survey-wcgbt-sex-by-depth"
 # )
+
+ignore <- information_comp_figures |>
+  dplyr::filter(fleet_number == 7) |>
+  dplyr::select(filein, label, caption) |>
+  purrr::pmap(.f = sa4ss::add_figure)
+
 ```
 
 ## Model Results
