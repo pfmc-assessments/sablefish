@@ -8,7 +8,8 @@ ret = model$sizeselex[model$sizeselex$Fleet %in% c(1,2), ]
 ret = ret[ret$Factor == "Ret", ]
 col.vec = viridis::viridis(6)
 
-png(filename = fs::path(here::here(),figure_dir, "retention.png"), 
+fs::dir_create(fs::path(model[["inputs"]][["dir"]], "plots"))
+png(filename = fs::path(model[["inputs"]][["dir"]], "plots", "retention.png"), 
     width = width, 
     height = height, 
     units = 'in', res = 300, pointsize = 12)
