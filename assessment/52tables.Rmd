@@ -19,7 +19,7 @@ sa4ss::table_format(
   caption = "Landings (mt) by fleet and the summed coastwide total landings.",
   label = "landings",
   digits = 1,
-  align = "l",
+  align = "r",
   # to do: use a renamer between fleet number and name
   col_names = c("Year", "Fixed Gear", "Trawl", "Total Landings")
 )
@@ -163,7 +163,7 @@ sa4ss::table_format(
   x = ts,
   caption = "Time series of population estimates from the base model.",
   label = "timeseries",
-  align = "l",
+  align = "r",
   col_names = col_names,
   custom_width = TRUE,
   col_to_adjust = c(2:9),
@@ -257,7 +257,7 @@ sa4ss::table_format(
   x = tab,
   caption = "The total and likelihood contribution by data type and parameter estimates for the base model and the retrospective data peels.",
   label = "retro-ests",
-  align = "l"
+  align = "r"
 )
 ```
 
@@ -297,7 +297,7 @@ sa4ss::table_format(
   x = out,
   caption = "The adopted OFL (mt), ACL (mt), and assumed removals (mt) in 2023--24 and the projected OFL (mt), ABC (mt), spawning biomass, and fraction unfished for 2025--2034.",
   label = "model-projection",
-  align = "l"
+  align = "r"
 )
 ```
 
