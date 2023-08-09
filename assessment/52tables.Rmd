@@ -155,7 +155,22 @@ dplyr::bind_rows(
 ```
 
 ```{r tables-time-series, results = "asis"}
-sa4ss::read_child(fs::path(model_location, "tables", "TimeSeries.tex"))
+ts <- utils::read.csv(fs::path(model_location, "tables", "TimeSeries.csv"))
+ts[, c(2:4, 6:7)] <- round(ts[, c(2:4, 6:7)],0)
+ts[, c(5, 8:9)] <- round(ts[, c(5, 8:9)],3)
+col_names <- c("Year", "Total Biomass (mt)", "Spawning Biomass (mt)", "Total Biomass Age 4+ (mt)", "Fraction Unfished", "Age-0 Recruits", "Total Mortality (mt)", "(1-SPR)/(1-SPR45%)", "Exploitation Rate")
+sa4ss::table_format(
+  x = ts,
+  caption = "Time series of population estimates from the base model.",
+  label = "timeseries",
+  align = "l",
+  col_names = col_names,
+  custom_width = TRUE,
+  col_to_adjust = c(2:9),
+  width = rep("1.4cm", 8)
+)
+
+#sa4ss::read_child(fs::path(model_location, "tables", "TimeSeries.tex"))
 ```
 
 ### Sensitivity and Retrospective Analyses
