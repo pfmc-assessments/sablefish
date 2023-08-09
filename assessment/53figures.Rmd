@@ -236,20 +236,31 @@ sa4ss::add_figure(
 ### Estimated Selectivity
 
 ```{r figures-selectivity, results = "asis"}
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "sel02_multiple_fleets_age1.png"
-  ),
-  caption = "Fleet-specific selectivity at age in the terminal year of the model for fishery fleets and surveys. Solid lines are female-specific and dashed lines are male-specific selectivities.",
-  alt_caption = "",
-  label = "sel02-multiple-fleets-age1"
-)
+#sa4ss::add_figure(
+#  filein = fs::path(
+#    model_location,
+#    "plots",
+#    "sel02_multiple_fleets_age1.png"
+#  ),
+#  caption = "Fleet-specific selectivity at age in the terminal year of the model for fishery fleets and surveys. Solid lines #are female-specific and dashed lines are male-specific selectivities.",
+#  alt_caption = "",
+#  label = "sel02-multiple-fleets-age1"
+#)
 
 ```
 
 ```{r figures-retention, results = "asis"}
+sa4ss::add_figure(
+  filein = fs::path(
+    model_location,
+    "plots",
+    "selectivity.png"
+  ),
+  caption = "Fleet-specific estimated selectivity at age by time block. Solid lines are female-specific and dashed lines are male-specific selectivities.",
+  alt_caption = "",
+  label = "sel02-multiple-fleets-age1"
+)
+
 sa4ss::add_figure(
   filein = fs::path(
     here::here(),
