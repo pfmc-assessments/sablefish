@@ -1,1 +1,10 @@
+
+```{r, asis = TRUE}
+OFL_final_Label <- "OFLCatch_2026"
+OFL_final_EST <- model$derived_quants[["Value"]][model$derived_quants[["Label"]] == OFL_final_Label]
+OFL_final_SD <- model$derived_quants[["StdDev"]][model$derived_quants[["Label"]] == OFL_final_Label]
+ofl_sigma_2025 <- sqrt(log((OFL_final_SD / OFL_final_EST)^2 + 1))
+
+```
+
 The model estimated uncertainty around the `r endyr+1` spawning biomass for the model is $\sigma$ = `r round(model$Pstar_sigma,2)`. The uncertainty around the OFL in `r endyr+1` is $\sigma$ = `r round(model$OFL_sigma, 2)`. Each of these are likely underestimates of overall uncertainty due to the necessity to fix several key population dynamics parameters (e.g., steepness, recruitment variance) and also because there is no explicit incorporation of model structural uncertainty (although see the decision table for alternative states of nature).
