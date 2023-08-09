@@ -41,3 +41,11 @@ recode_fleet_text <- function(x) {
     x == 7 ~ "\\glsentryshort{s-wcgbt}"
   )
 }
+
+recode_partition_text <- function(x) {
+  dplyr::case_when(
+    x == 0 ~ "whole",
+    x == 1 ~ "discarded",
+    x == 2 ~ "retained"
+  )
+}
