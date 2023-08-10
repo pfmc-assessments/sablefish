@@ -58,7 +58,7 @@ The following likelihood components are included in this model: `r text_likeliho
 
 ### Priors
  
-The prior distributions for natural mortality ($M$) by sex remain the same as what was assumed in the 2019 benchmark assessment and were based on the Hamel [-@hamel_method_2015] meta-analytic approach with an assumed maximum age of 102 years for females and 98 for males. The priors assumed a log normal distributionwith a median of
+The prior distributions for natural mortality ($M$) by sex remain the same as what was assumed in the 2019 benchmark assessment and were based on the @hamel_method_2015 and @hamel_development_2022 meta-analytic approach with an assumed maximum age of 102 years for females and 98 for males. The priors assumed a log normal distribution with a median of
 `r model[["parameters"]] |> dplyr::filter(grepl("NatM", Label)) |> dplyr::pull(Prior) |> exp() |> sprintf(fmt = "%.3f") |> paste(collapse = " and ")`
 yr$^{-1}$ and a standard error of
 `r model[["parameters"]] |> dplyr::filter(grepl("NatM", Label)) |> dplyr::pull(Pr_SD) |> sprintf(fmt = "%.3f") |> paste(collapse = " and ")`
