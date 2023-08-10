@@ -27,9 +27,25 @@ sa4ss::read_child(filein)
 
 ## Regional Management Considerations
 
+```{r results = "asis"}
+data <- utils::read.csv(fs::path(here::here(), "data-processed", "data_survey_index.csv"))
+data_2021 <- data |>
+  dplyr::filter(year %in% 2015:2019 & area %in% c("coastwide", "North", "South")) 
+est_2021 <- data.frame(
+  north = round(100*mean(data_2021[data_2021$area == "North", "est"]/data_2021[data_2021$area == "coastwide", "est"]),1),
+  south = round(100*mean(data_2021[data_2021$area == "South", "est"]/data_2021[data_2021$area == "coastwide", "est"]),1))
+
+data_2023 <- data |>
+  dplyr::filter(year %in% 2017:2022 & area %in% c("coastwide", "North", "South")) 
+est_2023 <- data.frame(
+  north = round(100*mean(data_2023[data_2023$area == "North", "est"]/data_2023[data_2023$area == "coastwide", "est"]),1),
+  south = round(100*mean(data_2023[data_2023$area == "South", "est"]/data_2023[data_2023$area == "coastwide", "est"]),1))
+
+```
+
 `r Spp` is currently modeled as a coastwide stock with corresponding coastwide OFL, ABC, and ACL values. The coastwide ACL is then apportioned into two area-specific ACLs north and south of 36$^\circ$ N. latitude. In the 2019 the PFMC adopted a methodology to split the ACL using a five-year rolling average biomass estimate by area from the \gls{s-wcgbt} ([November 2019 PFMC Meeting Decision Document](https://www.pcouncil.org/documents/2019/11/november-2019-decision-document.pdf/)). This historical management line corresponds with a recent data-driven analysis of `r spp` growth that suggests a difference in growth rates north and south of $36^\circ$ N latitude [@kapur_oceanographic_2020]. The estimates represent the relative distribution of the `r spp` population observed by the survey, not the entire population. Additionally, it is likely that fish from more northerly regions are migrating into U.S. West Coast waters (pers. comm., L. Rogers), which may bias the survey estimates of the distribution of fish in each region. Thus, these results should be interpreted with caution.
 
-The estimated proportion of the observed biomass by the \gls{s-wcgbt} between the years of 2017--2022 (no survey was conducted in 2020) is XX percent south of 36$^\circ$ N. latitude and XX percent north of 36$^\circ$ N. latitude.  In contrast, the estimates in 2019 using data between 2014--2018 was 21.6 percent in the south and 78.4 percent in the north.
+The estimated proportion of the observed biomass by the \gls{s-wcgbt} between the years of 2017--2022 (no survey was conducted in 2020) is `r est_2023$south`\% south of 36$^\circ$ N. latitude and `r est_2023$north`\% north of 36$^\circ$ N. latitude.  In contrast, the estimates in 2019 using data between 2014--2018 was 21.6 percent in the south and 78.4 percent in the north.
 
 ## Research and Data Needs
 
