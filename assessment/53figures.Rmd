@@ -183,9 +183,9 @@ ignore <- fs::dir_ls(
       sep = "-"
     ),
     type = dplyr::case_when(
-      grepl("compare[1-2]", basename(filein)) ~ "Spawning output",
-      grepl("compare[3-4]", basename(filein)) ~ "Fraction unfished",
-      grepl("compare13", basename(filein)) ~ "Recent survey"
+      grepl("compare[1-2]_", basename(filein)) ~ "Spawning output",
+      grepl("compare[3-4]_", basename(filein)) ~ "Fraction unfished",
+      grepl("compare13_", basename(filein)) ~ "Recent survey"
     ),
     caption = glue::glue(
       "{type} across several steps towards creating the base model from the previous assessment model."
@@ -416,8 +416,8 @@ ignore <- fs::dir_ls(
   dplyr::mutate(
     label = paste("sensitivity", gsub("(.+)(_.+_.+\\.png)", "\\1", basename(filein)), sep = "-"),
     type = dplyr::case_when(
-      grepl("compare[1-2]", basename(filein)) ~ "Spawning output",
-      grepl("compare[3-4]", basename(filein)) ~ "Fraction unfished",
+      grepl("compare[1-2]_", basename(filein)) ~ "Spawning output",
+      grepl("compare[3-4]_", basename(filein)) ~ "Fraction unfished",
       grepl("compare11", basename(filein)) ~ "Annual recruitment deviations",
       grepl("compare13", basename(filein)) ~ "Recent survey index"
     ),
@@ -518,8 +518,8 @@ ignore <- tidyr::expand_grid(
     label = paste("profile", gsub(" ", "-", parameter), string, sep = "-"),
     type = dplyr::case_when(
       grepl("piner", string) ~ "negative log-likelihood",
-      grepl("compare[1-2]", string) ~ "spawning output",
-      grepl("compare[3-4]", string) ~ "fraction unfished"
+      grepl("compare[1-2]_", string) ~ "spawning output",
+      grepl("compare[3-4]_", string) ~ "fraction unfished"
     ),
     caption = glue::glue(
       "Change in the {type} across a range of {parameter} values."
