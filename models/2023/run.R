@@ -7,7 +7,7 @@
 # User input is needed here, also change in assessment/00a.Rmd
 ###############################################################################
 user_model_bridged <- fs::path("models", "2021", "base", "base")
-user_model_current <- fs::path("models", "2023", "FixRetSel", "base")
+user_model_current <- fs::path("models", "2023", "DiscardVariance", "base")
 # End year of the data that you want included in the model
 user_end_year <- 2022
 # Number of parallel sessions you want for diagnostics
@@ -258,24 +258,38 @@ bridge_output <- bridge_update_data(
   vars_arrange = c("Flt", "Yr", "Seas")
 )
 
-bridge_output <- tune(
-  dir_in = fs::path(bridging_dir, "12_DiscardRates"),
-  dir_out = fs::path(bridging_dir, "13_TuneDiscards"),
-  steps = 1:2,
-  executable = model_ss3_path
-)
-
 ###############################################################################
 # Fix the poorly informed selectivity parameters
 ###############################################################################
 bridge_output <- bridge_fix_parameters(
   inputs = bridge_output,
-  dir_out = fs::path(bridging_dir, "14_FixRetention")
+  dir_out = fs::path(bridging_dir, "13_FixRetention")
+)
+
+###############################################################################
+# Decrease the input standard deviation for discard rates
+###############################################################################
+bridge_output[["dat"]][["discard_data"]] <- bridge_output[["dat"]][[
+  "discard_data"]] |>
+  dplyr::mutate(
+    Std_in = ifelse(
+      test = (Flt == 2 & Yr %in% utils::read.csv(
+    fs::path(data_dir, "data_commercial_discard_rates.csv")
+  )[["year"]]),
+      0.05,
+      Std_in
+  )
+)
+r4ss::SS_write(
+  bridge_output,
+  fs::path(bridging_dir, "14_LowerInputSdDiscardRates"),
+  overwrite = TRUE
 )
 bridge_output <- tune(
-  dir_in = fs::path(bridging_dir, "14_FixRetention"),
+  dir_in = fs::path(bridging_dir, "14_LowerInputSdDiscardRates"),
   dir_out = model_dir,
   steps = 1:3,
+  hessian = FALSE,
   executable = model_ss3_path
 )
 bridge_output <- tune(
