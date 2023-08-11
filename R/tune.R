@@ -6,6 +6,7 @@ tune <- function(dir_in,
                  steps = 1:3,
                  iterations = 3,
                  use_new = FALSE,
+                 hessian = TRUE,
                  type = "Francis") {
   # Run the model to facilitate tuning
   if (!fs::file_exists(fs::path(dir_in, "Report.sso"))) {
@@ -35,6 +36,7 @@ tune <- function(dir_in,
       niters_tuning = iterations,
       init_run = FALSE,
       dir = dir_out,
+      extras = ifelse(hessian, "", " -nohess"),
       exe = executable,
       verbose = FALSE
     )
@@ -96,7 +98,7 @@ tune <- function(dir_in,
     exe = executable,
     skipfinished = FALSE,
     verbose = FALSE,
-    extras = ifelse(use_new, "-nohess", "")
+    extras = ifelse(use_new && hessian, "-nohess", "")
   )
 
   if (use_new) {

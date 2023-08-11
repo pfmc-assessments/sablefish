@@ -6,6 +6,7 @@
 ###############################################################################
 # User input is needed here, also change in assessment/00a.Rmd
 ###############################################################################
+# devtools::load_all()
 user_model_bridged <- fs::path("models", "2021", "base", "base")
 user_model_current <- fs::path("models", "2023", "DiscardVariance", "base")
 # End year of the data that you want included in the model
@@ -333,7 +334,7 @@ bridging_groups <- purrr::map(
   ),
   .f = \(x) grep(
     pattern = x,
-    x = names(model_paths_bridging),
+    x = basename(names(model_paths_bridging)),
     ignore.case = TRUE
   )
 )
@@ -371,20 +372,17 @@ ignore <- purrr::pmap(
 ###############################################################################
 # Run diagnostics
 ###############################################################################
-helper_run_diagnostics <- function(type, settings, dir) {
-  settings[["run"]] <- type
-  nwfscDiag::run_diagnostics(
-    mydir = dir,
-    model_settings = settings
-  )
-}
 future::plan(future::multisession, workers = n_workers)
 furrr::future_map(
-  .x = c("jitter", "profile", "retro"),
-  .f = helper_run_diagnostics,
+  .x = purrr::map(
+    c("jitter", "profile", "retro"),
+    .f = \(x, y = diagnostic_settings) purrr::list_assign(y, run = x)
+  ),
+  .f = nwfscDiag::run_diagnostics,
   settings = diagnostic_settings,
   dir = fs::path(here::here(), dirname(user_model_current))
 )
+future::plan(future::sequential)
 
 ##############################################################################
 # Sensitivities
@@ -437,7 +435,8 @@ r4ss::tune_comps(
   init_run = TRUE,
   dir = fs::path(sensitivity_dir, "UseMarginalAges"),
   exe = model_ss3_path,
-  verbose = FALSE
+  verbose = FALSE,
+  extras = "-nohess"
 )
 
 # Use Bayesian method for environmental index
@@ -604,6 +603,7 @@ model_paths_sensitivity <- c(
   fs::dir_ls(sensitivity_dir, type = "dir")
 )
 # Run all the models that have not previously been ran
+future::plan(future::multisession, workers = n_workers)
 furrr::future_map(
   model_paths_sensitivity,
   .f = r4ss::run,
@@ -612,6 +612,7 @@ furrr::future_map(
   skipfinished = TRUE,
   verbose = FALSE
 )
+future::plan(future::sequential)
 
 ###############################################################################
 # Summarize the output from sensitivities
@@ -632,8 +633,11 @@ sensitivity_groups <- purrr::map(
 )
 stopifnot(
   length(unique(unlist(sensitivity_groups))) ==
+  length(model_paths_sensitivity),
+  length(unlist(sensitivity_groups)) - length(sensitivity_groups) + 1 ==
   length(model_paths_sensitivity)
 )
+
 sensitivity_summary <- r4ss::SSsummarize(
   biglist = purrr::map(
     model_paths_sensitivity,
