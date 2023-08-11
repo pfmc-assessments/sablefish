@@ -25,7 +25,7 @@ x <- model[["timeseries"]] |>
 
 x[x$Year > 2024, "Assumed Removals"] <- "-"
 x[x$Year %in% 2023:2024, "ABC"] <- "-"
-OFL <- round(model$derived_quants[model$derived_quants$Label %in% paste0("OFLCatch_", 2023:2034), "Value"], 1) 
+OFL <- round(model$derived_quants[model$derived_quants$Label %in% paste0("OFLCatch_", 2023:2034), "Value"], 0) 
 OFL[1:2] <- "-"
 out <- cbind(tab, x[, "Assumed Removals"], OFL, x[,c(-1, -2)])
 colnames(out)[4] <- "Assumed Removals"
