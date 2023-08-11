@@ -556,6 +556,32 @@ r4ss::SS_changepars(
   verbose = FALSE
 )
 
+# asymptotic selectivity for 
+model_inputs <- r4ss::copy_SS_inputs(
+  dir.old = fs::path(here::here(), user_model_current),
+  dir.new = fs::path(sensitivity_dir, "AsymptoticSelectivityForRecentSurvey"),
+  overwrite = TRUE,
+  verbose = FALSE,
+  use_ss_new = TRUE
+)
+r4ss::SS_changepars(
+  dir = fs::path(sensitivity_dir, "AsymptoticSelectivityForRecentSurvey"),
+  ctlfile = "control.ss",
+  newctlfile = "control.ss",
+  strings = c(
+    "Age_DblN_peak_NWCBO(7)",
+    "Age_DblN_top_logit_NWCBO(7)",
+    "Age_DblN_ascend_se_NWCBO(7)",
+    "Age_DblN_descend_se_NWCBO(7)",
+    "Age_DblN_start_logit_NWCBO(7)",
+    "Age_DblN_end_logit_NWCBO(7)"
+  ),
+  newlos = c(0.01, -20, -20, -10, -5, -5),
+  newvals = c(0.0805035, -4, -8.44983, 3.59814, -4, 4.99),
+  newhis = c(5, 5, 10, 10, 5, 5),
+  newphs = c(4, -4, 4, 4, -4, -4)
+)
+
 ###############################################################################
 # Run the sensitivities in parallel
 ###############################################################################
@@ -581,8 +607,8 @@ furrr::future_map(
 sensitivity_groups <- purrr::map(
   c(
     "\\sbase$|index|estimate|parameter",
-    "\\sbase$|recruitment|survey",
-    "\\sbase$|mortality|marginal|tune"
+    "\\sbase$|recruitment|added",
+    "\\sbase$|mortality|marginal|tune|asymp"
   ),
   .f = \(x) grep(
     pattern = x,
