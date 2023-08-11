@@ -504,7 +504,7 @@ sa4ss::add_figure(
 ```{r figures-profiles, results = "asis"}
 ignore <- tidyr::expand_grid(
   folder_list = fs::dir_ls(dirname(model_location), regexp = "base_profile"),
-  string = c("compare1_", "compare3_", "piner")
+  string = c("compare1", "compare3", "piner")
 ) |>
   dplyr::mutate(
     filein = purrr::map2_chr(
@@ -518,8 +518,8 @@ ignore <- tidyr::expand_grid(
     label = paste("profile", gsub(" ", "-", parameter), string, sep = "-"),
     type = dplyr::case_when(
       grepl("piner", string) ~ "negative log-likelihood",
-      grepl("compare[1-2]_", string) ~ "spawning biomass",
-      grepl("compare[3-4]_", string) ~ "fraction unfished"
+      grepl("compare[1-2]", string) ~ "spawning biomass",
+      grepl("compare[3-4]", string) ~ "fraction unfished"
     ),
     caption = glue::glue(
       "Change in the {type} across a range of {parameter} values."
