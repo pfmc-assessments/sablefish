@@ -341,15 +341,7 @@ ignore <- purrr::pmap(
     filenameprefix = paste0(seq_along(bridging_groups), "-"),
     legendlabels = purrr::map(
       .x = bridging_groups,
-      .f = \(x) gsub(
-        "_",
-        "",
-        ifelse(
-          test = grepl(" ", names(model_paths_bridging)[x]),
-          yes = names(model_paths_bridging)[x],
-          no = gsub("(A-Z])", " \\1", basename(names(model_paths_bridging)[x]))
-        )
-      )
+      .f = \(x) report_model_names(names(model_paths_bridging))[x]
     )
   ),
   .f = r4ss::SSplotComparisons,
@@ -564,6 +556,32 @@ r4ss::SS_changepars(
   verbose = FALSE
 )
 
+# asymptotic selectivity for 
+model_inputs <- r4ss::copy_SS_inputs(
+  dir.old = fs::path(here::here(), user_model_current),
+  dir.new = fs::path(sensitivity_dir, "AsymptoticSelectivityForRecentSurvey"),
+  overwrite = TRUE,
+  verbose = FALSE,
+  use_ss_new = TRUE
+)
+r4ss::SS_changepars(
+  dir = fs::path(sensitivity_dir, "AsymptoticSelectivityForRecentSurvey"),
+  ctlfile = "control.ss",
+  newctlfile = "control.ss",
+  strings = c(
+    "Age_DblN_peak_NWCBO(7)",
+    "Age_DblN_top_logit_NWCBO(7)",
+    "Age_DblN_ascend_se_NWCBO(7)",
+    "Age_DblN_descend_se_NWCBO(7)",
+    "Age_DblN_start_logit_NWCBO(7)",
+    "Age_DblN_end_logit_NWCBO(7)"
+  ),
+  newlos = c(0.01, -20, -20, -10, -5, -5),
+  newvals = c(0.0805035, -4, -8.44983, 3.59814, -4, 4.99),
+  newhis = c(5, 5, 10, 10, 5, 5),
+  newphs = c(4, -4, 4, 4, -4, -4)
+)
+
 ###############################################################################
 # Run the sensitivities in parallel
 ###############################################################################
@@ -589,8 +607,8 @@ furrr::future_map(
 sensitivity_groups <- purrr::map(
   c(
     "\\sbase$|index|estimate|parameter",
-    "\\sbase$|recruitment|survey",
-    "\\sbase$|mortality|marginal|tune"
+    "\\sbase$|recruitment|added",
+    "\\sbase$|mortality|marginal|tune|asymp"
   ),
   .f = \(x) grep(
     pattern = x,
@@ -614,59 +632,24 @@ sensitivity_summary <- r4ss::SSsummarize(
   ),
   verbose = FALSE
 )
-data <- r4ss::SStableComparisons(sensitivity_summary,
-  modelnames = ifelse(
-    grepl(" Base", sensitivity_summary$modelnames),
-    "Base",
-    gsub("([a-z])([A-Z])", "\\1 \\2", basename(sensitivity_summary[["modelnames"]]))
-  ),
-  names = c(
-    "SR_LN(R0)",
-    "SSB_Virgin",
-    paste0("SSB_", 2022 + 1),
-    paste0("Bratio_", 2022 + 1),
-    "Dead_Catch_SPR",
-    "SR_BH_steep",
-    "NatM_uniform_Fem_GP_1",
-    "L_at_Amin_Fem_GP_1",
-    "L_at_Amax_Fem_GP_1",
-    "VonBert_K_Fem_GP_1",
-    "young_Fem_GP_1",
-    "old_Fem_GP_1",
-    "NatM_uniform_Mal_GP_1",
-    "L_at_Amin_Mal_GP_1",
-    "L_at_Amax_Mal_GP_1", 
-    "VonBert_K_Mal_GP_1",
-    "young_Mal_GP_1",
-    "old_Mal_GP_1"
-  ),
-    likenames = c(
-      "TOTAL",
-      "Survey",
-      "Discard",
-      "Length_comp",
-      "Age_comp",
-      "Recruitment",
-      "Forecast_",
-      "priors",
-      "Parm_devs"
-    ),
-    verbose = FALSE,
-    csv = TRUE,
-    csvdir = sensitivity_dir,
-    csvfile = "sensitivity_table.csv"
-  )
+data <- r4ss::SStableComparisons(
+  sensitivity_summary,
+  modelnames = report_model_names(sensitivity_summary[["modelnames"]]),
+  # go to R/utils-local to edit these variables
+  names = report_parameter_names(sensitivity_summary[["endyrs"]][1] + 1),
+  likenames = report_likelihood_names(),
+  verbose = FALSE,
+  csv = TRUE,
+  csvdir = sensitivity_dir,
+  csvfile = "sensitivity_table.csv"
+)
 ignore <- purrr::pmap(
   .l = list(
     models = sensitivity_groups,
     filenameprefix = paste0(seq_along(sensitivity_groups), "-"),
     legendlabels = purrr::map(
       .x = sensitivity_groups,
-      .f = \(x) gsub(
-        "([a-z])([A-Z])",
-        "\\1 \\2",
-        basename(names(model_paths_sensitivity)[x])
-      )
+      .f = \(x) report_model_names(model_paths_sensitivity)[x]
     )
   ),
   .f = r4ss::SSplotComparisons,
