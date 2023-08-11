@@ -21,7 +21,7 @@ x <- model[["timeseries"]] |>
     `Spawning Biomass` = round(SpawnBio, 1),
     `Fraction Unfished` = round(`Spawning Biomass`/`Spawning Biomass`[1],3)
   ) |>
-  dplyr::filter(Year > endyr)
+  dplyr::filter(Year > model[["endyr"]])
 
 x[x$Year > 2024, "Assumed Removals"] <- "-"
 x[x$Year %in% 2023:2024, "ABC"] <- "-"
