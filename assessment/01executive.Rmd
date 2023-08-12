@@ -81,7 +81,7 @@ sa4ss::add_figure(
     "plots",
     "ts7_Spawning_biomass_(mt)_with_95_asymptotic_intervals_intervals.png"
   ),
-  caption = "Estimated time series of spawning output (circles and line: median; light broken lines: 95 percent intervals) for the base model",
+  caption = "Estimated time series of spawning biomass (circles and line: median; light broken lines: 95 percent intervals) for the base model",
   alt_caption = "",
   label = "es-sb"
 )
@@ -92,7 +92,7 @@ sa4ss::add_figure(
     "plots",
     "ts9_Relative_spawning_biomass_intervals.png"
   ),
-  caption = "Estimated time series of fraction of unfished spawning output (circles and line: median; light broken lines: 95 percent intervals) for the base model",
+  caption = "Estimated time series of fraction of unfished spawning biomass (circles and line: median; light broken lines: 95 percent intervals) for the base model",
   alt_caption = "",
   label = "es-depl"
 )
