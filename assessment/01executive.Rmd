@@ -19,7 +19,6 @@ The earliest landings of `r spp` off the West Coast used within in this assessme
 The landings in this assessment update were minimally revised and corrected from those used 2019 benchmark and the 2021 update assessments. First, landings from the 'Oregon Coast' \glsentrylong{inpfc} area, i.e., between 42.000--46.267\textdegree N. latitude, are no longer excluded from the total landings. Second, landings from 1977--1982 in the catch reporting area that includes both U.S. and Canadian waters are now assigned 50--50\% to each country rather than 100\% to the U.S. Third, a time series of `r spp` catches from the At-Sea Pacific hake fishery are now included in the trawl fleet. Previous assessments have included bycatch of `r spp` from the shoreside fleet but these at-sea catches were previously only included as a sensitivity. 
 
 ```{r, results = "asis"}
-
 tab <- model$timeseries[model$timeseries$Yr %in% (endyr-9):endyr, 
                         c("Yr", "retain(B):_1", "retain(B):_2", "dead(B):_1", "dead(B):_2")]
 df <- data.frame(
@@ -28,7 +27,11 @@ df <- data.frame(
   Trawl = tab[, "retain(B):_2"],
   Landings = tab[, "retain(B):_1"] + tab[, "retain(B):_2"],
   Catch = tab[, "dead(B):_1"] + tab[, "dead(B):_2"]
-)
+) |>
+  dplyr::mutate(dplyr::across(
+    -Year,
+    \(x) format(x, big.mark = ",", digits = 2, nsmall = 2)
+  ))
 sa4ss::table_format(
   x = df,
   caption = "Landings (mt) by fleet and the summed coastwide total landings and estimated total catch.",
