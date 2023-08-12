@@ -95,7 +95,7 @@ The base model fit the trend (decline, then stabilization, and increase) in the 
 
 Fits to the environmental time series were noisy, as they have been in previous assessments. The estimated index is essentially a flat line until the most recent years (Figure \@ref(fig:index2-cpuefit-3)). The estimated added standard deviation was `r text_parameter(model, "extra.+ENV", "%f")`, and thus, the sea-level index provided limited information regarding historical recruitment during model periods without other data. In 2019, this added variance parameter was estimated at 0.73 suggesting that the environmental index has lost some prediction power since the last benchmark assessment.
 
-The model fit the trawl discards lengths less well than the data from the  fixed-gear fleet were fit (Figures \@ref(fig:comp-lenfit-1-1-1)--\@ref(fig:comp-lenfit-2-1-2)). The expected distribution of discarded lengths was shifted to the right of the observed lengths for the recent years, a pattern largely not seen in years prior to 2014. The previous assessment update had similar fits to the annual discard lengths for both fleets for the overlapping data years (2004-2019; @Kapur:2021:SSA). 
+The model fit the trawl discard lengths less well than the discard lengths from the fixed-gear fleet (`r subset(information_fit_figures, partition == 1)[["label_text_group"]][[1]]`). The expected distribution of discarded lengths from the trawl fishery was shifted to the right of the observed lengths for the recent years, a pattern largely not seen in years prior to 2014. The previous assessment update had similar fits to the annual discard lengths for both fleets for the overlapping data years [2004--2019; @Kapur:2021:SSA].
 
 ### Population Trajectory
 

@@ -47,7 +47,7 @@ Imports:
     PacFIN.Utilities,
     purrr,
     r4ss,
-    sa4ss,
+    sa4ss (>= 23.5),
     stringr,
     tibble,
     tidyr,
