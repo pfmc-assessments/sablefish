@@ -65,7 +65,7 @@ figure_information <- function(regex,
       ),
       caption = paste(caption_beginning, caption_end),
       fig_label = glue::glue("fig:{label}"),
-      label_text = report_ref_label(fig_label)
+      label_text = sa4ss::report_ref_label(fig_label)
     ) |>
     dplyr::arrange(
       type,
@@ -78,11 +78,11 @@ figure_information <- function(regex,
       type, fit, partition
     ) |>
     dplyr::mutate(
-      label_text_group = report_ref_label(fig_label)
+      label_text_group = sa4ss::report_ref_label(fig_label)
     ) |>
     dplyr::group_by(fleet_number, .add = TRUE) |>
     dplyr::mutate(
-      label_text_group_fleet = report_ref_label(fig_label)
+      label_text_group_fleet = sa4ss::report_ref_label(fig_label)
     ) |>
     dplyr::ungroup() |>
     dplyr::select(
