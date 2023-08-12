@@ -36,7 +36,7 @@ fs::dir_create(c(tables_location, figures_location))
 # User-specific settings
 model_location <- fs::path(
   here::here(),
- "models", "2023", "FixRetSel", "base"
+ "models", "2023", "DiscardVariance", "base"
 )
 model_location_previous <- fs::path(
   here::here(),
@@ -126,6 +126,15 @@ sa4ss::es_table_tex(
 plot_retention(model = model, width = 7, height = 10)
 plot_selex(model = model, width = 7, height = 10)
 table_projection(model_location = model_location, model = model)
+information_comp_figures <- figure_information(
+  regex = "comp_lendat_f|gstagedat_bub|comp_cond.+_bub"
+)
+information_fit_figures <- figure_information(
+  regex = "agefit_flt|lenfit_flt|Andre"
+)
+information_weight_figures <- figure_information(
+  regex = "bodywt_fit"
+)
 ```
 
 ```{r env-model-objects}
