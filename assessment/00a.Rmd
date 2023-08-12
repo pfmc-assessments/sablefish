@@ -92,6 +92,17 @@ r4ss::SS_plots(
   verbose = FALSE,
   bub.scale.dat = 6
 )
+# Fleet names in the model are bogus but we don't want to change
+# the saved name of some figure or rerun all the models; so, just
+# change the fleet names in the data plot by remaking it.
+r4ss::SSplotData(
+  replist = model,
+  plot = FALSE,
+  print = TRUE,
+  plotdir = fs::path(model_location, "plots"),
+  subplot = 1,
+  fleetnames = recode_fleet_figure(seq(model[["nfleets"]]))
+)
 sa4ss:::get_plotinfo(model_location, "plots")
 r4ss::SSexecutivesummary(
   replist = model,

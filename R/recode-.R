@@ -30,7 +30,7 @@ recode_fleet <- function(x) {
 }
 
 recode_fleet_text <- function(x) {
-  stopifnot(inherits(x, "numeric"))
+  stopifnot(inherits(x, "numeric") || inherits(x, "integer"))
   dplyr::case_when(
     x == 1 ~ "fixed-gear fleet",
     x == 2 ~ "trawl fleet",
@@ -39,6 +39,19 @@ recode_fleet_text <- function(x) {
     x == 5 ~ "\\glsentryshort{s-aslope}",
     x == 6 ~ "\\glsentryshort{s-nslope}",
     x == 7 ~ "\\glsentryshort{s-wcgbt}"
+  )
+}
+
+recode_fleet_figure <- function(x) {
+  stopifnot(inherits(x, "numeric") || inherits(x, "integer"))
+  dplyr::case_when(
+    x == 1 ~ "Fixed Gear",
+    x == 2 ~ "Trawl",
+    x == 3 ~ "Env. Index",
+    x == 4 ~ "Triennial",
+    x == 5 ~ "AK Slope",
+    x == 6 ~ "NWFSC Slope",
+    x == 7 ~ "WCGBTS"
   )
 }
 
