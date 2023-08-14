@@ -101,7 +101,8 @@ r4ss::SSplotData(
   print = TRUE,
   plotdir = fs::path(model_location, "plots"),
   subplot = 1,
-  fleetnames = recode_fleet_figure(seq(model[["nfleets"]]))
+  fleetnames = recode_fleet_figure(seq(model[["nfleets"]])),
+  pheight = 7
 )
 sa4ss:::get_plotinfo(model_location, "plots")
 r4ss::SSexecutivesummary(
