@@ -254,15 +254,17 @@ tab[,1] <- c(
                    "Forecast Rec. Likelihood",
                    "Prior Likelihood",
                    "Parameter Devs. Likelihood",
-                   "R0", "SB0", "SB 2023", "Fraction Unfished 2023",
-                   "Yield at SPR", "Steepness", 
-                   "M (female)", "Lmin (female)", "Lmax (female)", "k (female)", "CV1 (female)", "CV2 (female)",
-                   "M (male)", "Lmin (male)", "Lmax (male)", "k (male)", "CV1 (male)", "CV2 (male)")
+                   "R$_0$", "SB$_0$", "SB 2023", "Fraction Unfished 2023",
+                   "Yield at SPR", "$h$", 
+                   "$M$ (female)", "Lmin (female)", "Lmax (female)", "k (female)", "CV$_1$ (female)", "CV$_2$ (female)",
+                   "$M$ (male)", "Lmin (male)", "Lmax (male)", "k (male)", "CV$_1$ (male)", "CV$_2$ (male)")
 sa4ss::table_format(
   x = tab,
   caption = "The total and likelihood contribution by data type and parameter estimates for the base model and the retrospective data peels.",
   label = "retro-ests",
-  align = "r"
+  align = "r",
+  escape = FALSE,
+  landscape = TRUE
 )
 ```
 
@@ -272,6 +274,7 @@ sa4ss::table_format(
 es_text <- readLines(
   fs::path(model_location, "tables", "projections.tex")
 ) |>
+  purrr::map_chr(.f = \(x) gsub("& ([0-9]{1,3})([0-9]{3}) ", "& \\1,\\2 ", x)) |>
   purrr::map_chr(.f = \(x) gsub("(tab:projection)ES", "\\1", x))
 cat(es_text, sep = "\n")
 ```
@@ -280,6 +283,15 @@ cat(es_text, sep = "\n")
 es_text <- readLines(
   fs::path(model_location, "tables", "e_ReferencePoints_ES.tex")
 ) |>
+  purrr::map_chr(
+    .f = \(x) gsub("& ([0-9]+)([0-9]{3})\\.", "& \\1,\\2.", x)
+  ) |>
+  purrr::map_chr(
+    .f = \(x) gsub("centering", "raggedleft", x)
+  ) |>
+  purrr::map_chr(
+    .f = \(x) gsub("\\\\textbackslash\\{\\}", "", x)
+  ) |>
   purrr::map_chr(.f = \(x) gsub("(tab:reference)ES", "\\1", x))
 cat(es_text, sep = "\n")
 ```
