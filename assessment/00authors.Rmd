@@ -10,7 +10,12 @@ author:
     first: C
     middle: R
     family: Wetzel
-author_list: Johnson, K.F., C.R. Wetzel
+  - name: Nick Tolimieri
+    code: 1
+    first: N
+    middle: 
+    family: Tolimieri
+author_list: Johnson, K.F., C.R. Wetzel, N. Tolimieri
 affiliation:
   - code: 1
     address: Northwest Fisheries Science Center, U.S. Department of Commerce, National
