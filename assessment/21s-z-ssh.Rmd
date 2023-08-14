@@ -1,1 +1,3 @@
 ### Environmental indices {#ssh}
+
+to do: fill in environmental time series information
