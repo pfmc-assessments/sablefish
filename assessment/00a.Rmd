@@ -130,7 +130,7 @@ information_comp_figures <- figure_information(
   regex = "comp_lendat_f|gstagedat_bub|comp_cond.+_bub"
 )
 information_fit_figures <- figure_information(
-  regex = "agefit_flt|lenfit_flt|Andre"
+  regex = "agefit_resid|lenfit_resid|Andre"
 )
 information_weight_figures <- figure_information(
   regex = "bodywt_fit"

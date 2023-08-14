@@ -67,7 +67,13 @@ process_survey <- function() {
       by = c("Project", "Year")
     ) |>
       dplyr::ungroup() |>
-      dplyr::mutate(Project = recode_Project(Project, gls = TRUE)) |>
+      dplyr::mutate(
+        Project = recode_Project(Project, gls = TRUE),
+        dplyr::across(
+          -(1:2),
+          .fns = \(x) format(x, big.mark = ",")
+        )
+      ) |>
       dplyr::rename(Survey = "Project") |>
       as.data.frame(),
     escape = FALSE,
@@ -76,7 +82,8 @@ process_survey <- function() {
       "positive and the number fish that were lengthed and\\slash or aged by",
       "survey and year."
     ),
-    label = "data-survey-n"
+    label = "data-survey-n",
+    align = "r",
   ) |>
     kableExtra::save_kable(file = here::here(table_dir, "data-survey-n.tex"))
 
@@ -233,8 +240,8 @@ process_survey <- function() {
       figure_dir,
       "data_survey_wcgbt_proportion-by-depth.png"
     ),
-    width = 10, 
-    heigth = 10,
+    width = 10,
+    height = 10,
     plot = gg
   )
 

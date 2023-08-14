@@ -14,7 +14,10 @@ sa4ss::table_format(
     dplyr::select(Year = Yr, dplyr::starts_with("retain(B):")) |>
     dplyr::mutate(
       `Total Landings` = rowSums(dplyr::across(dplyr::starts_with("retain"))),
-      dplyr::across(where(is.numeric), round, 1)
+      dplyr::across(
+        where(is.double),
+        .f = \(x) format(round(x, 1), big.mark = ",")
+      )
     ),
   caption = "Landings (mt) by fleet and the summed coastwide total landings.",
   label = "landings",
@@ -33,7 +36,7 @@ sa4ss::table_format(
     dplyr::relocate(area, .after = dplyr::last_col()),
   caption = paste(
     "The stratification used to estimate design-based indices of abundance",
-    "and to expand the survey composition data."
+    "and to expand the survey composition data. Depths are in m, locations are in decimal degrees, and area is in km$^2$."
   ),
   longtable = FALSE,
   escape = FALSE,
@@ -78,7 +81,8 @@ recode_parameters <- function(x) {
     gsub(pattern = "Retain", replacement = "Ret") |>
     gsub(pattern = "AgeSel", replacement = "Age") |>
     # Remove the following if more than 1 area
-    gsub(pattern = "_GP_1", replacement = "")
+    gsub(pattern = "_GP_1", replacement = "") |>
+    gsub(pattern = "_", replacement = "\\\\_")
 }
 model[["parameters"]] %>%
   dplyr::select(
@@ -123,6 +127,7 @@ model[["parameters"]] %>%
     longtable = TRUE,
     booktabs = TRUE,
     format = "latex",
+    escape = FALSE,
     caption = "Parameter estimates, estimation phase, parameter bounds, estimation status, estimated standard deviation (SD), prior information [distribution(mean, SD)] used in the base model.",
     label = "parameters"
   )

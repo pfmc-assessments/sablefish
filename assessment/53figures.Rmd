@@ -177,7 +177,7 @@ ignore <- fs::dir_ls(
       sep = "-"
     ),
     type = dplyr::case_when(
-      grepl("compare[1-2]_", basename(filein)) ~ "Spawning output",
+      grepl("compare[1-2]_", basename(filein)) ~ "Spawning biomass",
       grepl("compare[3-4]_", basename(filein)) ~ "Fraction unfished",
       grepl("compare13_", basename(filein)) ~ "Recent survey"
     ),
@@ -401,6 +401,8 @@ ignote <- information_weight_figures  |>
 ### Sensitivity and Retrospectives Analyses
 
 ```{r figures-sensitivity, results = "asis"}
+# to do: figure out how to change spawning output versus spawning biomass
+# for the type when appropriate but it does not matter here
 ignore <- fs::dir_ls(
   fs::path(dirname(model_location), "sensitivities"),
   type = "file",
@@ -410,7 +412,7 @@ ignore <- fs::dir_ls(
   dplyr::mutate(
     label = paste("sensitivity", gsub("(.+)(_.+_.+\\.png)", "\\1", basename(filein)), sep = "-"),
     type = dplyr::case_when(
-      grepl("compare[1-2]_", basename(filein)) ~ "Spawning output",
+      grepl("compare[1-2]_", basename(filein)) ~ "Spawning biomass",
       grepl("compare[3-4]_", basename(filein)) ~ "Fraction unfished",
       grepl("compare11", basename(filein)) ~ "Annual recruitment deviations",
       grepl("compare13", basename(filein)) ~ "Recent survey index"
@@ -467,9 +469,6 @@ names(model_historical) <- fs::dir_ls(
   fs::path(here::here(), "models"),
   type = "directory"
 ) |> basename()
-```
-
-```{r figures-historical, results = "asis"}
 r4ss::SSplotComparisons(
   r4ss::SSsummarize(c(model_historical, list(model)), verbose = FALSE),
   plotdir = figures_location,
@@ -479,12 +478,17 @@ r4ss::SSplotComparisons(
   legendlabels = names(model_historical),
   filenameprefix = "historical_"
 )
+```
+
+```{r results = "asis"}
 sa4ss::add_figure(
   fs::path(figures_location, "historical_compare2_spawnbio_uncertainty.png"),
   caption = glue::glue("Comparisons of spawning biomass (mt) between the current assessment and recent benchmark and update assessments since {min(names(model_historical))}."),
   alt_caption = "All trajectories of spawning biomass from the most recent assessments are encapsulated within the estimated uncertainty from the current model.",
   label = "historical-model-comparison-sb"
 )
+```
+```{r results = "asis"}
 sa4ss::add_figure(
   fs::path(figures_location, "historical_compare4_Bratio_uncertainty.png"),
   caption = glue::glue("Comparisons of fraction unfished between the current assessment and recent benchmark and update assessments since {min(names(model_historical))}."),
@@ -532,7 +536,7 @@ sa4ss::add_figure(
     "plots",
     "SPR3_ratiointerval.png"
   ),
-  caption = "Timeseries of SPR ratio: (1-SPR)/(1-SPR 45%).",
+  caption = "Time series of \\glsentrylong{spr} (SPR) ratio: (1-SPR)/(1-SPR 45%).",
   alt_caption = "",
   label = "model-spr"
 )

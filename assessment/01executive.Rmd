@@ -1,22 +1,21 @@
 ```{r executive, echo = FALSE}
 executive <- list()
 executive[["stock"]] <- paste0("This assessment update reports the status of ",
-  spp, " (_", spp.sci, "_) off the ", coast, 
+  spp, " (_", spp.sci, "_) off the ", coast,
   " using data through 2022.")
 ```
-
 
 # Executive summary{-}
 
 ## Stock{-}
 
-`r executive[["stock"]]` The resource is modeled as a single stock; however, `r spp` disperse to and from offshore seamounts, along the coastal waters of the U.S. West Coast, Canada, and Alaska, and across the Aleutian Islands to the western Pacific. This potential movement is not explicitly accounted for in this analysis.
+`r executive[["stock"]]` The resource is modeled as a single stock; however, `r spp` disperse to and from offshore seamounts, along the coastal waters of the U.S. West Coast, Canada, and Alaska and across the Aleutian Islands to the western Pacific. This potential movement is not explicitly accounted for in this analysis.
 
 ## Landings and catches{-}
 
-The earliest landings of `r spp` off the West Coast used within in this assessment begin in `r startyr`. The landings began to slowly increase starting in the 1910s and continued at a roughly constant level until the 1960s where landings sharply increased peaking in the late 1970s (Figure \@ref(fig:es-landings)). After peaking in the late 1970s, catches slowly decreased across the time series until the 2000s when catches generally stabilized roughly between 4,000--6,000 mt. Fishery landings have been divided among two coastwide fleets: a fixed gear and a trawl fleet (see Table \@ref(tab:es-landings) for the most recent ten years). The assessment update estimates annual discard mortality by fleet informed by data from the \glsentrylong{wcgop} and other historical discarding studies. This internal estimation can result in model estimates of catches (landings plus discards) that differ between stock assessments, even when the input landings remain unchanged, due to changes in fixed and estimated parameter values, priors, or parameterizations. 
+The earliest landings of `r spp` off the West Coast used within in this assessment begin in `r startyr`. The landings began to slowly increase starting in the 1910s and continued at a roughly constant level until the 1960s where landings sharply increased, peaking in the late 1970s (Figure \@ref(fig:es-landings)). After peaking in the late 1970s, catches slowly decreased across the time series until the 2000s when catches generally stabilized roughly between 4,000--6,000 mt. For this assessment, fishery landings have been divided among two coastwide fleets: a fixed gear and a trawl fleet (see Table \@ref(tab:es-landings) for the most recent ten years). Annual discard mortality by fleet is estimated within the model and informed by data from the \glsentrylong{wcgop} and other historical discarding studies. This internal estimation can result in model estimates of catches (landings plus discards) that differ between stock assessments, even when the input landings remain unchanged, due to changes in fixed and estimated parameter values, priors, or parameterizations. 
 
-The landings in this assessment update were minimally revised and corrected from those used 2019 benchmark and the 2021 update assessments. First, landings from the 'Oregon Coast' \glsentrylong{inpfc} area, i.e., between 42.000--46.267\textdegree N. latitude, are no longer excluded from the total landings. Second, landings from 1977--1982 in the catch reporting area that includes both U.S. and Canadian waters are now assigned 50--50\% to each country rather than 100\% to the U.S. Third, a time series of `r spp` catches from the At-Sea Pacific hake fishery are now included in the trawl fleet. Previous assessments have included bycatch of `r spp` from the shoreside fleet but these at-sea catches were previously only included as a sensitivity. 
+The landings in this assessment update were minimally revised and corrected from those used 2019 benchmark and the 2021 update assessments. First, landings from the 'Oregon Coast' \glsentrylong{inpfc} area, i.e., between 42.000--46.267\textdegree N. latitude, are no longer excluded from the total landings. Second, landings from 1977--1982 in the catch reporting area that includes both U.S. and Canadian waters are now assigned 50--50\% to each country rather than 100\% to the U.S. Third, a time series of `r spp` catches from the At-Sea Pacific Hake fishery are now included in the trawl fleet. Previous assessments have included bycatch of `r spp` from the shoreside fleet but these at-sea catches were previously only included as a sensitivity.
 
 ```{r, results = "asis"}
 tab <- model$timeseries[model$timeseries$Yr %in% (endyr-9):endyr, 
@@ -51,27 +50,51 @@ sa4ss::add_figure(
     "plots",
     "catch2 landings stacked.png"
   ),
-  caption = "Landings by year from the fixed gear (FIX) and trawl (TWL) fleets.",
+  caption = "Landings by year from the fixed-gear (FIX) and trawl (TWL) fleets.",
   alt_caption = "",
   label = "es-landings"
 )
 ```
 
-
 ## Data and assessment{-}
 
-The last benchmark stock assessment for sablefish took place during 2019 [@haltuch_status_2019b], followed by an update assessment conducted in 2021 [@Kapur:2021:SSA].  This assessment update uses the stock assessment framework \gls{ss3} version `r ss3_version[["current"]]`. Primary data sources include fishery landings, length-compositions from discarded fish, and age-composition data from the retained catch. The fishery landings were re-evaluated for this assessment update and extended through `r endyr`.  No new age reading were conducted for the fishery collections. Recent years data, 2020--2021, on the discarded portion of commercial catch, including discard lengths, rates, and mean observed individual body weight of the discarded catch were included in this analysis. The relative index of abundance estimated from the Northwest Fisheries Science Center (NWFSC) West Coast Groundfish Bottom Trawl (WCGBT) survey, which samples depths from 55 - 1,280 m, represents the primary source of information on the stock's trend and was updated and re-analyzed to include the most recent data, including length- and conditional-age-at-length composition data, covering the period 2003--`r endyr`. Other, discontinued, survey indices contribute information on trend and sablefish demographics: (a) NWFSC Slope Survey conducted from 1998--2002, (b) Alaska Fisheries Science Center (AFSC) Slope Survey (1997--2001), and (c) AFSC/NWFSC Triennial Shelf Survey (1980--2004). Data from the historical surveys were not re-evaluated for this assessment update. Additionally, an environmental time-series of sea level was used as a survey index of recruitment in the base model; this time-series was updated and re-analyzed using the latest tide gauge data.
+The last benchmark stock assessment for `r spp` took place during 2019 [@haltuch_status_2019b], followed by an update assessment conducted in 2021 [@Kapur:2021:SSA].  This assessment update uses the stock assessment framework \gls{ss3} version `r ss3_version[["current"]]`. Primary data sources include fishery landings, length compositions from discarded fish, and age compositions from the retained catch. The fishery landings were re-evaluated for this assessment update and extended through `r endyr`.  No new age reading were conducted for the fishery collections. Data on the discarded rates and mean observed individual body weight of the discarded catch were updated and new values were included in this analysis. Though, only the two most recently available years, 2020--2021, of discard rates were updated and the rest remained at the values used in the 2021 update assessment. The relative index of abundance estimated using data from the \glsentrylong{s-wcgbt}, which samples depths from 55--1,280 m, represents the primary source of information on the stock's trend and was updated and re-analyzed to include the most recent data, including length- and conditional-age-at-length composition data, covering the period `r text_survey_year_range("NWFSC.Combo")`. Other, discontinued, survey indices contribute information on trend and `r spp` demographics: (a) \glsentrylong{s-nslope} conducted from `r text_survey_year_range("NWFSC.Slope")`, (b) \glsentrylong{s-aslope} conducted from `r text_survey_year_range("AFSC.Slope")`, and (c) \glsentrylong{s-tri} conducted from `r text_survey_year_range("Triennial")`. Data from the historical surveys were not re-evaluated for this assessment update. Additionally, an environmental time-series of sea level was used as a survey index of recruitment in the base model; this time-series was updated and re-analyzed using the latest tide gauge data.
 
-All externally estimated model parameters, (a) weight-length relationship, (b) maturity schedule, and (c) fecundity relationships remained unchanged from the 2019 benchmark assessment. As in previous assessments, growth and natural mortality were estimated using sex-specific relationships. Uncertainty in recruitment was included by estimating a full time-series of deviations from the stock-recruitment curve. The ‘one-way-trip’ nature of the time-series does not facilitate estimation of the steepness parameter ($h$) of the stock-recruitment relationship. Therefore, $h$ was fixed at 0.7, similar to values used on other groundfish stock assessments, and was explored via sensitivity analysis in 2019; and information regarding $h$ is explored in this analysis via likelihood profiles.
+All externally estimated model parameters, (a) weight-length relationship, (b) maturity schedule, and (c) fecundity relationships, remained unchanged from the 2019 benchmark assessment. As in previous assessments, growth and natural mortality were estimated using sex-specific relationships. Uncertainty in recruitment was included by estimating a full time-series of deviations from the stock-recruitment curve. The `one-way-trip' nature of the time-series does not facilitate estimation of the steepness parameter ($h$) of the stock-recruitment relationship. Therefore, $h$ was fixed at 0.7, similar to values used for other groundfish stock assessments, and information regarding $h$ is explored in this analysis via likelihood profiles.
 
 ## Stock biomass and dynamics{-}
 
-During the first half of the 20th century it is estimated that `r spp` were exploited at relatively modest levels. Modest catches continued until the 1960s, along with a higher frequency of above average, but uncertain, estimates of recruitment through the 1970s led to a sharp increase in the spawning biomass increased during the mid-1950s to mid-1970s (Figure \@ref(fig:es-sb)). Subsequently, spawning biomass is estimated to have declined between the mid-1970s and the early 2010s, with the largest harvests occurring during the 1970s followed by harvests that were, on average, higher than pre-1970s harvest through the early 2000s. In recent years, the spawning biomass is estimated to be increasing due to strong recruitment events in 2013 and 2016 (Table \@ref(tab:ssbES)). Although the relative trend in spawning biomass is robust to uncertainty in the leading model parameters, the productivity of the stock is uncertain due to confounding of natural mortality, absolute stock size, and productivity. The estimates of uncertainty around the point estimate of stock size in `r endyr+1` are large, suggesting that the spawning biomass could range from just under `r format(round(sb_lci, digits = 0))` mt to `r format(round(sb_uci,0))` mt.  
+During the first half of the 20th century it is estimated that `r spp` were exploited at relatively modest levels. Modest catches continued until the 1960s, along with a higher frequency of above average, but uncertain, estimates of recruitment through the 1970s, which led to a sharp increase in the spawning biomass during the mid-1950s to mid-1970s (Figure \@ref(fig:es-sb)). Subsequently, spawning biomass is estimated to have declined between the mid-1970s and the early 2010s, with the largest harvests occurring during the 1970s followed by harvests that were, on average, higher than pre-1970s harvest through the early 2000s. In recent years, the spawning biomass is estimated to be increasing due to strong recruitment events in 2013 and 2016 (Table \@ref(tab:ssbES)). Although the relative trend in spawning biomass is robust to uncertainty in the leading model parameters, the productivity of the stock is uncertain due to confounding of natural mortality, absolute stock size, and productivity. The estimates of uncertainty around the point estimate of stock size in `r endyr+1` are large, suggesting that the spawning biomass could range from just under `r format(sb_lci, nsmall = 0, big.mark = ",", digits = 3)` mt to `r format(sb_uci, nsmall = 0, big.mark = ",", digits = 3)` mt.  
 
-The estimated relative stock trajectory across the times series is highly variable, with the population increasing to near unfished levels in the 1970s, declining to at or near the target relative biomass of 40\% around 2000, and then increasing at the end of the modeled period (Table \@ref(tab:ssbES) and Figure \@ref(fig:es-depl)). The estimated fraction unfished in `r endyr+1` from the base model is `r  round(model$derived_quants[grep('Bratio_2023', model$derived_quants$Label),'Value']*100, 1)`\% (95\% confidence interval `r round(bratio_lci*100, 1)`\%--`r round(bratio_uci*100, 1)`\%) increasing from the estimated fraction unfished in 2021 of 58\% [@Kapur:2021:SSA].
+The estimated trajectory of relative stock biomass across the times series is highly variable, with the population increasing to near unfished levels in the 1970s; declining to at, or near, the target relative biomass of 40\% around 2000; and then increasing at the end of the modeled period (Table \@ref(tab:ssbES) and Figure \@ref(fig:es-depl)). The estimated fraction unfished in `r endyr+1` from the base model is `r format(round(model$derived_quants[grep('Bratio_2023', model$derived_quants$Label),'Value']*100, 1), nsmall = 1)`\% (95\% confidence interval `r round(bratio_lci*100, 1)`\%--`r round(bratio_uci*100, 1)`\%) increasing from the estimated fraction unfished in 2021 of 58\% [@Kapur:2021:SSA].
 
 ```{r, results = "asis"}
-sa4ss::read_child(fs::path(model_location, "tables", "b_SSB_ES.tex"))
+# to do: fix the writing of b_SSB_ES.tex so we don't have to re-write the table
+df <- utils::read.csv(
+  fs::path(model_location, "tables", "b_SSB_ES.csv")
+) |>
+  dplyr::mutate(
+    dplyr::across(
+      dplyr::where(is.double),
+      \(x) format(round(x, ifelse(x < 1, 3, 1)), big.mark = ","))
+  )
+
+df |>
+  sa4ss::table_format(
+    align = "r",
+    col_names_align = "l",
+    booktabs = TRUE,
+    custom_width = TRUE,
+    col_to_adjust = 2:NCOL(df),
+    width = "2.1cm",
+    col_names = colnames(df) |>
+      gsub(pattern = "\\.{2}mt\\.", replacement = " \\(mt\\)") |>
+      gsub(pattern = "\\.([A-Z])", replacement = " \\1") |>
+      gsub(pattern = "\\.1$|\\.", replacement = ""),
+    longtable = FALSE,
+    caption = "Estimated recent trend in spawning biomass and the fraction unfished and the 95 percent intervals for the base model.",
+    label = "ssbES"
+  )
 ```
 
 ```{r, results = "asis"}
@@ -105,7 +128,32 @@ sa4ss::add_figure(
 `r Spp` recruitment is estimated to be quite variable with large amounts of uncertainty in individual recruitment events. A period with generally higher frequencies of strong recruitments spans from the early 1950s through the 1970s, followed by a lower frequency of large recruitments during 1980 forward, contributing to stock declines, with some recent larger recuritments pushing the population higher in the past few years. The period with a higher frequency of high recruitments contributed to a large increase in stock biomass that subsequently declined throughout much of the 1970s forward. Less frequent large recruitments during the mid-1980s through 1990 slowed the rate of stock decline, with another series of large recruitments during 1999 and 2000 leading to a leveling off in the stock decline. The above-average cohorts from 2008, 2013, 2015, and 2016 are contributing to an increasing spawning stock size (Table \@ref(tab:recrES) and Figures \@ref(fig:es-recruits) and \@ref(fig:es-rec-devs)). Near the end of the time series, in 2020 and 2021, two recruitment events that are estimated to be greater than any other recruitment across the modeled period (Table \@ref(tab:recrES) and Figure \@ref(fig:es-rec-devs)).
 
 ```{r results = "asis"}
-sa4ss::read_child(fs::path(model_location, "tables", "c_Recr_ES.tex"))
+# to do: fix the writing of c_Recr_ES.tex so we don't have to re-write the table
+df <- utils::read.csv(
+  fs::path(model_location, "tables", "c_Recr_ES.csv")
+) |>
+  dplyr::mutate(
+    dplyr::across(
+      dplyr::where(is.double),
+      \(x) format(round(x, ifelse(x < 1, 3, 1)), big.mark = ","))
+  )
+
+df |>
+  sa4ss::table_format(
+    align = "r",
+    col_names_align = "l",
+    booktabs = TRUE,
+    custom_width = TRUE,
+    col_to_adjust = 2:NCOL(df),
+    width = "2.1cm",
+    col_names = colnames(df) |>
+      gsub(pattern = "\\.{2}1\\.0{3}s\\.", replacement = " \\(1,000s\\)") |>
+      gsub(pattern = "\\.([A-Z])", replacement = " \\1") |>
+      gsub(pattern = "\\.1$|\\.", replacement = ""),
+    longtable = FALSE,
+    caption = "Estimated recent trend in recruitment (1,000s) and recruitment deviations and their 95 percent intervals for the base model.",
+    label = "recrES"
+  )
 ```
 
 ```{r, results = "asis"}
@@ -115,7 +163,7 @@ sa4ss::add_figure(
     "plots",
     "ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png"
   ),
-  caption = "Estimated time series of age-0 recruits (1000s) for the base model with 95 percent intervals.",
+  caption = "Estimated time series of age-0 recruits (1,000s) for the base model with 95 percent intervals.",
   alt_caption = "",
   label = "es-recruits"
 )
@@ -126,7 +174,7 @@ sa4ss::add_figure(
     "plots",
     "recdevs2_withbars.png"
   ),
-  caption = "Estimated time series of recruitment deviations.",
+  caption = "Estimated time series of recruitment deviations with their 95 percent intervals. The early and recent blue dots are recruitment deviations that are not part of the main period.",
   alt_caption = "",
   label = "es-rec-devs"
 )
@@ -136,23 +184,43 @@ sa4ss::add_figure(
 
 ## Exploitation status{-}
 
-Replace text with
-total catch divided by exploitable biomass or SPR harvest rate.
-Include Table for last 10 years.
-Include Figure with trend in f relative to target vs. trend in biomass relative to the target.
-
-Table \@ref(tab:exploitES)
-
+Fishing intensity has been at or below the current management target since the mid-1980s and declining in the last ten years (Table \@ref(tab:exploitES); Figure \@ref(fig:es-1-spr)), where the \glsentrylong{spr} is reported as a ratio to the target of 45\%, $\frac{1-SPR}{1-SPR_{45\%}}$, and the occurrence of overexploitation relative to the proxy ocurrs at all values larger than 1.0. Estimated exploitation for the most recent year was on par with estimates from 2015--2019 but greater than the previous two years (Table \@ref(tab:exploitES)).
 
 ```{r results = "asis"}
-sa4ss::read_child(fs::path(model_location, "tables", "d_SPR_ES.tex"))
+# to do: fix the writing of d_SPR_ES.tex so we don't have to re-write the table
+df <- utils::read.csv(
+  fs::path(model_location, "tables", "d_SPR_ES.csv")
+) |>
+  dplyr::mutate(
+    dplyr::across(
+      dplyr::where(is.double),
+      \(x) format(round(x, ifelse(x < 1, 3, 1)), big.mark = ","))
+  )
+
+df |>
+  sa4ss::table_format(
+    align = "r",
+    col_names_align = "l",
+    booktabs = TRUE,
+    custom_width = TRUE,
+    col_to_adjust = 2:NCOL(df),
+    width = "2.1cm",
+    col_names = colnames(df) |>
+      gsub(pattern = ".+SPR.+SPR\\.45.", replacement = "$\\\\frac{1-SPR}{1-SPR_{45}}$") |>
+      gsub(pattern = "\\.([A-Z])", replacement = " \\1") |>
+      gsub(pattern = "\\.1$|\\.", replacement = ""),
+    longtable = FALSE,
+    escape = FALSE,
+    caption = "Estimated recent trend in $\\frac{1-SPR}{1-SPR_{45\\%}}$ where SPR is the spawning potential ratio and SPR$_{45\\%}$ is the SPR management target, the exploitation rate, and their 95 percent intervals for the base model.",
+    label = "exploitES"
+  )
 sa4ss::add_figure(
   filein = fs::path(
     model_location,
     "plots",
     "SPR3_ratiointerval.png"
   ),
-  caption = "Time series of SPR ratio: (1-SPR)/(1-SPR 45%).",
+  caption = "Time series of \\glsentrylong{spr} ratio: $\\frac{1-SPR}{1-SPR_{45\\%}}$.",
   alt_caption = "",
   label = "es-1-spr"
 )
@@ -163,29 +231,40 @@ sa4ss::add_figure(
 
 ## Ecosystem considerations{-}
 
-Replace text with
-a summary of reviewed environmental and ecosystem factors that appear to be correlated with stock dynamics.
-These may include variability in they physical environment, habitat, competitors, prey, or predators that directly or indirectly affects the stock's status, vital rates (growth, survival, productivity/recruitment) or range and distribution.
-Note which, if any, ecosystem factors are used in the assessment and how (e.g., as background information, in data preparations, as data inputs, in decisions about model structure).
+<!-- todo Add the references in this section -->
+The `r spp` climate vulnerability analysis [@McClure:2023:VCC] suggests that processes affecting recruitment are sensitive to climatic and, therefore, oceanic drivers. Given high climate vulnerability, changes in the abundance, productivity, and spatial distribution of `r spp` are likely, and these changes are likely to impact fishing fleets and communities because of the high value of this fishery. The climate vulnerability analysis also suggests that `r spp` are likely to shift their distribution in response to climate variability.
+Strong coastwide recruitment appears to be associated with good recruitment north of Cape Mendocino ($\sim 40^{\circ}$N). Modeling work shows that strong recruitment is correlated with transport and temperature in the northern portion ($40^{\circ}--48^{\circ}$N) of the U.S. West Coast, specifically with the northern transport of yolk-sac larvae [@tolimieri_oceanographic_2018]. A re-analysis of the relationship between sea level and recruitment found that variation around the stock-recruitment curve was negatively correlated with sea level north of Cape Mendocino. Reliable sea-level data are available back to 1925; the ability to produce an environment-recruitment index with this time series may allow for both hindcasting to better represent stock dynamics during data-poor time periods and nowcasting of recruitment with robust estimates of uncertainty.
+
+The `r spp` stock has experienced latitudinal shifts in the center of the distribution of stock biomass along the `r coast` Coast, which has affected fishing opportunities to individual ports [@Selden:2019:CCB]. The population centroid shifted to the north from 1980--1992 then south by 2013. More recently, the distribution of stock biomass shifted north, illustrated by an increase in trawl survey biomass in the north, but not as far north as in the 1990s.
+
+Whale entanglements with pot gear has the potential to limit effort in the pot-gear sectors due to protections for marine mammals. The estimated fleet-wide entanglements were consistently above the 5-year running average threshold during 2002 to 2017 in the combined Limited Entry `r spp` and Open Access Fixed Gear pot sectors [@Hanson:2019:EHW]. This result was largely due to the Open Access Fixed Gear pot sector, which had entanglements consistently above the 5-year running average threshold, while entanglements in the Limited Entry `r spp` pot sector were consistently below the threshold.
 
 ## Reference points{-}
 
-The estimated 2023 spawning biomass relative to unfished equilibrium spawning biomass is `r round(100*model[["current_depletion"]], 2)`\%, well above the management target of 40\% of unfished spawning output. The fishing intensity has been at or below the current management harvest rate limit (spawning potential ratio [SPR], $\text{SPR}_{45\%}$) since the mid 1980s and declining in the last ten years (Figure \@ref(fig:es-phase)).  The relative spawning output compared to the fishing intensity (SPR relative to the management target $\text{SPR}_{45\%}$) across all model years are shown in Figure \@ref(fig:es-phase) where warmer colors (red) represent early years and colder colors (blue) represent recent years. The relative biomass and estimated SPR has been well above the-es) shows the equilibrium curve based on a steepness value fixed at `r round(model$parameters[model$parameters$Label == "SR_BH_steep","Value"], 2)` with vertical dashed lines to indicate the estimate of fraction unfished at the start of `r endyr +1` (current) and the estimated management targets calculated based on the relative target biomass (B target), the SPR target, and the maximum sustainable yield (MSY).
-
-Reference points were calculated using the estimated selectivities and catch distributions among fleets in the most recent year of the model, `r endyr` (Table \@ref(tab:referenceES)). Sustainable total yield, landings plus discards, using an $\text{SPR}_{45\%}$ is `r format(model$derived_quants[model$derived_quants$Label == "Dead_Catch_SPR", "Value"], scientific = FALSE, big.mark = ",")` mt. The spawning biomass equivalent to 40\% of the unfished spawning biomass ($\text{SB}_{40\%}$) calculated using the SPR target ($\text{SPR}_{45\%}$) was `r format(model$derived_quants[model$derived_quants$Label == "SSB_Btgt", "Value"],  scientific = FALSE, big.mark = ",")` mt.
-
+The estimated 2023 spawning biomass relative to unfished equilibrium spawning biomass is `r round(100*model[["current_depletion"]], 2)`\%, well above the management target of 40\% of unfished spawning biomass. The fishing intensity has been at or below the $\text{SPR}_{45\%}$ since the mid 1980s and declining in the last ten years (Figure \@ref(fig:es-phase)). The relative spawning biomass compared to fishing intensity (SPR relative to the management target $\text{SPR}_{45\%}$) across almost all model years was above the thresholds in both directions (Figure \@ref(fig:es-phase)). All reference points were calculated based on a steepness value fixed at `r round(model$parameters[model$parameters$Label == "SR_BH_steep","Value"], 2)` and the estimated selectivities and catch distributions among fleets in the most recent year of the model, `r endyr` (Table \@ref(tab:referenceES)). Sustainable total yield, landings plus discards, using an $\text{SPR}_{45\%}$ is `r format(model$derived_quants[model$derived_quants$Label == "Dead_Catch_SPR", "Value"], scientific = FALSE, big.mark = ",")` mt. The spawning biomass equivalent to 40\% of the unfished spawning biomass ($\text{SB}_{40\%}$) calculated using the SPR target ($\text{SPR}_{45\%}$) was `r format(model$derived_quants[model$derived_quants$Label == "SSB_Btgt", "Value"],  scientific = FALSE, big.mark = ",")` mt.
 
 ```{r, results = "asis"}
-sa4ss::read_child(
-  fs::path(model_location, "tables", "e_ReferencePoints_ES.tex")
-)
+lines <- readLines(fs::path(model_location, "tables", "e_ReferencePoints_ES.tex")) |>
+  purrr::map_chr(
+    .f = \(x) gsub("& ([0-9]+)([0-9]{3})\\.", "& \\1,\\2.", x)
+  ) |>
+  purrr::map_chr(
+    .f = \(x) gsub("centering", "raggedleft", x)
+  ) |>
+  purrr::map_chr(
+    .f = \(x) gsub("\\\\textbackslash\\{\\}", "", x)
+  )
+cat(lines)
+```
+
+```{r, results = "asis"}
 sa4ss::add_figure(
   filein = fs::path(
     model_location,
     "plots",
     "SPR4_phase.png"
   ),
-  caption = "Phase plot of biomass ratio vs. SPR ratio.
+  caption = "Phase plot of biomass ratio vs. \\glsentrylong{spr} (SPR) ratio.
 Each point represents the biomass ratio at the start of the year and the relative fishing intensity in that same year. Warmer colors (red) represent early years and colder colors (blue) represent recent years. Lines through the final point show 95% intervals based on the asymptotic uncertainty for each dimension.",
   alt_caption = "",
   label = "es-phase"
@@ -230,11 +309,15 @@ df <- data.frame(
   Landings =  ts[, "retain(B):_1"] + ts[, "retain(B):_2"],
   Catch = ts[, "dead(B):_1"] + ts[, "dead(B):_2"]
 )
-out <- cbind(tab, df)
+out <- cbind(tab, df) |>
+  dplyr::mutate(dplyr::across(
+    -1,
+    .f = \(x) format(x, big.mark = ",")
+  ))
 
 sa4ss::table_format(
   x = out,
-  caption = "The  OFL (mt), ACL (mt), landings (mt) and estimated catch (mt) between 2013--2022.",
+  caption = "The  \\glsentrylong{ofl} (OFL; mt), \\glsentrylong{acl} (ACL; mt), landings (mt) and estimated catch (mt) between for the most recent ten years.",
   label = "es-manage",
   align = "l",
   col_names = c("Year", "OFL", "ACL", "Landings", "Catch")
@@ -251,12 +334,14 @@ sa4ss::read_child(filein)
 
 ## Decision table and projections{-}
 
-The projection of stock biomass, status, and harvest limits was developed using the base model. The total catches in 2023 and 2024 were set at 9,118 and 8,359 mt, respectively, based on recommendations from the Groundfish Management Team (GMT). The ABC values were estimated using a category 1 time-varying $\sigma_y$ starting at 0.50 combined with a P* value of 0.45. The catches during the projection period, 2025--2034 were set equal to the year-specific ABC (Table \@ref(tab:projectionES)). The spawning biomass and fraction unfished increase sharply during the projection due to the estimated large recruitments in 2020 and 2021 maturing and entering the spawning population, resulting in future OFLs and ABCs that are substantially higher than those set for 2023--2024.
+The projection of stock biomass, status, and harvest limits was developed using the base model. The total catches in 2023 and 2024 were set at 9,118 and 8,359 mt, respectively, based on recommendations from the \glsentrylong{gmt}. The ABC values were estimated using a category 1 time-varying $\sigma_y$ starting at 0.50 combined with a P$^*$ value of 0.45. The catches during the projection period, 2025--2034 were set equal to the year-specific \glsentrylong{abc} (Table \@ref(tab:projectionES)). The spawning biomass and fraction unfished increase sharply during the projection due to the estimated large recruitments in 2020 and 2021 maturing and entering the spawning population, resulting in future \glsentrylongpl{ofl} and \glsentrylongpl{abc} that are substantially higher than those set for 2023--2024.
 
 ```{r results = "asis"}
+# to do fix formatting in execuative summary function
 es_text <- readLines(
   fs::path(model_location, "tables", "projections.tex")
-) 
+) |>
+  purrr::map_chr(.f = \(x) gsub("& ([0-9]{1,3})([0-9]{3}) ", "& \\1,\\2 ", x))
 cat(es_text, sep = "\n")
 ```
 

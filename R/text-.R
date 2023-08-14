@@ -45,3 +45,13 @@ text_parameter <- function(model,
   }
   return(x)
 }
+
+text_survey_year_range <- function(x, data = data_survey_catch) {
+  data |>
+    dplyr::group_by(Project) |>
+    dplyr::summarize(
+      range_year = glue::glue("{min(Year)}--{max(Year)}")
+    ) |>
+    dplyr::filter(Project == x) |>
+    dplyr::pull(range_year)
+}
