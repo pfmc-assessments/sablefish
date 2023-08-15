@@ -15,17 +15,13 @@ A brief list of changes that were made to the model configuration compared to th
 
 - **Data**
 
-  - The landings time series was both corrected and updated from the previous assessment. See Section \@ref(data) for more details on each of these changes. None of the changes in the catch time series led to changes in the fit to the \gls{s-wcgbt} index (Figure \@ref(fig:bridging-1-compare13)). Corrections to the historical time series led to a slight increase in $R_0$ and thus also the remainder of the time series in spawning biomass (Figure \@ref(fig:bridging-1-compare1)) but not changes fraction unfished (Figure \@ref(fig:bridging-1-compare3)).
-    - First, landings from the Oregon Coast \gls{inpfc} area, i.e., between 42.000--46.267\textdegree N. latitude are no longer excluded from the total landings.
-    - Second, landings from 1977--1982 in the catch reporting area that includes both U.S. and Canadian waters are now assigned 50--50\% to each country rather than 100\% to the U.S.
-    - Third, a time series of `r spp` catches from the At-Sea Pacific Hake fishery are now included in the trawl fleet. Previous assessments have included bycatch of `r spp` from the shoreside fleet but these at-sea catches were previously only included as a sensitivity. Note that the corresponding length-composition data from this bycatch fleet was not included.
+  - The landings time series was both corrected (i.e., inclusion of Oregon Coast \gls{inpfc} area data, exclusion of Canadian landings, and inclusion of bycatch of sablefish in the At-Sea Pacific Hake fishery since 1990) and updated from the previous assessment. See Section \@ref(data) for more details on each of these changes. None of the changes in the catch time series led to changes in the fit to the \gls{s-wcgbt} index (Figure \@ref(fig:bridging-1-compare13)). Corrections to the historical time series led to a slight increase in $R_0$ and thus also the remainder of the time series in spawning biomass (Figure \@ref(fig:bridging-1-compare1)) but not changes fraction unfished (Figure \@ref(fig:bridging-1-compare3)).
   - The index for the \gls{s-wcgbt} was updated with the most recent data using _sdmtmb_ (Figure \@ref(fig:bridging-2-compare13)). Updating the index led to changes in $R_0$ but little change in recent biomass (Figures \@ref(fig:bridging-2-compare1)--\@ref(fig:bridging-2-compare3)), and thus, the recent population status is at a lower fraction of unfished than the previous base model.
-  - The following data changes led to noticeable changes in the model output but should be looked at in aggregate after the model was re-tuned with the compositional data rather than prior to the tuning (Figures \@ref(fig:bridging-2-compare13)--\@ref(fig:bridging-2-compare3)).
-    - The index for the environmental linkage was updated.
-    - The survey length-composition data were input as either sexed or unsexed fish rather than assigning a sex to unsexed fish based on the observed sex ratio as was done in the past. This change led to even further increases in estimates of $R_0$ (Figures \@ref(fig:bridging-2-compare1)--\@ref(fig:bridging-2-compare3)) and the trend in abundance from the \gls{s-wcgbt} index (Figure \@ref(fig:bridging-2-compare13)).
-    - The length- and age-composition data present in the model were updated and data from the most recent years were included.
-    - Information on mean body weight of the discarded fish were updated and data from the most recent years were included.
-    - Information on discard rates from the most recent years were included and the input variance for these two most recent years in the trawl fleet was set to 0.05.
+  - Updating and including recent compositional information from the fishery discarded lengths, survey lengths, and survey ages led to noticeable changes in the model output but should be looked at in aggregate after the model was re-tuned with these data rather than as individual changes to the base model (Figures \@ref(fig:bridging-2-compare13)--\@ref(fig:bridging-2-compare3)).
+  - The survey length-composition data were input as either sexed or unsexed fish rather than assigning a sex to unsexed fish based on the observed sex ratio as was done in the past, which led to an increase in $R_0$ (Figures \@ref(fig:bridging-2-compare1)--\@ref(fig:bridging-2-compare3)) and the trend in abundance from the \gls{s-wcgbt} index (Figure \@ref(fig:bridging-2-compare13)).
+  - The index for the environmental linkage was updated, which resulted in very little changes to the model output (Figures \@ref(fig:bridging-2-compare13)--\@ref(fig:bridging-2-compare3)).
+  - Information on mean body weight of the discarded fish were updated and data from the most recent years were included (Figures \@ref(fig:bridging-3-compare13)--\@ref(fig:bridging-3-compare3)).
+  - Information on discard rates from the most recent years were included and the input variance for these two most recent years in the trawl fleet was set to 0.05 (Figures \@ref(fig:bridging-3-compare13)--\@ref(fig:bridging-3-compare3)).
 
 - **Fleet structure**
 
@@ -41,12 +37,10 @@ A brief list of changes that were made to the model configuration compared to th
 
 - **Selectivity and retention**
 
-Fixing the retention and selectivity parameters at their bounds led to almost no changes in the model output (Figures \@ref(fig:bridging-3-compare13)--\@ref(fig:bridging-3-compare3)).
-
   <!-- SizeSel_PRet_1_FIX(1)_BLK2repl_2019 -->
-  - The ascending inflection for size-based retention within the fixed-gear fleet in the 2019 time block was fixed at the lower bound of 10 given that it was consistently estimated at this lower bound during the bridging analysis.
+  - The ascending inflection for size-based retention within the fixed-gear fleet in the 2019 time block was fixed at the lower bound of 10 given that it was consistently estimated at this lower bound during the bridging analysis (Figures \@ref(fig:bridging-3-compare13)--\@ref(fig:bridging-3-compare3)).
   <!-- AgeSel_P_4_TWL(2)_BLK5repl_2011 -->
-  - The descending width for age-based selectivity within the trawl fleet in the 2011 time block was fixed at the upper bound of 10 given that it was consistently estimated at this upper bound during the bridging analysis.
+  - The descending width for age-based selectivity within the trawl fleet in the 2011 time block was fixed at the upper bound of 10 given that it was consistently estimated at this upper bound during the bridging analysis (Figures \@ref(fig:bridging-3-compare13)--\@ref(fig:bridging-3-compare3)).
   <!-- AgeSel_P_3_FIX(1)_BLK4repl_2011 INIT was lowered to facilitate its estimation. -->
 
 - **Software and workflow**
@@ -57,11 +51,9 @@ Fixing the retention and selectivity parameters at their bounds led to almost no
 
 ### Key Assumptions and Structural Choices
 
-With the exceptions noted in Section \@ref(model-changes-from-the-last-assessment), the general model specifications were retained from the previous assessment to conform to the \gls{tor} for an update assessment. The assessment is sex-specific, including the estimation of separate growth curves and natural mortality parameters for males and females. The sex ratio at birth is assumed to be `r sex_ratio_text`. Female spawning biomass is used in calculating stock status.
+With the exceptions noted in Section \@ref(model-changes-from-the-last-assessment), the general model specifications were retained from the previous assessment to conform to the \gls{tor} for an update assessment. The assessment is sex-specific, including the estimation of separate growth curves and natural mortality parameters for males and females. The sex ratio at birth is assumed to be `r sex_ratio_text`. Female spawning biomass is used in calculating stock status. The model starts at equilibrium, assuming an unfished initial age structure in `r startyr - 1`. The internal population dynamics include ages `r paste(sep = "--", c(age_bins[1]), model[["accuage"]])`, where age `r model[["accuage"]]` is the plus group. The data use a plus-group age of `r max(age_bins)` because there is little growth occurring at the model plus-group age and very few observations.
 
-The model starts at equilibrium, assuming an unfished initial age structure in `r startyr - 1`. The internal population dynamics include ages `r paste(sep = "--", c(age_bins[1]), model[["accuage"]])`, where age `r model[["accuage"]]` is the plus group. As there is little growth occurring at the model plus-group age and very few observations, the data use a plus-group age of `r max(age_bins)`.
-
-The following likelihood components are included in this model: `r text_likelihoods_used(model)` (Table \@ref(tab:likelihoods)). See the \gls{ss3} technical documentation for details [@methot_stock_2013]. Estimated likelihood components from the base model can be found in the model output files archived by the \gls{pfmc}.
+The following likelihood components are included in this model: `r text_likelihoods_used(model)` (Table \@ref(tab:likelihoods)). See the \gls{ss3} technical documentation for details on each component [@methot_stock_2013].
 
 ### Priors
  
@@ -75,7 +67,7 @@ for females and males, respectively.
 
 Length data from the \gls{s-wcgbt} and fishery discards, conditional age-at-length compositions from the \gls{s-wcgbt}, and marginal age compositions from the fishery fleets and other surveys were fit and appropriately weighted using an iterative approach. The Francis method (Table \@ref(tab:composition-weight)), which is based on equation TA1.8 in Francis [@francis_data_2011], was used with three iterations to tune the length and age data simultaneously. It was assumed for age-at-length data that each age was a random sample within the length bin and the model started with a sample size equal to the number of fish in that length bin. A sensitivity is included to examine the differences when data weighting of the composition data used the McAllister--Ianelli [@mcallister_bayesian_1997] method, which is based on the harmonic mean.
 
-Extra variability parameters were estimated and added to the input variance for the indices of abundance for three surveys in the model, \gls{s-tri} both early and late, \gls{s-nslope}, and \gls{s-aslope} as well as the environmental index. Estimating additional variance for the \gls{s-wcgbt} was explored and determined to not be required.
+Extra variability parameters were estimated and added to the input variance for the indices of abundance for three surveys in the model, \gls{s-tri} both early and late, \gls{s-nslope}, and \gls{s-aslope} as well as the environmental index. Estimating additional variance for the \gls{s-wcgbt} was explored and determined to be different than zero but was not included in the base model because it previously had not been included. Instead, estimating this additional variance was explored as a sensitivity.
 
 Added variances for discard rates and mean body weights were set using values calculated iteratively using the \gls{rmse} of differences between input and estimated values derived from \gls{ss3}. Variances were parameterized in terms of standard deviation and coefficient of variation, respectively.
 
@@ -83,7 +75,7 @@ Added variances for discard rates and mean body weights were set using values ca
 
 There were 235 estimated parameters in the base model. These included one parameter for $R_0$; 10 parameters for growth; 2 parameters for sex-specific natural mortality; 4 parameters for extra variability for the survey indices; 45 parameters for age-based selectivity, length-based retention, and time blocking of the fleets and the surveys; 163 recruitment deviations (including 30 pre-model deviations); and 10 forecast recruitment deviations which were fixed at 0 (Table \@ref(tab:parameters)).
 
-The stock-recruitment relationship follows a Beverton--Holt parameterization with steepness was fixed at 0.70 due to the largely one-way trip nature of the time series during the period with good data collections and the high degree of confounding between equilibrium recruitment, $M$, and $h$. Likelihood profiles for $h$ in past `r spp` assessments suggest that there is little information in the data to determine $h$. The use of a fixed value under estimates the uncertainty in $MSY$ and equilibrium yield. However, the importance of this reduced uncertainty is somewhat reduced because both and $F$ and $SB_{proxy}$ are used for management rather than $MSY$.
+The stock-recruitment relationship follows a Beverton--Holt parameterization with steepness fixed at 0.70 due to the largely one-way trip nature of the time series during the period with good data collections and the high degree of confounding between equilibrium recruitment, $M$, and $h$. Likelihood profiles for $h$ in past `r spp` assessments suggest that there is little information in the data to determine $h$. The use of a fixed value under estimates the uncertainty in $MSY$ and equilibrium yield. However, the importance of this reduced uncertainty is somewhat reduced because both and $F$ and $SB_{proxy}$ are used for management rather than $MSY$.
 
 The standard deviation of recruitment deviates remained fixed at 1.4 and was not iteratively tuned when running the model. Model results suggest that recruitment may be more variable but since 2019 the value has not been allowed to be higher than 1.4.
 

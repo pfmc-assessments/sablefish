@@ -122,9 +122,15 @@ table_projection(model_location = model_location, model = model)
 information_comp_figures <- figure_information(
   regex = "comp_lendat_f|gstagedat_bub|comp_cond.+_bub"
 )
+# To do: fix residual of ghost fleet plot not working
 information_fit_figures <- figure_information(
   regex = "agefit_resid|lenfit_resid|Andre"
-)
+) |>
+  dplyr::filter(!grepl("gstage", filein)) |>
+  dplyr::bind_rows(
+    figure_information("gstagefit_f")
+  )
+
 information_weight_figures <- figure_information(
   regex = "bodywt_fit"
 )

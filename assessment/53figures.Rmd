@@ -377,7 +377,7 @@ ignore <- fs::dir_ls(
 ) |>
   tibble::as_tibble_col(column_name = "filein") |>
   dplyr::mutate(
-    label = paste("sensitivity", gsub("(.+)(_.+_.+\\.png)", "\\1", basename(filein)), sep = "-"),
+    label = paste("sensitivity", gsub("^([0-9]+)-compare([0-9]+).+", "\\1-compare\\2", basename(filein)), sep = "-"),
     type = dplyr::case_when(
       grepl("compare[1-2]_", basename(filein)) ~ "Spawning biomass",
       grepl("compare[3-4]_", basename(filein)) ~ "Fraction unfished",
