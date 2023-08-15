@@ -29,7 +29,7 @@ Estimating a single $M$ instead of sex-specific $M$ resulted in lower $M$ than e
 
 Fitting to the marginal rather than conditional ages for all years from the \gls{s-wcgbt} led to a much higher estimate of $R_0$ compared to the base model (Table \@ref(tab:sensitivity-ests-3)), though still within the range of uncertainty characterized by the base model (Figure \@ref(fig:sensitivity-3-compare2)). This was the only sensitivity that led to estimates of the 2022 survey index for the \gls{s-wcgbt} within the input uncertainty.
 
-Implementing asymptotic age-based selectivity for the \gls{s-wcgbt} **to do** still needs to be done. <!-- This reduced overall model uncertainty, principally through reducing the standard deviation of $R_0$ and also reduced the size of large recruitment events. This model had a higher overall log-likelihood than the base model and did a poorer job of fitting the length compositions from that survey, particularly in the last year of data. -->
+Implementing asymptotic age-based selectivity for the \gls{s-wcgbt} reduced $R_0$ and also reduced the absolute size of large recruitment events (Figure \@ref(fig:sensitivity-3-compare2)). This model had a higher overall log-likelihood than the base model and did a poorer job of fitting the length compositions from that survey, particularly in the most recent years (Table \@ref(tab:sensitivity-ests-3)).
 
 ### Retrospective Analysis
 
