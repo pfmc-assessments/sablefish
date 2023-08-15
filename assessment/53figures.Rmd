@@ -67,8 +67,8 @@ sa4ss::add_figure(
     figure_dir,
     "data_survey_wcgbt_presence-by-lat.png"
   ),
-  caption = glue::glue("The proportion of tows that observe {spp} out of all tows performed within a given range of latitudes (decimal degress) in the \\glsentrylong{{s-wcgbt}}."),
-  alt_caption = glue::glue("Approximately 70--75 percent of tows include {spp} in Oregon and Washington. In California north of Point Conception, approximately 70 percent of the tows include {spp}, except around Point Reyes where the pecentage declines to between 60--70 percent. South of Point Conception in California, 25--45 percent of tows include {spp}."),
+  caption = glue::glue("The proportion of tows that observe {spp} out of all tows performed within a given range of latitudes (decimal degrees) in the \\glsentrylong{{s-wcgbt}}."),
+  alt_caption = glue::glue("Approximately 70--75 percent of tows include {spp} in Oregon and Washington. In California north of Point Conception, approximately 70 percent of the tows include {spp}, except around Point Reyes where the percentage declines to between 60--70 percent. South of Point Conception in California, 25--45 percent of tows include {spp}."),
   label = "data-survey-wcgbt-proportion-by-latitude"
 )
 
@@ -269,7 +269,7 @@ ignore <- fs::dir_ls(
 
 ```{r, figures-recruitment, results = "asis"}
 sa4ss::add_figure(
-  filein = file.path(model_location, "plots", "ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png"), 
+  filein = file.path(model_location, "plots", "ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png"),
   caption = "Estimated time series of age-0 recruits (1000s).",
   label = "recruits"
 )

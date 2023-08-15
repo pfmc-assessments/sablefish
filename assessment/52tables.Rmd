@@ -1,6 +1,31 @@
 \clearpage
 # Tables
 
+```{r}
+comparison_row_names <- c(
+  "Total Likelihood",
+  "Survey Likelihood",
+  "Discard Likelihood",
+  "Length Likelihood",
+  "Age Likelihood",
+  "Rec. Likelihood",
+  "Forecast Rec. Likelihood",
+  "Prior Likelihood",
+  "Parameter Devs. Likelihood",
+  "$R_0$",
+  "SB$_0$S",
+  "SB 2023",
+  "Fraction Unfished 2023",
+  "Yield at SPR",
+  "$h$",
+  as.vector(outer(
+    c("$M$", "Lmin", "Lmax", "$k$", "CV$_{young}$", "CV$_{old}$"),
+    c("(female)", "(male)"),
+    paste
+  ))
+)
+```
+
 ## Data
 
 **to do**: this section is incomplete, more tables are needed and some can be provided as external csv files
@@ -161,8 +186,8 @@ dplyr::bind_rows(
 
 ```{r tables-time-series, results = "asis"}
 ts <- utils::read.csv(fs::path(model_location, "tables", "TimeSeries.csv"))
-ts[, c(2:4, 6:7)] <- round(ts[, c(2:4, 6:7)],0)
-ts[, c(5, 8:9)] <- round(ts[, c(5, 8:9)],3)
+ts[, c(2:4, 6:7)] <- round(ts[, c(2:4, 6:7)], 0)
+ts[, c(5, 8:9)] <- round(ts[, c(5, 8:9)], 3)
 col_names <- c("Year", "Total Biomass (mt)", "Spawning Biomass (mt)", "Total Biomass Age 4+ (mt)", "Fraction Unfished", "Age-0 Recruits", "Total Mortality (mt)", "(1-SPR)/(1-SPR45%)", "Exploitation Rate")
 sa4ss::table_format(
   x = ts,
@@ -199,27 +224,15 @@ sensitivity_groups <- purrr::map(
     ignore.case = TRUE
   )
 )
-tab[,-1] <- round(tab[,-1], 2)
-tab[,1] <- c(
-                   "Total Likelihood",
-                   "Survey Likelihood", 
-                   "Discard Likelihood", 
-                   "Length Likelihood",
-                   "Age Likelihood",
-                   "Recruitment Likelihood", 
-                   "Forecast Rec. Likelihood",
-                   "Prior Likelihood",
-                   "Parameter Devs. Likelihood",
-                   "R0", "SB0", "SB 2023", "Fraction Unfished 2023",
-                   "Yield at SPR", "Steepness", 
-                   "M (female)", "Lmin (female)", "Lmax (female)", "k (female)", "CV1 (female)", "CV2 (female)",
-                   "M (male)", "Lmin (male)", "Lmax (male)", "k (male)", "CV1 (male)", "CV2 (male)")
-for(i in 1:3) {
+tab[, -1] <- round(tab[, -1], 2)
+tab[, 1] <- comparison_row_names
+for (i in 1:3) {
   out <- sa4ss::table_format(
   x = purrr::map(sensitivity_groups, .f = \(x) tab[c(1, x)])[[i]],
   caption = glue::glue("The total and likelihood contribution by data type and parameter estimates for the sensitivity group {1:3}.")[i],
   label = glue::glue("sensitivity-ests-{1:3}")[i],
-  align = "r"
+  align = "r",
+  escape = FALSE
 )
 cat(out, sep = "/n")
 }
@@ -242,22 +255,9 @@ csv_retro <- fs::dir_ls(
   recurse = TRUE
 )
 tab <- utils::read.csv(csv_retro)
-tab[,-1] <- round(tab[,-1], 2)
+tab[, -1] <- round(tab[, -1], 2)
 colnames(tab) <- c("Likelihood or Parameter", "Base Model", paste("Retro", -1:-5))
-tab[,1] <- c(
-                   "Total Likelihood",
-                   "Survey Likelihood", 
-                   "Discard Likelihood", 
-                   "Length Likelihood",
-                   "Age Likelihood",
-                   "Recruitment Likelihood", 
-                   "Forecast Rec. Likelihood",
-                   "Prior Likelihood",
-                   "Parameter Devs. Likelihood",
-                   "R$_0$", "SB$_0$", "SB 2023", "Fraction Unfished 2023",
-                   "Yield at SPR", "$h$", 
-                   "$M$ (female)", "Lmin (female)", "Lmax (female)", "k (female)", "CV$_1$ (female)", "CV$_2$ (female)",
-                   "$M$ (male)", "Lmin (male)", "Lmax (male)", "k (male)", "CV$_1$ (male)", "CV$_2$ (male)")
+tab[, 1] <- comparison_row_names
 sa4ss::table_format(
   x = tab,
   caption = "The total and likelihood contribution by data type and parameter estimates for the base model and the retrospective data peels.",

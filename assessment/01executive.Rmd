@@ -18,11 +18,11 @@ The earliest landings of `r spp` off the West Coast used within in this assessme
 The landings in this assessment update were minimally revised and corrected from those used 2019 benchmark and the 2021 update assessments. First, landings from the 'Oregon Coast' \glsentrylong{inpfc} area, i.e., between 42.000--46.267\textdegree N. latitude, are no longer excluded from the total landings. Second, landings from 1977--1982 in the catch reporting area that includes both U.S. and Canadian waters are now assigned 50--50\% to each country rather than 100\% to the U.S. Third, a time series of `r spp` catches from the At-Sea Pacific Hake fishery are now included in the trawl fleet. Previous assessments have included bycatch of `r spp` from the shoreside fleet but these at-sea catches were previously only included as a sensitivity.
 
 ```{r, results = "asis"}
-tab <- model$timeseries[model$timeseries$Yr %in% (endyr-9):endyr, 
+tab <- model$timeseries[model$timeseries$Yr %in% (endyr - 9):endyr,
                         c("Yr", "retain(B):_1", "retain(B):_2", "dead(B):_1", "dead(B):_2")]
 df <- data.frame(
-  Year = tab[,"Yr"],
-  Fixed_Gear = tab[,"retain(B):_1"],
+  Year = tab[, "Yr"],
+  Fixed_Gear = tab[, "retain(B):_1"],
   Trawl = tab[, "retain(B):_2"],
   Landings = tab[, "retain(B):_1"] + tab[, "retain(B):_2"],
   Catch = tab[, "dead(B):_1"] + tab[, "dead(B):_2"]
@@ -302,9 +302,11 @@ tab <- cbind(utils::read.csv(here::here("data-processed", "harvest_spex.csv")) |
   dplyr::reframe(
     ACL = round(VAL, 1)
   ))
-  
-ts <- model$timeseries[model$timeseries$Yr %in% (endyr-9):endyr, 
-                        c("Yr", "retain(B):_1", "retain(B):_2", "dead(B):_1", "dead(B):_2")]
+
+ts <- model$timeseries[
+  model$timeseries$Yr %in% (endyr - 9):endyr,
+  c("Yr", "retain(B):_1", "retain(B):_2", "dead(B):_1", "dead(B):_2")
+]
 df <- data.frame(
   Landings =  ts[, "retain(B):_1"] + ts[, "retain(B):_2"],
   Catch = ts[, "dead(B):_1"] + ts[, "dead(B):_2"]
@@ -327,7 +329,7 @@ sa4ss::table_format(
 ## Unresolved problems and major uncertainties{-}
 
 ```{r, echo=FALSE, results="asis"}
-filein = fs::path(here::here("assessment", "shared_text","unresolved_uncertanties.Rmd"))
+filein <- fs::path(here::here("assessment", "shared_text","unresolved_uncertanties.Rmd"))
 sa4ss::read_child(filein)
 ```
 
@@ -337,7 +339,7 @@ sa4ss::read_child(filein)
 The projection of stock biomass, status, and harvest limits was developed using the base model. The total catches in 2023 and 2024 were set at 9,118 and 8,359 mt, respectively, based on recommendations from the \glsentrylong{gmt}. The ABC values were estimated using a category 1 time-varying $\sigma_y$ starting at 0.50 combined with a P$^*$ value of 0.45. The catches during the projection period, 2025--2034 were set equal to the year-specific \glsentrylong{abc} (Table \@ref(tab:projectionES)). The spawning biomass and fraction unfished increase sharply during the projection due to the estimated large recruitments in 2020 and 2021 maturing and entering the spawning population, resulting in future \glsentrylongpl{ofl} and \glsentrylongpl{abc} that are substantially higher than those set for 2023--2024.
 
 ```{r results = "asis"}
-# to do fix formatting in execuative summary function
+# to do fix formatting in executive summary function
 es_text <- readLines(
   fs::path(model_location, "tables", "projections.tex")
 ) |>
@@ -348,7 +350,7 @@ cat(es_text, sep = "\n")
 ## Scientific uncertainty{-}
 
 ```{r, echo=FALSE, results="asis"}
-filein = fs::path(here::here("assessment", "shared_text","scientific_uncertainty.Rmd"))
+filein <- fs::path(here::here("assessment", "shared_text", "scientific_uncertainty.Rmd"))
 sa4ss::read_child(filein)
 ```
 
