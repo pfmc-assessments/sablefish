@@ -290,7 +290,16 @@ es_text <- readLines(
     .f = \(x) gsub("centering", "raggedleft", x)
   ) |>
   purrr::map_chr(
-    .f = \(x) gsub("\\\\textbackslash\\{\\}", "", x)
+    .f = \(x) gsub("\\\\textbackslash\\{\\}| Values", "", x)
+  ) |>
+  purrr::map_chr(
+    .f = \(x) gsub("SB40\\\\%", "SB\\$\\_\\{40\\\\%}\\$", x)
+  ) |>
+  purrr::map_chr(
+    .f = \(x) gsub("SPR45", "SPR\\$\\_{45\\\\%}\\$", x)
+  ) |>
+  purrr::map_chr(
+    .f = \(x) gsub("R0", "R\\$\\_0\\$", x)
   ) |>
   purrr::map_chr(.f = \(x) gsub("(tab:reference)ES", "\\1", x))
 cat(es_text, sep = "\n")
