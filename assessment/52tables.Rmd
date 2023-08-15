@@ -28,8 +28,6 @@ comparison_row_names <- c(
 
 ## Data
 
-**to do**: this section is incomplete, more tables are needed and some can be provided as external csv files
-
 ```{r, results = "asis"}
 sa4ss::table_format(
   x = model[["timeseries"]] |>
@@ -82,7 +80,7 @@ sa4ss::table_format(
 
 ## Model Results
 
-**to do** missing model set up table
+<!-- **to do** missing model set up table -->
 
 ### Estimated Parameters
 
