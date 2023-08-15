@@ -30,57 +30,16 @@ sa4ss::add_figure(
     "plots",
     "catch2 landings stacked.png"
   ),
-  caption = "Landings by year from the fixed gear (FIX) and trawl (TWL) fleets.",
-  alt_caption = "",
+  caption = "Landings (mt) by year from the fixed gear (blue) and trawl (red) fleets.",
+  alt_caption = "See Table \\@ref(tab:landings) for the time series shown in this figure.",
   label = "data-landings"
 )
 ```
 
-
-```{r figures-discard-data, results = "asis"}
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "discard_dataFIX.png"
-  ),
-  caption = "Annual \\glsentrylong{wcgop} discard rates for the fixed-gear fleet.",
-  alt_caption = "",
-  label = "data-wcgop-discard-rates-fixed"
-)
-
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "discard_dataTWL.png"
-  ),
-  caption = "Annual \\glsentrylong{wcgop} discard rates for the trawl fleet.",
-  alt_caption = "",
-  label = "data-wcgop-discard-rates-trawl"
-)
-
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "bodywt_data_fltFIX.png"
-  ),
-  caption = "Annual \\glsentrylong{wcgop} mean weights of discarded fish for the fixed-gear fleet.",
-  alt_caption = "",
-  label = "data-wcgop-discard-wghts-fixed"
-)
-
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "bodywt_data_fltTWL.png"
-  ),
-  caption = "Annual \\glsentrylong{wcgop} mean weights of discarded fish for the trawl fleet.",
-  alt_caption = "",
-  label = "data-wcgop-discard-wghts-trawl"
-)
+```{r figures-fishery-dependent-data, results = "asis"}
+ignore <- information_discard_figures |>
+  dplyr::select(filein, label, caption) |>
+  purrr::pmap(.f = sa4ss::add_figure)
 
 ignore <- information_comp_figures |>
   dplyr::filter(fleet_number %in% 1:2) |>
@@ -97,7 +56,7 @@ sa4ss::add_figure(
     figure_dir,
     "data_survey_wcgbt_proportion-by-depth.png"
   ),
-  caption = glue::glue("The proportion of positive tows that observe {spp} in the \\glsentrylong{{s-wcgbt}} across depths sampled."),
+  caption = glue::glue("The proportion of tows that observe {spp} out of all tows performed within a given range of depths (m) sampled for the \\glsentrylong{{s-wcgbt}}."),
   alt_caption = glue::glue("Approximately 25 percent of tows include {spp} at the shallowest depths sampled between 50--100 m with the percent positive tows increasing to 75 percent by 300 m. The highest percent positive tows occurs between 950--1,050 m with {spp} observed in greater than 95 percent of tows. The percent positive tows slowly declines to approximatley 60 percent at the maximum depth, 1,280 m, sampled."),
   label = "data-survey-wcgbt-proportion-by-depth"
 )
@@ -108,22 +67,21 @@ sa4ss::add_figure(
     figure_dir,
     "data_survey_wcgbt_presence-by-lat.png"
   ),
-  caption = glue::glue("The proportion of positive tows that observe {spp} in the \\glsentrylong{{s-wcgbt}} by latitude."),
+  caption = glue::glue("The proportion of tows that observe {spp} out of all tows performed within a given range of latitudes (decimal degress) in the \\glsentrylong{{s-wcgbt}}."),
   alt_caption = glue::glue("Approximately 70--75 percent of tows include {spp} in Oregon and Washington. In California north of Point Conception, approximately 70 percent of the tows include {spp}, except around Point Reyes where the pecentage declines to between 60--70 percent. South of Point Conception in California, 25--45 percent of tows include {spp}."),
   label = "data-survey-wcgbt-proportion-by-latitude"
 )
 
 sa4ss::add_figure(
   fs::path(figures_location, "qq.png"),
-  caption = "Quantile-quantile plot for \\glsentrylong{s-wcgbt} index fit using a gamma distribution for the rate component of the delta model.",
+  caption = "Quantile-quantile plot for the presence\\slash absence (purple) and rate (yellow) components of a delta model fit to abundance data from the \\glsentrylong{s-wcgbt} where the rate component assumed a gamma distribution.",
   label = "qq"
 )
 
 sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "index1_cpuedata_NWCBO.png"
+  filein = fs::dir_ls(
+    regexp = "index1_.+NWCBO|index1.+cpuedata_WCGBT",
+    path = fs::path(model_location, "plots")
   ),
   caption = "Annual relative index of abundance for the \\glsentrylong{s-wcgbt}.",
   alt_caption = "",
@@ -136,7 +94,7 @@ sa4ss::add_figure(
    figure_dir,
     "data_survey_wcgbt_young-length-by-year.png"
   ),
-  caption = "The length distribution of age-0 and age-1 fish by survey pass across years sampled by the \\glsentrylong{s-wcgbt}. Blue dots indicate the lengths observed for each age and by pass.",
+  caption = "The length distribution of age-0 (upper panel) and age-1 (lower panel) fish by survey pass (colors) across years sampled by the \\glsentrylong{s-wcgbt}. Blue dots indicate the lengths observed for each age and by pass.",
   alt_caption = "The distribution of lengths of age-0 fish, generally 30 cm or less, with the majority of age-0 fish being observed during pass 2 of the survey. Age-0 fish generally range between 30--45 cm in size with pass 2 observing larger age-1 fish compared to pass 1. Age-1 fish observed in 2021 and 2022 have a wide distribution of observed sizes between 25--45 cm.",
   label = "data-survey-wcgbt-young-length-by-year"
 )
@@ -157,6 +115,15 @@ ignore <- information_comp_figures |>
   dplyr::select(filein, label, caption) |>
   purrr::pmap(.f = sa4ss::add_figure)
 
+sa4ss::add_figure(
+  filein = fs::dir_ls(
+    regexp = "index1_cpuedata.+[Ee][Nn][Vv]",
+    path = fs::path(model_location, "plots")
+  ),
+  caption = "Annual relative index of abundance for the environmental index.",
+  alt_caption = "",
+  label = "data-survey-env-index"
+)
 ```
 
 ## Model Results
@@ -167,13 +134,13 @@ ignore <- information_comp_figures |>
 ignore <- fs::dir_ls(
   fs::path(dirname(model_location), "bridging"),
   type = "file",
-  regex = "compare1_|compare2_|s_index5|flt7"
+  regex = "compare1_|compare3_|s_index5|flt7"
 ) |>
   tibble::as_tibble_col(column_name = "filein") |>
   dplyr::mutate(
     label = paste(
       "bridging",
-      gsub("(.+)(_)(.+)(\\.png)", "\\1", basename(filein)),
+      gsub("([0-9]+-)([a-z0-9]+)_(.+)(\\.png)", "\\1\\2", basename(filein)),
       sep = "-"
     ),
     type = dplyr::case_when(
@@ -354,7 +321,7 @@ ignore <- fs::dir_ls(
 ) |>
   tibble::as_tibble_col(column_name = "filein") |>
   dplyr::mutate(
-    fleet_numeric = recode_fleet(gsub(".+_([A-Z]+).png$", "\\1", filein)),
+    fleet_numeric = recode_fleet(gsub(".+_([A-Za-z \\.]+).png$", "\\1", filein)),
     fleet = recode_fleet_text(as.numeric(fleet_numeric)),
     caption = glue::glue("Fit to the {fleet}."),
     label = paste0("index2-cpuefit-", fleet_numeric)

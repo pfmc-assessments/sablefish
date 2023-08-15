@@ -15,12 +15,17 @@ A brief list of changes that were made to the model configuration compared to th
 
 - **Data**
 
-  - The landings time series was both corrected and updated from the previous assessment. See Section \@ref(data) for more details on each of these changes.
+  - The landings time series was both corrected and updated from the previous assessment. See Section \@ref(data) for more details on each of these changes. None of the changes in the catch time series led to changes in the fit to the \gls{s-wcgbt} index (Figure \@ref(fig:bridging-1-compare13)). Corrections to the historical time series led to a slight increase in $R_0$ and thus also the remainder of the time series in spawning biomass (Figure \@ref(fig:bridging-1-compare1)) but not changes fraction unfished (Figure \@ref(fig:bridging-1-compare3)).
     - First, landings from the Oregon Coast \gls{inpfc} area, i.e., between 42.000--46.267\textdegree N. latitude are no longer excluded from the total landings.
     - Second, landings from 1977--1982 in the catch reporting area that includes both U.S. and Canadian waters are now assigned 50--50\% to each country rather than 100\% to the U.S.
     - Third, a time series of `r spp` catches from the At-Sea Pacific Hake fishery are now included in the trawl fleet. Previous assessments have included bycatch of `r spp` from the shoreside fleet but these at-sea catches were previously only included as a sensitivity. Note that the corresponding length-composition data from this bycatch fleet was not included.
-  - The index for the \gls{s-wcgbt} was updated with the most recent data using _sdmtmb_.
-  - The survey length-composition data were input as either sexed or unsexed fish rather than assigning a sex to unsexed fish based on the observed sex ratio as was done in the past.
+  - The index for the \gls{s-wcgbt} was updated with the most recent data using _sdmtmb_ (Figure \@ref(fig:bridging-2-compare13)). Updating the index led to changes in $R_0$ but little change in recent biomass (Figures \@ref(fig:bridging-2-compare1)--\@ref(fig:bridging-2-compare3)), and thus, the recent population status is at a lower fraction of unfished than the previous base model.
+  - The following data changes led to noticeable changes in the model output but should be looked at in aggregate after the model was retuned with the compositional data rather than prior to the tuning (Figures \@ref(fig:bridging-2-compare13)--\@ref(fig:bridging-2-compare3)).
+    - The index for the environmental linkage was updated.
+    - The survey length-composition data were input as either sexed or unsexed fish rather than assigning a sex to unsexed fish based on the observed sex ratio as was done in the past. This change led to even further increases in estimates of $R_0$ (Figures \@ref(fig:bridging-2-compare1)--\@ref(fig:bridging-2-compare3)) and the trend in abundance from the \gls{s-wcgbt} index (Figure \@ref(fig:bridging-2-compare13)).
+    - The length- and age-composition data present in the model were updated and data from the most recent years were included.
+    - Information on mean body weight of the discarded fish were updated and data from the most recent years were included.
+    - Information on discard rates from the most recent years were included and the input variance for these two most recent years in the trawl fleet was set to 0.05.
 
 - **Fleet structure**
 
@@ -35,6 +40,8 @@ A brief list of changes that were made to the model configuration compared to th
   - The bias adjustment ramp was updated to end with the last year of catches and begin to ramp down towards zero two years prior. Other parameters in the ramp were left as they were specified in the 2019 assessment. Note that the traditional method for estimating these parameters, which occurs external to the model, can often lead to the ramp starting years before composition data are available because of the inclusion of the environmental index.
 
 - **Selectivity and retention**
+
+Fixing the retention and selectivity parameters at their bounds led to almost no changes in the model output (Figures \@ref(fig:bridging-3-compare13)--\@ref(fig:bridging-3-compare3)).
 
   <!-- SizeSel_PRet_1_FIX(1)_BLK2repl_2019 -->
   - The ascending inflection for size-based retention within the fixed-gear fleet in the 2019 time block was fixed at the lower bound of 10 given that it was consistently estimated at this lower bound during the bridging analysis.

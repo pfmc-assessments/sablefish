@@ -17,13 +17,13 @@ recode_Project <- function(x, gls = FALSE) {
 recode_fleet <- function(x) {
   x <- tolower(as.character(x))
   dplyr::case_when(
-    x %in% c("fix", "pot", "hkl", "tls") ~ "1",
-    x == c("twl") ~ "2",
-    x %in% c("env") ~ "3",
+    x %in% c("fix", "pot", "hkl", "tls", "fixed gear") ~ "1",
+    x %in% c("twl", "trawl") ~ "2",
+    x %in% c("env", "env. index") ~ "3",
     x %in% c("akshlf", "triennial", "tri") ~ "4",
-    x %in% c("akslp", "afsc.slope", "aslope") ~ "5",
-    x %in% c("nwslp", "nwfsc.slope", "nslope") ~ "6",
-    x %in% c("nwcbo", "nwfsc.combo", "wcgbt") ~ "7",
+    x %in% c("akslp", "afsc.slope", "aslope", "ak slope") ~ "5",
+    x %in% c("nwslp", "nwfsc.slope", "nslope", "nwfsc slope") ~ "6",
+    x %in% c("nwcbo", "nwfsc.combo", "wcgbt", "wcgbts") ~ "7",
     TRUE ~ NA_character_
   ) |>
   as.numeric()

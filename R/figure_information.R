@@ -143,9 +143,9 @@ file_to_text <- function(x) {
       "Year-specific conditional age-at-length data with 1.64 standard errors of the mean (left) and standard deviation (Stdev) at age with 90 percent interval from a chi-square distribution for the standard deviation of mean age (right) from the",
     # Body weight
     grepl("bodywt_data", x) ~
-      "Annual \\glsentrylong{wcgop} mean weights for the",
+      "Annual \\glsentrylong{wcgop} mean weights (kg) for the",
     grepl("bodywt_fit", x) ~
-      "Fits to the mean body weight data for the",
+      "Fits to the mean body weight (kg) data for the",
     grepl("discard_data", x) ~
       "Annual \\glsentrylong{wcgop} discard rates for the"
   )
@@ -156,9 +156,9 @@ file_to_type <- function(x) {
   gsub(pattern = "_flt[0-9]+|mkt[0-3]", replacement = "") |>
   gsub(pattern = "_bubflt[0-9]+_", replacement = "_bub_") |>
   gsub(pattern = "_plotsflt[0-9]", replacement = "") |>
-  gsub(pattern = "_flt[A-Za-z]+\\.png", replacement = "") |>
+  gsub(pattern = "_flt[A-Za-z ]+\\.png", replacement = "") |>
   gsub(pattern = "flt[0-9]+\\.png", replacement = "") |>
-  gsub(pattern = "_data[A-Za-z]+\\.png", replacement = "") |>
+  gsub(pattern = "_data[A-Za-z ]+\\.png", replacement = "") |>
   # Must be next to last
   gsub(pattern = "_page[0-9]+|\\.png", replacement = "") |>
   # Must be last
@@ -167,8 +167,8 @@ file_to_type <- function(x) {
 
 file_to_fleet_number <- function(x) {
   strings <- ifelse(
-    test = grepl(".+[daflt]{3,4}([a-zA-Z]+)\\.png", x),
-    yes = recode_fleet(gsub(".+[daflt]{3,4}([a-zA-Z]+)\\.png", "\\1", x)),
+    test = grepl(".+[daflt]{3,4}([a-zA-Z ]+)\\.png", x),
+    yes = recode_fleet(gsub(".+[daflt]{3,4}([a-zA-Z ]+)\\.png", "\\1", x)),
     no = gsub(".+[flt]{3}([0-9]+).+", "\\1", x)
   )
   out <- type.convert(strings, "numeric", as.is = TRUE)

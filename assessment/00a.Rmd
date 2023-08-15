@@ -44,16 +44,8 @@ model_location_previous <- fs::path(
 )
 tex_table_location <- fs::path(model_location, "tex_tables")
 fs::dir_create(tex_table_location)
-fleetnames <- if (FALSE) {
-  c(
-    "fixed gear",
-    "trawl",
-    "environment",
-    "triennial",
-    "AK slope",
-    "NW slope",
-    "WCGBT"
-  )
+fleetnames <- if (TRUE) {
+   recode_fleet_figure(seq(model[["nfleets"]]))
 } else {
   "default"
 }
@@ -136,6 +128,10 @@ information_fit_figures <- figure_information(
 information_weight_figures <- figure_information(
   regex = "bodywt_fit"
 )
+information_discard_figures <- figure_information(
+  regex = "discard_data|bodywt_data"
+) |>
+  dplyr::arrange(rev(type))
 ```
 
 ```{r env-model-objects}
