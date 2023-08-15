@@ -1,3 +1,3 @@
-### Environmental indices {#ssh}
+### Environmental indices
 
-to do: fill in environmental time series information
+Research and assessments during recent decades have examined the relationship between sea level, measured via tide gauges, and `r spp` recruitment [@haltuch_status_2019b]. Changes in sea level serve as a proxy for large-scale climate forcing that drives regional changes in alongshore and cross-shelf ocean transport. A re-analysis of the relationship between sea level and recruitment was conducted for this assessment that included all available tide-gauge data available for the U.S. West Coast through 2022, using the same approach as in the 2019 benchmark assessment (Figure \ref{fig:data-survey-env-index}).
