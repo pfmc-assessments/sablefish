@@ -290,7 +290,7 @@ sa4ss::add_figure(
 )
 ```
 
-### Estimated Time series
+### Estimated Time Series
 
 ```{r figures-time-series, results = "asis"}
 ignore <- fs::dir_ls(

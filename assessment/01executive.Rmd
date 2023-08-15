@@ -5,13 +5,13 @@ executive[["stock"]] <- paste0("This assessment update reports the status of ",
   " using data through 2022.")
 ```
 
-# Executive summary{-}
+# Executive Summary{-}
 
 ## Stock{-}
 
 `r executive[["stock"]]` The resource is modeled as a single stock; however, `r spp` disperse to and from offshore seamounts, along the coastal waters of the U.S. West Coast, Canada, and Alaska and across the Aleutian Islands to the western Pacific. This potential movement is not explicitly accounted for in this analysis.
 
-## Landings and catches{-}
+## Landings and Catches{-}
 
 The earliest landings of `r spp` off the West Coast used within in this assessment begin in `r startyr`. The landings began to slowly increase starting in the 1910s and continued at a roughly constant level until the 1960s where landings sharply increased, peaking in the late 1970s (Figure \@ref(fig:es-landings)). After peaking in the late 1970s, catches slowly decreased across the time series until the 2000s when catches generally stabilized roughly between 4,000--6,000 mt. For this assessment, fishery landings have been divided among two coastwide fleets: a fixed gear and a trawl fleet (see Table \@ref(tab:es-landings) for the most recent ten years). Annual discard mortality by fleet is estimated within the model and informed by data from the \glsentrylong{wcgop} and other historical discarding studies. This internal estimation can result in model estimates of catches (landings plus discards) that differ between stock assessments, even when the input landings remain unchanged, due to changes in fixed and estimated parameter values, priors, or parameterizations. 
 
@@ -56,13 +56,13 @@ sa4ss::add_figure(
 )
 ```
 
-## Data and assessment{-}
+## Data and Assessment{-}
 
 The last benchmark stock assessment for `r spp` took place during 2019 [@haltuch_status_2019b], followed by an update assessment conducted in 2021 [@Kapur:2021:SSA].  This assessment update uses the stock assessment framework \gls{ss3} version `r ss3_version[["current"]]`. Primary data sources include fishery landings, length compositions from discarded fish, and age compositions from the retained catch. The fishery landings were re-evaluated for this assessment update and extended through `r endyr`.  No new age reading were conducted for the fishery collections. Data on the discarded rates and mean observed individual body weight of the discarded catch were updated and new values were included in this analysis. Though, only the two most recently available years, 2020--2021, of discard rates were updated and the rest remained at the values used in the 2021 update assessment. The relative index of abundance estimated using data from the \glsentrylong{s-wcgbt}, which samples depths from 55--1,280 m, represents the primary source of information on the stock's trend and was updated and re-analyzed to include the most recent data, including length- and conditional-age-at-length composition data, covering the period `r text_survey_year_range("NWFSC.Combo")`. Other, discontinued, survey indices contribute information on trend and `r spp` demographics: (a) \glsentrylong{s-nslope} conducted from `r text_survey_year_range("NWFSC.Slope")`, (b) \glsentrylong{s-aslope} conducted from `r text_survey_year_range("AFSC.Slope")`, and (c) \glsentrylong{s-tri} conducted from `r text_survey_year_range("Triennial")`. Data from the historical surveys were not re-evaluated for this assessment update. Additionally, an environmental time-series of sea level was used as a survey index of recruitment in the base model; this time-series was updated and re-analyzed using the latest tide gauge data.
 
 All externally estimated model parameters, (a) weight-length relationship, (b) maturity schedule, and (c) fecundity relationships, remained unchanged from the 2019 benchmark assessment. As in previous assessments, growth and natural mortality were estimated using sex-specific relationships. Uncertainty in recruitment was included by estimating a full time-series of deviations from the stock-recruitment curve. The `one-way-trip' nature of the time-series does not facilitate estimation of the steepness parameter ($h$) of the stock-recruitment relationship. Therefore, $h$ was fixed at 0.7, similar to values used for other groundfish stock assessments, and information regarding $h$ is explored in this analysis via likelihood profiles.
 
-## Stock biomass and dynamics{-}
+## Stock Biomass and Dynamics{-}
 
 During the first half of the 20th century it is estimated that `r spp` were exploited at relatively modest levels. Modest catches continued until the 1960s, along with a higher frequency of above average, but uncertain, estimates of recruitment through the 1970s, which led to a sharp increase in the spawning biomass during the mid-1950s to mid-1970s (Figure \@ref(fig:es-sb)). Subsequently, spawning biomass is estimated to have declined between the mid-1970s and the early 2010s, with the largest harvests occurring during the 1970s followed by harvests that were, on average, higher than pre-1970s harvest through the early 2000s. In recent years, the spawning biomass is estimated to be increasing due to strong recruitment events in 2013 and 2016 (Table \@ref(tab:ssbES)). Although the relative trend in spawning biomass is robust to uncertainty in the leading model parameters, the productivity of the stock is uncertain due to confounding of natural mortality, absolute stock size, and productivity. The estimates of uncertainty around the point estimate of stock size in `r endyr+1` are large, suggesting that the spawning biomass could range from just under `r format(sb_lci, nsmall = 0, big.mark = ",", digits = 3)` mt to `r format(sb_uci, nsmall = 0, big.mark = ",", digits = 3)` mt.  
 
@@ -182,7 +182,7 @@ sa4ss::add_figure(
 
 \newpage
 
-## Exploitation status{-}
+## Exploitation Status{-}
 
 Fishing intensity has been at or below the current management target since the mid-1980s and declining in the last ten years (Table \@ref(tab:exploitES); Figure \@ref(fig:es-1-spr)), where the \glsentrylong{spr} is reported as a ratio to the target of 45\%, $\frac{1-SPR}{1-SPR_{45\%}}$, and the occurrence of overexploitation relative to the proxy ocurrs at all values larger than 1.0. Estimated exploitation for the most recent year was on par with estimates from 2015--2019 but greater than the previous two years (Table \@ref(tab:exploitES)).
 
@@ -229,7 +229,7 @@ sa4ss::add_figure(
 
 \newpage
 
-## Ecosystem considerations{-}
+## Ecosystem Considerations{-}
 
 <!-- todo Add the references in this section -->
 The `r spp` climate vulnerability analysis [@McClure:2023:VCC] suggests that processes affecting recruitment are sensitive to climatic and, therefore, oceanic drivers. Given high climate vulnerability, changes in the abundance, productivity, and spatial distribution of `r spp` are likely, and these changes are likely to impact fishing fleets and communities because of the high value of this fishery. The climate vulnerability analysis also suggests that `r spp` are likely to shift their distribution in response to climate variability.
@@ -239,7 +239,7 @@ The `r spp` stock has experienced latitudinal shifts in the center of the distri
 
 Whale entanglements with pot gear has the potential to limit effort in the pot-gear sectors due to protections for marine mammals. The estimated fleet-wide entanglements were consistently above the 5-year running average threshold during 2002 to 2017 in the combined Limited Entry `r spp` and Open Access Fixed Gear pot sectors [@Hanson:2019:EHW]. This result was largely due to the Open Access Fixed Gear pot sector, which had entanglements consistently above the 5-year running average threshold, while entanglements in the Limited Entry `r spp` pot sector were consistently below the threshold.
 
-## Reference points{-}
+## Reference Points{-}
 
 The estimated 2023 spawning biomass relative to unfished equilibrium spawning biomass is `r round(100*model[["current_depletion"]], 2)`\%, well above the management target of 40\% of unfished spawning biomass. The fishing intensity has been at or below the $\text{SPR}_{45\%}$ since the mid 1980s and declining in the last ten years (Figure \@ref(fig:es-phase)). The relative spawning biomass compared to fishing intensity (SPR relative to the management target $\text{SPR}_{45\%}$) across almost all model years was above the thresholds in both directions (Figure \@ref(fig:es-phase)). All reference points were calculated based on a steepness value fixed at `r round(model$parameters[model$parameters$Label == "SR_BH_steep","Value"], 2)` and the estimated selectivities and catch distributions among fleets in the most recent year of the model, `r endyr` (Table \@ref(tab:referenceES)). Sustainable total yield, landings plus discards, using an $\text{SPR}_{45\%}$ is `r format(model$derived_quants[model$derived_quants$Label == "Dead_Catch_SPR", "Value"], scientific = FALSE, big.mark = ",")` mt. The spawning biomass equivalent to 40\% of the unfished spawning biomass ($\text{SB}_{40\%}$) calculated using the SPR target ($\text{SPR}_{45\%}$) was `r format(model$derived_quants[model$derived_quants$Label == "SSB_Btgt", "Value"],  scientific = FALSE, big.mark = ",")` mt.
 
@@ -284,7 +284,7 @@ sa4ss::add_figure(
 
 \newpage
 
-## Management performance{-}
+## Management Performance{-}
 
 `r Spp` management includes a rich history of seasons, size-limits, trip-limits, and a complex permit system. Managers divide coastwide yield targets among the fleets, fishery sectors (including both limited entry and open access), as well as north and south of 36$^\circ$ N. latitude. In the most recent decade catches have been well below the overfishing limit (OFL) and annual catch limit (ACL) with attainment ranging between 53--83\% attainment of the ACL (Table \@ref(tab:es-manage)). Attainment by the fishery was lowest in 2020 and highest in 2022.
 
@@ -326,7 +326,7 @@ sa4ss::table_format(
 )
 ```
 
-## Unresolved problems and major uncertainties{-}
+## Unresolved Problems and Major Uncertainties{-}
 
 ```{r, echo=FALSE, results="asis"}
 filein <- fs::path(here::here("assessment", "shared_text","unresolved_uncertanties.Rmd"))
@@ -334,7 +334,7 @@ sa4ss::read_child(filein)
 ```
 
 
-## Decision table and projections{-}
+## Decision Table and Projections{-}
 
 The projection of stock biomass, status, and harvest limits was developed using the base model. The total catches in 2023 and 2024 were set at 9,118 and 8,359 mt, respectively, based on recommendations from the \glsentrylong{gmt}. The ABC values were estimated using a category 1 time-varying $\sigma_y$ starting at 0.50 combined with a P$^*$ value of 0.45. The catches during the projection period, 2025--2034 were set equal to the year-specific \glsentrylong{abc} (Table \@ref(tab:projectionES)). The spawning biomass and fraction unfished increase sharply during the projection due to the estimated large recruitments in 2020 and 2021 maturing and entering the spawning population, resulting in future \glsentrylongpl{ofl} and \glsentrylongpl{abc} that are substantially higher than those set for 2023--2024.
 
@@ -347,14 +347,14 @@ es_text <- readLines(
 cat(es_text, sep = "\n")
 ```
 
-## Scientific uncertainty{-}
+## Scientific Uncertainty{-}
 
 ```{r, echo=FALSE, results="asis"}
 filein <- fs::path(here::here("assessment", "shared_text", "scientific_uncertainty.Rmd"))
 sa4ss::read_child(filein)
 ```
 
-## Research and data needs{-}
+## Research and Data Needs{-}
 
 Please refer to the 2019 benchmark assessment for a detailed list of research and data needs for `r spp` [@haltuch_status_2019b].
 

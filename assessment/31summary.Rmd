@@ -1,14 +1,15 @@
 ## Summary of Previous Assessments and Reviews
+<!-- Sections are unlisted and unnumbered for the update -->
 
-### History of modeling approaches
-
-This section is not required for an update assessment.
-
-### Responses to Most Recent Previous STAR panel and SSC recommendations
+### History of Modeling Approaches{.unlisted .unnumbered}
 
 This section is not required for an update assessment.
 
-### Responses to Groundfish Subcommittee Recommendations
+### Responses to Most Recent Previous STAR panel and SSC Recommendations{.unlisted .unnumbered}
+
+This section is not required for an update assessment.
+
+### Responses to Groundfish Subcommittee Recommendations{.unlisted .unnumbered}
 
 This section is not required in a draft update assessment undergoing review.
 Point by point responses will be added after receiving the recommendations.

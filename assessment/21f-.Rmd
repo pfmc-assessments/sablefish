@@ -1,6 +1,6 @@
 ## Fishery-Dependent Data
 
-### Commercial Landings {#commercial-landings}
+### Commercial Landings
 
 Historical commercial landings prior to 1970, 1986, and 1980 for Washington, Oregon, and California, respectively, remained unchanged from the 2019 benchmark assessment. Landings data were pulled from PacFIN (17 July 2023) and re-evaluated in this assessment update.  
 
@@ -8,7 +8,7 @@ Changes to recent landings from \gls{pacfin} include typical updates to historic
 
 This assessment update also pulled bycatch of `r spp` by the At-Sea Pacific Hake fishery since 1990 from the \gls{afsc} \gls{norpac} database (27 July 2023). These data were not included in the landings data used in the 2019 benchmark and 2021 update assessments. Across most years the bycatch of `r spp` in the At-Sea Pacific Hake fishery is relatively low, particularly compared to the landings data from other groundfish sectors contained in \gls{pacfin}.  However, there have been select years where the bycatch of `r spp` in this fishery has been higher than average, which seem to correspond to one or two year after strong recruitment events for `r spp` (e.g., bycatch of 153 mt and 116 mt in 2017 and 2018, respectively).  The bycatch of `r spp` in this fishery in 2022 of 304 mt was greater than any other year in the time series (1990--2022).  These data were added to landings for the trawl fleet in the model and were included in the model bridging to better understand the impact of adding these removals to the model.  
 
-### Commercial Discard Data
+### Commercial Discard
 
 The \gls{wcgop} estimates of commercial discards and biological data from 2020 and 2021 were added to the assessment update model. The assessment update for `r spp` conducted in 2021 experienced challenges where 2019 discard data appeared to depart in the frequency of `r spp` being discarded and the size of discarded fish requiring the assessment update to add a new retention block for the trawl and fixed gear fleets for 2019 and 2020. Including the most recent \gls{wcgop} data in this assessment update allowed for these data to better inform the estimation of recent discarding practices which may be changing due to large recent recruitment events.
 
