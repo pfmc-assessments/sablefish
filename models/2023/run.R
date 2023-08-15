@@ -338,21 +338,24 @@ bridging_groups <- purrr::map(
     ignore.case = TRUE
   )
 )
-bridge_summary <- r4ss::SSsummarize(
-  biglist = purrr::map(
-    model_paths_bridging,
-    .f = \(x) r4ss::SS_output(
-      x,
-      verbose = FALSE,
-      printstats = FALSE,
-      wtfile = FALSE
-    )
-  ),
-  verbose = FALSE
+bridge_output <- purrr::map(
+  model_paths_bridging,
+  .f = r4ss::SS_output,
+  verbose = FALSE,
+  printstats = FALSE,
+  wtfile = FALSE
 )
+bridge_summary <- purrr::map(
+  bridging_groups,
+  .f = \(x, y = bridge_output) y[x] 
+) |>
+  purrr::map(
+    .f = r4ss::SSsummarize,
+    verbose = FALSE
+  )
 ignore <- purrr::pmap(
   .l = list(
-    models = bridging_groups,
+    summaryoutput = bridge_summary,
     filenameprefix = paste0(seq_along(bridging_groups), "-"),
     legendlabels = purrr::map(
       .x = bridging_groups,
@@ -360,7 +363,6 @@ ignore <- purrr::pmap(
     )
   ),
   .f = r4ss::SSplotComparisons,
-  summaryoutput = bridge_summary,
   plotdir = bridging_dir,
   print = TRUE,
   plot = FALSE,
