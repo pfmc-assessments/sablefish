@@ -53,8 +53,9 @@ rsconnect/
 # data-raw files unless forced
 data-raw/*
 
-# Project file (Chantel)
+# Project file
 *.Rproj
+.vscode/*
 
 # Model output files
 models/*/*/
