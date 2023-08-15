@@ -6,7 +6,10 @@
 sa4ss::read_child(file.path(here::here(), model_location, "base_model-results-jitter.md"))
 ```
 
-The estimated measures of uncertainty for `r xfun::numbers_to_words(NROW(parameters_bad))` parameters, primarily selectivity parameters, were excessively large with standard deviations for these parameters in the hundreds, if not thousands suggesting that they were poorly informed. We chose to leave their parameterization as is but we do show a sensitivity where all of these parameters were fixed at their estimated values to characterize changes the amount of uncertainty in derived quantities when they were not estimated compared to the base model where they were estimated (see Section \@ref(sensitivity-analyses) and Figure \@ref(fig:sensitivity-3-compare4)).
+Proper convergence was evaluated by starting the minimization process from dispersed values of the maximum likelihood estimates to determine if the model found a better minimum. Starting parameters were jittered using the jitter function built into Stock Synthesis, using a jitter input of 0.05. This was repeated 100 times with 16 out of 100 runs returning to the base model likelihood. A better, lower negative log-likelihood, model fit was not found. Through the jittering and the likelihood profiles, we are confident that the base model, as presented, represents the best fit to the data given the assumptions made. There were no difficulties in inverting the Hessian to obtain estimates of variability.
+
+During the process of jittering the model starting parameter values it was noted that often 1 or more selectivity parameters were estimated on their bounds. The estimated measures of uncertainty for `r xfun::numbers_to_words(NROW(parameters_bad))` parameters, primarily selectivity parameters, were excessively large with standard deviations for these parameters in the hundreds, if not thousands suggesting that they were poorly informed. We chose to leave their parameterization as is but we do show a sensitivity where all of these parameters were fixed at their estimated values to characterize changes the amount of uncertainty in derived quantities when they were not estimated compared to the base model where they were estimated (see Section \@ref(sensitivity-analyses) and Figure \@ref(fig:sensitivity-3-compare4)).
+
 
 ### Sensitivity Analyses
 
