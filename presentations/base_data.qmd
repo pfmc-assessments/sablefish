@@ -1,0 +1,165 @@
+---
+title: "2023 Limited Update of U.S. West Coast Sablefish"
+subtitle: "Data used in the assessment"
+author: Drs. Kelli F. Johnson, Chantel R. Wetzel, and Nick Tolimieri
+format:
+  revealjs: 
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    css: styles.css
+    footer: U.S. Department of Commerce | National Oceanic and Atmospheric Administration | National Marine Fisheries Service
+resources:
+  - demo.pdf
+---
+
+``` {r, setup, echo = FALSE, cache = TRUE}
+base_path <- fs::path(
+  "..", "models", "2023", "DiscardVariance", "base"
+)
+inputs <- r4ss::SS_read(base_path, verbose = FALSE)
+report <- r4ss::SS_output(
+  base_path,
+  printstats = FALSE,
+  verbose = FALSE
+)
+```
+
+## Disclaimer
+
+These materials do not constitute a formal publication and are for information
+only. They are in a pre-review, pre-decisional state and should not be formally
+cited or reproduced. They are to be considered provisional and do not represent
+any determination or policy of the National Oceanic and Atmospheric
+Administration or the Department of Commerce.
+
+## Data included in the assessment
+
+![](../models/2023/DiscardVariance/base/plots/data_plot.png){fig-align="center"}
+
+## Changes {auto-animate="true"}
+
+::: incremental
+-   First item
+-   Second item
+-   Third item
+:::
+
+## Landings {.smaller .scrollable}
+
+::: panel-tabset
+### Figure
+
+![](../models/2023/DiscardVariance/base/plots/catch2 landings stacked.png){fig-align="center"}
+
+### Table
+
+```{r}
+knitr::kable(
+  inputs[["dat"]][["catch"]] |>
+    dplyr::mutate(
+      catch = format(round(catch, 2), big.mark = ","),
+      fleet = factor(fleet, labels = c("fixed-gear", "trawl"))
+    ) |>
+    dplyr::filter(year >= 0) |>
+    dplyr::select(year, fleet, catch) |>
+    tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
+    dplyr::arrange(-year),
+  align = "lrr"
+)
+```
+:::
+
+## Abundance indices {.smaller .scrollable}
+
+::: panel-tabset
+### All CPUE
+
+![](../models/2023/DiscardVariance/base/plots/index9_standcpueall.png){fig-align="center"}
+
+### WCGBTS
+
+![](../models/2023/DiscardVariance/base/plots/index2_cpuefit_WCGBTS.png){fig-align="center"}
+
+### Environmental
+
+![](../models/2023/DiscardVariance/base/plots/index2_cpuefit_Env. Index.png){fig-align="center"}
+:::
+
+## Length compositions
+
+:::: {.columns}
+::: {.column width="20%"}
+Discarded from
+fixed gear
+:::
+
+::: {.column width="80%"}
+![](../models/2023/DiscardVariance/base/plots/comp_lendat_bubflt1mkt1.png){height=90% .absolute top=50}
+:::
+::::
+
+## Length compositions
+
+:::: {.columns}
+::: {.column width="20%"}
+Discarded from
+trawl gear
+:::
+
+::: {.column width="80%"}
+![](../models/2023/DiscardVariance/base/plots/comp_lendat_bubflt2mkt1.png){height=90% .absolute top=50}
+:::
+::::
+
+## Length compositions
+
+:::: {.columns}
+::: {.column width="20%"}
+Whole catch from
+WCGBTS
+:::
+
+::: {.column width="80%"}
+![](../models/2023/DiscardVariance/base/plots/comp_lendat_bubflt7mkt0.png){height=90% .absolute top=50}
+:::
+::::
+
+## WCGBTS age-0 and age-1 fish length
+
+![](../assessment/53Figures/data_survey_wcgbt_young-length-by-year.png){fig-align="center"}
+
+<!--
+## Age compositions
+
+![](../models/2023/DiscardVariance/base/plots/comp_agedat__aggregated_across_time.png){fig-align="center"}
+-->
+
+## Conditional compositions WCGBTS
+
+## {auto-animate="true"}
+
+::: .r-stack
+![](../models/2023/DiscardVariance/base/plots/comp_condAALfit_residsflt7mkt0_page4.png){.fragment .absolute bottom=0}
+![](../models/2023/DiscardVariance/base/plots/comp_condAALfit_residsflt7mkt0_page3.png){.fragment .absolute bottom=0}
+![](../models/2023/DiscardVariance/base/plots/comp_condAALfit_residsflt7mkt0_page2.png){.fragment .absolute bottom=0}
+![](../models/2023/DiscardVariance/base/plots/comp_condAALfit_residsflt7mkt0_page1.png){.fragment .absolute bottom=0}
+:::
+
+## Mean body weight
+
+::: {layout-ncol=2}
+![](../models/2023/DiscardVariance/base/plots/bodywt_data_fltFixed Gear.png)
+
+![](../models/2023/DiscardVariance/base/plots/bodywt_data_fltTrawl.png)
+:::
+
+## Discard rates
+
+::: {layout-ncol=2}
+![](../models/2023/DiscardVariance/base/plots/discard_dataFixed Gear.png)
+
+![](../models/2023/DiscardVariance/base/plots/discard_dataTrawl.png)
+:::
