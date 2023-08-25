@@ -44,6 +44,11 @@ model_location_previous <- fs::path(
 )
 tex_table_location <- fs::path(model_location, "tex_tables")
 fs::dir_create(tex_table_location)
+model <- r4ss::SS_output(
+  dir = model_location,
+  printstats = FALSE,
+  verbose = FALSE
+)
 fleetnames <- if (TRUE) {
    recode_fleet_figure(seq(model[["nfleets"]]))
 } else {
@@ -53,11 +58,7 @@ fleetnames <- if (TRUE) {
 #  create_plots = FALSE,
 #  save_loc = fs::path(model_location, "tables"))
 # Functionality from sa4ss::read_model
-model <- r4ss::SS_output(
-  dir = model_location,
-  printstats = FALSE,
-  verbose = FALSE
-)
+
 inputs <- r4ss::SS_read(dir = model_location)
 model_previous <- r4ss::SS_output(
   dir = model_location_previous,
