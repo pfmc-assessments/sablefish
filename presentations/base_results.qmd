@@ -212,23 +212,30 @@ recruitment |>
 -    Likelihood Profile $R_0$
 -    Retrospective
 
-## Model Diagnostics - Sensitivity 1
+## Model Diagnostics - Sensitivities
 
 - Fix selectivity parameters 
 - Alternative Bayesian environmental index
 
-## Model Diagnostics - Sensitivity 1
+::: {layout-ncol=2}
 
-![](../models/2023/DiscardVariance/sensitivities/1-compare4_Bratio_uncertainty.png){fig-align="center"}
+![](../models/2023/DiscardVariance/sensitivities/1-compare2_spawnbio_uncertainty.png)
 
-## Model Diagnostics - Sensitivity 2
+![](../models/2023/DiscardVariance/sensitivities/1-compare4_Bratio_uncertainty.png)
+:::
 
 ## Model Diagnostics - Sensitivities
 
 - Non-centered recruitment deviations 
 - Estimate added variance to the WCGBT index of abundance
 
-![](../models/2023/DiscardVariance/sensitivities/2-compare4_Bratio_uncertainty.png){fig-align="center"}
+::: {layout-ncol=2}
+
+![](../models/2023/DiscardVariance/sensitivities/2-compare2_spawnbio_uncertainty.png)
+
+![](../models/2023/DiscardVariance/sensitivities/2-compare4_Bratio_uncertainty.png)
+:::
+
 ## Model Diagnostics - Sensitivities
 
 ## Model Diagnostics - Sensitivity 3
@@ -236,11 +243,13 @@ recruitment |>
 - Alternative data weighting
 - Replace WCGBT CAAL with marginal ages
 
-![](../models/2023/DiscardVariance/sensitivities/3-compare2_spawnbio_uncertainty.png){fig-align="center"}
+::: {layout-ncol=2}
 
-## Model Diagnostics - Sensitivity 3
+![](../models/2023/DiscardVariance/sensitivities/3-compare2_spawnbio_uncertainty.png)
 
-![](../models/2023/DiscardVariance/sensitivities/3-compare4_Bratio_uncertainty.png){fig-align="center"}
+![](../models/2023/DiscardVariance/sensitivities/3-compare4_Bratio_uncertainty.png)
+:::
+
 
 ## Profile Female $M$
 
