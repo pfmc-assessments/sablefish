@@ -107,15 +107,16 @@ r4ss::SSplotCatch(
 ```{r}
 knitr::kable(
   inputs[["dat"]][["catch"]] |>
+    dplyr::filter(year > 2012) |>
     dplyr::mutate(
-      catch = format(round(catch, 2), big.mark = ","),
-      fleet = factor(fleet, labels = fleetnames)
+      catch = format(round(catch, 0), big.mark = ","),
+      fleet = factor(fleet, labels = paste(fleetnames[1:2], "(mt)"))
     ) |>
     dplyr::filter(year >= 0) |>
     dplyr::select(year, fleet, catch) |>
     dplyr::rename(Year = "year") |>
     tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
-    dplyr::arrange(-Year),
+    dplyr::arrange(Year),
   align = "lrr"
 )
 ```
