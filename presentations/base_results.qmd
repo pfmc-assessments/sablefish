@@ -101,11 +101,11 @@ report[["parameters"]] |>
 
 -    Environmental Index
 -    NWFSC WCGBTS Index
--    Length
--    Marginal Age (unchanged)
+-    Length Compositions
+-    Marginal Age Compositions (unchanged)
 -    Conditional Age-at-Length
 
-## Fits to the Data - Env. Index
+## Fits to the Data - Environmental Index
 
 ![](../models/2023/DiscardVariance/base/plots/index2_cpuefit_Env. Index.png)
 
@@ -141,7 +141,7 @@ report[["parameters"]] |>
 ![](../models/2023/DiscardVariance/base/plots/comp_condAALfit_residsflt7mkt0_page3.png){fig-align="center" width="900"}
 :::
 
-## Population Estimates - SB (mt)
+## Population Estimates - Spawning Biomass
 
 ::: {layout-ncol=2}
 ![](../models/2023/DiscardVariance/base/plots/ts7_Spawning_biomass_(mt)_with_forecast_with_95_asymptotic_intervals_forecast_intervals.png)
@@ -204,7 +204,7 @@ recruitment |>
 
 ## Model Diagnostics
 
--    Sensitivity 1
+-    Sensitivities
 -    Sensitivity 2
 -    Sensitivity 3
 -    Likelihood Profile $M$
@@ -214,7 +214,8 @@ recruitment |>
 
 ## Model Diagnostics - Sensitivity 1
 
-![](../models/2023/DiscardVariance/sensitivities/1-compare2_spawnbio_uncertainty.png){fig-align="center"}
+- Fix selectivity parameters 
+- Alternative Bayesian environmental index
 
 ## Model Diagnostics - Sensitivity 1
 
@@ -222,13 +223,18 @@ recruitment |>
 
 ## Model Diagnostics - Sensitivity 2
 
-![](../models/2023/DiscardVariance/sensitivities/2-compare2_spawnbio_uncertainty.png){fig-align="center"}
+## Model Diagnostics - Sensitivities
 
-## Model Diagnostics - Sensitivity 2
+- Non-centered recruitment deviations 
+- Estimate added variance to the WCGBT index of abundance
 
 ![](../models/2023/DiscardVariance/sensitivities/2-compare4_Bratio_uncertainty.png){fig-align="center"}
+## Model Diagnostics - Sensitivities
 
 ## Model Diagnostics - Sensitivity 3
+- Alternative treatment of parameters
+- Alternative data weighting
+- Replace WCGBT CAAL with marginal ages
 
 ![](../models/2023/DiscardVariance/sensitivities/3-compare2_spawnbio_uncertainty.png){fig-align="center"}
 
@@ -240,7 +246,7 @@ recruitment |>
 
 ![](../models/2023/DiscardVariance/base_profile_NatM_uniform_Fem_GP_1/piner_panel_NatM_uniform_Fem_GP_1.png){fig-align="center"}
 
-## Profile Female $M$ - SB
+## Profile Female $M$ - Spawning Biomass
 
 ::: {layout-ncol=2}
 ![](../models/2023/DiscardVariance/base_profile_NatM_uniform_Fem_GP_1/NatM_uniform_Fem_GP_1_trajectories_compare1_spawnbio.png)
@@ -252,7 +258,7 @@ recruitment |>
 
 ![](../models/2023/DiscardVariance/base_profile_NatM_uniform_Mal_GP_1/piner_panel_NatM_uniform_Mal_GP_1.png){fig-align="center"}
 
-## Profile Male $M$ - SB
+## Profile Male $M$ - Spawning Biomass
 
 ::: {layout-ncol=2}
 ![](../models/2023/DiscardVariance/base_profile_NatM_uniform_Mal_GP_1/NatM_uniform_Mal_GP_1_trajectories_compare1_spawnbio.png)
@@ -264,7 +270,7 @@ recruitment |>
 
 ![](../models/2023/DiscardVariance/base_profile_SR_BH_steep/piner_panel_SR_BH_steep.png){fig-align="center"}
 
-## Profile $h$ - SB
+## Profile $h$ - Spawning Biomass
 
 ::: {layout-ncol=2}
 ![](../models/2023/DiscardVariance/base_profile_SR_BH_steep/SR_BH_steep_trajectories_compare1_spawnbio.png)
@@ -276,7 +282,7 @@ recruitment |>
 
 ![](../models/2023/DiscardVariance/base_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png){fig-align="center"}
 
-## Profile $R_0$ - SB
+## Profile $R_0$ - Spawning Biomass
 
 ::: {layout-ncol=2}
 ![](../models/2023/DiscardVariance/base_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png)
@@ -284,7 +290,7 @@ recruitment |>
 ![](../models/2023/DiscardVariance/base_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare3_Bratio.png)
 :::
 
-## Retrospective
+## Retrospective - Spawning Biomass
 
 ::: {layout-ncol=2}
 ![](../models/2023/DiscardVariance/base_retro_5_yr_peel/compare2_spawnbio_uncertainty.png)
@@ -292,7 +298,7 @@ recruitment |>
 ![](../models/2023/DiscardVariance/base_retro_5_yr_peel/compare4_Bratio_uncertainty.png)
 :::
 
-## Retrospective
+## Retrospective - Recruitment Deviations and Index Fits
 
 ::: {layout-ncol=2}
 ![](../models/2023/DiscardVariance/base_retro_5_yr_peel/compare12_recdevs_uncertainty.png)
@@ -300,7 +306,7 @@ recruitment |>
 ![](../models/2023/DiscardVariance/base_retro_5_yr_peel/compare14_indices_log_flt7.png)
 :::
 
-## Projections
+## Population Projections
 
 -    Total catches in 2023 = 9,118 mt.
 -    Total catches in 2024 = 8,359 mt.
@@ -309,7 +315,7 @@ recruitment |>
 -    SB increased sharply during 2025--2034 due to the estimated large 2020 and 2021 recruitments.
 -    Future OFLs and ABCs are substantially higher than those set for 2023--2024.
 
-## Projection Results {.smaller .scrollable}
+## Population projections {.smaller .scrollable}
 
 ```{r projection-table}
 source("../R/table_projections.R")
