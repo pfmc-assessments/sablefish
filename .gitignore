@@ -85,3 +85,5 @@ _main*
 *.log
 *.png
 *.tex
+*.html
+*.js

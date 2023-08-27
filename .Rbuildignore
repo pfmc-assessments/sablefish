@@ -10,5 +10,6 @@
 ^data-processed$
 ^data-raw$
 ^models$
+^presentations$
 ^Sablefish2021$
 _targets.R
