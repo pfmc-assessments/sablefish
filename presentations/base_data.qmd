@@ -51,18 +51,18 @@ Administration or the Department of Commerce.*
 
 ::: incremental
 - Landings
-    - Landings from Oregon Coast INPFC area were included.
+    - Landings from Oregon Coast INPFC area were added.
     - Landings from 1977--1982 in the reporting area that includes both U.S.
       and Canadian waters were assigned 50--50\% to each country rather than
       100\% to the U.S., as was done previously.
-    - Bycatch from the at-sea Pacific Hake fishery was included.
-    - Fixed-gear and trawl landings from 2021--2022 were included.
+    - Bycatch from the at-sea Pacific Hake fishery was added.
+    - Fixed-gear and trawl landings from 2021--2022 were added.
 :::
 
 ## Changes {auto-animate="true"}
 
 ::: incremental
-- West Coast Groundfish Bottom Trawl Survey data were updated and extended
+- NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS) data were updated and extended
   through 2022.
     - Relative index of abundance,
     - length composition, and
