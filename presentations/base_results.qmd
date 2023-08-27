@@ -351,14 +351,14 @@ reference <- utils::read.csv(
   header = TRUE,
   check.names = FALSE
 )
-colnames(reference)[1] <- "name"
+colnames(reference)[1] <- "Quantity"
 reference |>
   dplyr::mutate(
     dplyr::across(
       -1,
       \(x) format(round(x, 3), big.mark = ",", nsmall = 3)
     ),
-    name = gsub("\\\\", "\\", name)
+    Quantity = gsub("\\\\", "\\", Quantity)
   ) |>
   knitr::kable(align = c("l", rep("r", 3)))
 ```
