@@ -1,6 +1,6 @@
 ---
-title: "2023 Limited Update of U.S. West Coast Sablefish"
-subtitle: "Assessment modeling and performance"
+title: "2023 Limited Assessment Update of U.S. West Coast Sablefish"
+subtitle: "Assessment Modeling and Performance"
 author: Drs. Kelli F. Johnson, Chantel R. Wetzel, and Nick Tolimieri
 format:
   revealjs: 
