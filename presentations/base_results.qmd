@@ -1,0 +1,349 @@
+---
+title: "2023 Limited Update of U.S. West Coast Sablefish"
+subtitle: "Assessment modeling and performance"
+author: Drs. Kelli F. Johnson, Chantel R. Wetzel, and Nick Tolimieri
+format:
+  revealjs: 
+    slide-number: c/t
+    show-slide-number: all
+    preview-links: auto
+    css: styles.css
+    footer: U.S. Department of Commerce | National Oceanic and Atmospheric Administration | National Marine Fisheries Service
+    embed-resources: true
+resources:
+  - demo.pdf
+---
+
+``` {r, setup, echo = FALSE, cache = TRUE}
+options(scipen = 999)
+model_location <- fs::path(
+  "..", "models", "2023", "DiscardVariance", "base"
+)
+report <- r4ss::SS_output(
+  model_location,
+  printstats = FALSE,
+  verbose = FALSE
+)
+fleetnames <- c(
+  "Fixed-Gear",
+  "Trawl",
+  "Env. Index",
+  "Triennial",
+  "AK Slope",
+  "NWFSC Slope",
+  "WCGBTS"
+)
+```
+
+## Disclaimer
+
+*These materials do not constitute a formal publication and are for information
+only. They are in a pre-review, pre-decisional state and should not be formally
+cited or reproduced. They are to be considered provisional and do not represent
+any determination or policy of the National Oceanic and Atmospheric
+Administration or the Department of Commerce.*
+
+## Parameters
+
+-    Biology
+-    Growth
+-    Maturity
+-    Fecundity
+-    Selectivity
+-    Retention
+
+## Parameters - Biology {.scrollable}
+
+```{r}
+report[["parameters"]] |>
+  dplyr::filter(grepl("NatM|L_at|VonBert|CV", Label), !is.na(Active_Cnt)) |>
+  dplyr::select(Label, Value, Parm_StDev, Gradient) |>
+  dplyr::mutate(
+    Label = gsub("_", " ", Label),
+    Label = gsub(" GP 1|Nat|uniform|VonBert ", "", Label),
+    Label = gsub("Fem", "Female", Label),
+    Label = gsub("Mal", "Male", Label)
+  ) |>
+  dplyr::arrange(Label) |>
+  dplyr::rename(SD = "Parm_StDev") |>
+  knitr::kable(
+    row.names = FALSE,
+    digits = c(0, 2, 3, 5)
+  )
+```
+
+## Parameters - Growth
+
+![](../models/2023/DiscardVariance/base/plots/bio1_sizeatage.png)
+
+## Parameters - Maturity \& Fecundity
+
+::: {layout-ncol=2}
+
+![](../models/2023/DiscardVariance/base/plots/bio6_maturity.png)
+
+![](../models/2023/DiscardVariance/base/plots/bio8_fecundity_wt.png)
+:::
+
+## Parameters - Selectivity
+
+::: {.scroll-container style="overflow-y: scroll; height: 400px;"}
+![](../models/2023/DiscardVariance/base/plots/selectivity.png){fig-align="center" width="800"}
+:::
+
+## Parameters - Retention
+
+::: {.scroll-container style="overflow-y: scroll; height: 400px;"}
+![](../models/2023/DiscardVariance/base/plots/retention.png){fig-align="center" width="700"}
+:::
+
+## Fits to the Data
+
+-    Environmental Index
+-    NWFSC WCGBTS Index
+-    Length
+-    Marginal Age (unchanged)
+-    Conditional Age-at-Length
+
+## Fits to the Data - Env. Index
+
+![](../models/2023/DiscardVariance/base/plots/index2_cpuefit_Env. Index.png)
+
+## Fits to the Data - WCGBTS Index
+
+::: {layout-ncol=2}
+![](../models/2023/DiscardVariance/base/plots/index2_cpuefit_WCGBTS.png)
+
+![](../models/2023/DiscardVariance/base/plots/index10_resids_SE_total_WCGBTS.png)
+:::
+
+## Fits to the Data - Length
+
+::: {.scroll-container style="overflow-y: scroll; height: 400px;"}
+![](../models/2023/DiscardVariance/base/plots/comp_lenfit__multi-fleet_comparison.png){fig-align="center" width="900"}
+:::
+
+## Fits to the Data - Age
+
+::: {.scroll-container style="overflow-y: scroll; height: 400px;"}
+![](../models/2023/DiscardVariance/base/plots/comp_agefit__multi-fleet_comparison.png){fig-align="center" width="900"}
+:::
+
+## Fits to the Data - Conditional Age
+
+::: {.scroll-container style="overflow-y: scroll; height: 400px;"}
+![](../models/2023/DiscardVariance/base/plots/comp_condAALfit_residsflt7mkt0_page4.png){fig-align="center" width="900"}
+:::
+
+## Fits to the Data - Conditional Age
+
+::: {.scroll-container style="overflow-y: scroll; height: 400px;"}
+![](../models/2023/DiscardVariance/base/plots/comp_condAALfit_residsflt7mkt0_page3.png){fig-align="center" width="900"}
+:::
+
+## Population Estimates - SB (mt)
+
+::: {layout-ncol=2}
+![](../models/2023/DiscardVariance/base/plots/ts7_Spawning_biomass_(mt)_with_forecast_with_95_asymptotic_intervals_forecast_intervals.png)
+
+![](../models/2023/DiscardVariance/base/plots/ts9_Relative_spawning_biomass_forecast_intervals.png)
+:::
+
+## Population Estimates - Recruitment {.smaller .scrollable}
+
+::: panel-tabset
+### Age-0
+
+```{r}
+r4ss::SSplotTimeseries(
+  replist = report,
+  subplot = 11,
+  plot = TRUE, print = FALSE
+)
+```
+
+### Deviations
+
+```{r}
+r4ss::SSplotRecdevs(
+  replist = report,
+  subplot = 2,
+  plot = TRUE, print = FALSE
+)
+```
+
+### Top 15
+
+```{r}
+recruitment <- report[["timeseries"]] |>
+  dplyr::select(Year = Yr, Recruitment = Recruit_0) |>
+  dplyr::mutate(
+    Recruitment = format(round(Recruitment, 0), big.mark = ",")
+  )
+recruitment |>
+  dplyr::slice_max(Recruitment, n = 15) |>
+  knitr::kable(align = c("r", "r"))
+```
+
+### Bottom 15
+
+```{r}
+recruitment |>
+  dplyr::slice_min(Recruitment, n = 15) |>
+  knitr::kable(align = c("r", "r"))
+```
+:::
+
+## Population Estimates - $F$
+
+::: {layout-ncol=2}
+![](../models/2023/DiscardVariance/base/plots/SPR3_ratiointerval.png)
+
+![](../models/2023/DiscardVariance/base/plots/SPR4_phase.png)
+:::
+
+## Model Diagnostics
+
+-    Sensitivity 1
+-    Sensitivity 2
+-    Sensitivity 3
+-    Likelihood Profile $M$
+-    Likelihood Profile $h$
+-    Likelihood Profile $R_0$
+-    Retrospective
+
+## Model Diagnostics - Sensitivity 1
+
+![](../models/2023/DiscardVariance/sensitivities/1-compare2_spawnbio_uncertainty.png){fig-align="center"}
+
+## Model Diagnostics - Sensitivity 1
+
+![](../models/2023/DiscardVariance/sensitivities/1-compare4_Bratio_uncertainty.png){fig-align="center"}
+
+## Model Diagnostics - Sensitivity 2
+
+![](../models/2023/DiscardVariance/sensitivities/2-compare2_spawnbio_uncertainty.png){fig-align="center"}
+
+## Model Diagnostics - Sensitivity 2
+
+![](../models/2023/DiscardVariance/sensitivities/2-compare4_Bratio_uncertainty.png){fig-align="center"}
+
+## Model Diagnostics - Sensitivity 3
+
+![](../models/2023/DiscardVariance/sensitivities/3-compare2_spawnbio_uncertainty.png){fig-align="center"}
+
+## Model Diagnostics - Sensitivity 3
+
+![](../models/2023/DiscardVariance/sensitivities/3-compare4_Bratio_uncertainty.png){fig-align="center"}
+
+## Profile Female $M$
+
+![](../models/2023/DiscardVariance/base_profile_NatM_uniform_Fem_GP_1/piner_panel_NatM_uniform_Fem_GP_1.png){fig-align="center"}
+
+## Profile Female $M$ - SB
+
+::: {layout-ncol=2}
+![](../models/2023/DiscardVariance/base_profile_NatM_uniform_Fem_GP_1/NatM_uniform_Fem_GP_1_trajectories_compare1_spawnbio.png)
+
+![](../models/2023/DiscardVariance/base_profile_NatM_uniform_Fem_GP_1/NatM_uniform_Fem_GP_1_trajectories_compare3_Bratio.png)
+:::
+
+## Profile Male $M$
+
+![](../models/2023/DiscardVariance/base_profile_NatM_uniform_Mal_GP_1/piner_panel_NatM_uniform_Mal_GP_1.png){fig-align="center"}
+
+## Profile Male $M$ - SB
+
+::: {layout-ncol=2}
+![](../models/2023/DiscardVariance/base_profile_NatM_uniform_Mal_GP_1/NatM_uniform_Mal_GP_1_trajectories_compare1_spawnbio.png)
+
+![](../models/2023/DiscardVariance/base_profile_NatM_uniform_Mal_GP_1/NatM_uniform_Mal_GP_1_trajectories_compare3_Bratio.png)
+:::
+
+## Profile $h$
+
+![](../models/2023/DiscardVariance/base_profile_SR_BH_steep/piner_panel_SR_BH_steep.png){fig-align="center"}
+
+## Profile $h$ - SB
+
+::: {layout-ncol=2}
+![](../models/2023/DiscardVariance/base_profile_SR_BH_steep/SR_BH_steep_trajectories_compare1_spawnbio.png)
+
+![](../models/2023/DiscardVariance/base_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png)
+:::
+
+## Profile $R_0$
+
+![](../models/2023/DiscardVariance/base_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png){fig-align="center"}
+
+## Profile $R_0$ - SB
+
+::: {layout-ncol=2}
+![](../models/2023/DiscardVariance/base_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png)
+
+![](../models/2023/DiscardVariance/base_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare3_Bratio.png)
+:::
+
+## Retrospective
+
+::: {layout-ncol=2}
+![](../models/2023/DiscardVariance/base_retro_5_yr_peel/compare2_spawnbio_uncertainty.png)
+
+![](../models/2023/DiscardVariance/base_retro_5_yr_peel/compare4_Bratio_uncertainty.png)
+:::
+
+## Retrospective
+
+::: {layout-ncol=2}
+![](../models/2023/DiscardVariance/base_retro_5_yr_peel/compare12_recdevs_uncertainty.png)
+
+![](../models/2023/DiscardVariance/base_retro_5_yr_peel/compare14_indices_log_flt7.png)
+:::
+
+## Projections
+
+-    Total catches in 2023 = 9,118 mt.
+-    Total catches in 2024 = 8,359 mt.
+-    ABC values use category 1 time-varying $\sigma_y$ starting at 0.50 combined with a P* value of 0.45.
+-    2025--2034 catches were set equal to the year-specific ABC
+-    SB increased sharply during 2025--2034 due to the estimated large 2020 and 2021 recruitments.
+-    Future OFLs and ABCs are substantially higher than those set for 2023--2024.
+
+## Projection Results {.smaller .scrollable}
+
+```{r projection-table}
+source("../R/table_projections.R")
+table_projection(
+  model_location = model_location,
+  model = report,
+  filename = "projections.html",
+  format = "html"
+) |>
+  dplyr::mutate(
+    dplyr::across(
+      -1,
+      \(x) gsub("([0-9]{1,3})([0-9]{3})", "\\1,\\2", x)
+    )
+  ) |>
+  knitr::kable(align = "r")
+```
+
+## Reference Points {.smaller .scrollable}
+
+```{r reference-points}
+reference <- utils::read.csv(
+  fs::path(model_location, "tables", "e_ReferencePoints_ES.csv"),
+  header = TRUE,
+  check.names = FALSE
+)
+colnames(reference)[1] <- "name"
+reference |>
+  dplyr::mutate(
+    dplyr::across(
+      -1,
+      \(x) format(round(x, 3), big.mark = ",", nsmall = 3)
+    ),
+    name = gsub("\\\\", "\\", name)
+  ) |>
+  knitr::kable(align = c("l", rep("r", 3)))
+```

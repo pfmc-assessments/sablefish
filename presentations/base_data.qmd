@@ -6,8 +6,7 @@ format:
   revealjs: 
     slide-number: c/t
     show-slide-number: all
-    chalkboard: 
-      buttons: false
+    embed-resources: true
     preview-links: auto
     css: styles.css
     footer: U.S. Department of Commerce | National Oceanic and Atmospheric Administration | National Marine Fisheries Service
@@ -16,24 +15,33 @@ resources:
 ---
 
 ``` {r, setup, echo = FALSE, cache = TRUE}
-base_path <- fs::path(
+model_location <- fs::path(
   "..", "models", "2023", "DiscardVariance", "base"
 )
-inputs <- r4ss::SS_read(base_path, verbose = FALSE)
+inputs <- r4ss::SS_read(model_location, verbose = FALSE)
 report <- r4ss::SS_output(
-  base_path,
+  model_location,
   printstats = FALSE,
   verbose = FALSE
+)
+fleetnames <- c(
+  "Fixed-Gear",
+  "Trawl",
+  "Env. Index",
+  "Triennial",
+  "AK Slope",
+  "NWFSC Slope",
+  "WCGBTS"
 )
 ```
 
 ## Disclaimer
 
-These materials do not constitute a formal publication and are for information
+*These materials do not constitute a formal publication and are for information
 only. They are in a pre-review, pre-decisional state and should not be formally
 cited or reproduced. They are to be considered provisional and do not represent
 any determination or policy of the National Oceanic and Atmospheric
-Administration or the Department of Commerce.
+Administration or the Department of Commerce.*
 
 ## Data included in the assessment
 
@@ -42,9 +50,39 @@ Administration or the Department of Commerce.
 ## Changes {auto-animate="true"}
 
 ::: incremental
--   First item
--   Second item
--   Third item
+- Landings
+    - Landings from Oregon Coast INPFC area were included.
+    - Landings from 1977--1982 in the reporting area that includes both U.S.
+      and Canadian waters were assigned 50--50\% to each country rather than
+      100\% to the U.S., as was done previously.
+    - Bycatch from the at-sea Pacific Hake fishery was included.
+    - Fixed-gear and trawl landings from 2021--2022 were included.
+:::
+
+## Changes {auto-animate="true"}
+
+::: incremental
+- West Coast Groundfish Bottom Trawl Survey data were updated and extended
+  through 2022.
+    - Relative index of abundance,
+    - length composition, and
+    - conditional-age-at-length data. 
+:::
+
+## Changes {auto-animate="true"}
+
+::: incremental
+- The environmental index data were updated and extended through 2022.
+:::
+
+## Changes {auto-animate="true"}
+
+::: incremental
+- West Coast Observers Program
+    - Mean weights and length compositions from discarded fish observed by 
+      the West Coast Observers Program were updated and the new values for 2020
+      and 2021 were added to the model.
+    - Discard rates from 2020--2021 were added to the model.
 :::
 
 ## Landings {.smaller .scrollable}
@@ -52,7 +90,17 @@ Administration or the Department of Commerce.
 ::: panel-tabset
 ### Figure
 
-![](../models/2023/DiscardVariance/base/plots/catch2 landings stacked.png){fig-align="center"}
+```{r}
+r4ss::SSplotCatch(
+  replist = report,
+  subplot = 2,
+  plot = TRUE, print = FALSE,
+  fleetnames = fleetnames,
+  fleetcols = r4ss::rich.colors.short(sum(report[["fleet_type"]] == 1)),
+  plotdir = getwd(),
+  verbose = FALSE
+)
+```
 
 ### Table
 
@@ -61,31 +109,42 @@ knitr::kable(
   inputs[["dat"]][["catch"]] |>
     dplyr::mutate(
       catch = format(round(catch, 2), big.mark = ","),
-      fleet = factor(fleet, labels = c("fixed-gear", "trawl"))
+      fleet = factor(fleet, labels = fleetnames)
     ) |>
     dplyr::filter(year >= 0) |>
     dplyr::select(year, fleet, catch) |>
+    dplyr::rename(Year = "year") |>
     tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
-    dplyr::arrange(-year),
+    dplyr::arrange(-Year),
   align = "lrr"
 )
 ```
 :::
 
-## Abundance indices {.smaller .scrollable}
+## Abundance indices {.smaller}
 
 ::: panel-tabset
 ### All CPUE
 
-![](../models/2023/DiscardVariance/base/plots/index9_standcpueall.png){fig-align="center"}
+```{r}
+r4ss::SSplotIndices(
+  report,
+  subplots = 9,
+  fleetnames = fleetnames
+)
+```
 
 ### WCGBTS
 
-![](../models/2023/DiscardVariance/base/plots/index2_cpuefit_WCGBTS.png){fig-align="center"}
+```{r}
+r4ss::SSplotIndices(report, subplots = 2, fleets = 7)
+```
 
 ### Environmental
 
-![](../models/2023/DiscardVariance/base/plots/index2_cpuefit_Env. Index.png){fig-align="center"}
+```{r}
+r4ss::SSplotIndices(report, subplots = 2, fleets = 3)
+```
 :::
 
 ## Length compositions
@@ -127,7 +186,7 @@ WCGBTS
 :::
 ::::
 
-## WCGBTS age-0 and age-1 fish length
+## WCGBTS age-0 and age-1 fish
 
 ![](../assessment/53Figures/data_survey_wcgbt_young-length-by-year.png){fig-align="center"}
 
