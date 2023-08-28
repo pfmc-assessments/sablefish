@@ -222,18 +222,21 @@ deviations <- report[["parameters"]] |>
     delim = "_",
     names = c("Period", "Type", "Year")
   ) |>
-  dplyr::mutate(
-    Value = format(round(Value, 3), nsmall = 3)
-  ) |>
   dplyr::select(Year, Deviation = Value)
 deviations |>
   dplyr::slice_max(Deviation, n = 15) |>
+  dplyr::mutate(
+    Deviation = format(round(Deviation, 3), nsmall = 3)
+  ) |>
   knitr::kable(align = c("r", "r"))
 ```
 
 ```{r}
 deviations |>
   dplyr::slice_min(Deviation, n = 15) |>
+  dplyr::mutate(
+    Deviation = format(round(Deviation, 3), nsmall = 3)
+  ) |>
   knitr::kable(align = c("r", "r"))
 ```
 :::

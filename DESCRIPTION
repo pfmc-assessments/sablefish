@@ -1,6 +1,6 @@
 Package: sablefish
 Title: Status of Sablefish as Reported to the Pacific Fisheries Management Council
-Version: 0.0.0.9003
+Version: 0.0.0.9004
 Authors@R: c(
     person(
       given = c("Kelli", "F."),
