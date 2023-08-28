@@ -110,7 +110,7 @@ knitr::kable(
     dplyr::filter(year > 2012) |>
     dplyr::mutate(
       catch = format(round(catch, 0), big.mark = ","),
-      fleet = factor(fleet, labels = paste(fleetnames[1:2], "(mt)"))
+      fleet = factor(fleet, labels = fleetnames[report[["fleet_type"]] == 1])
     ) |>
     dplyr::filter(year >= 0) |>
     dplyr::select(year, fleet, catch) |>
