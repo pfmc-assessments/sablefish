@@ -3,7 +3,7 @@ title: "2023 Limited Assessment Update of U.S. West Coast Sablefish"
 subtitle: "Updated and Added Data"
 author: Drs. Kelli F. Johnson, Chantel R. Wetzel, and Nick Tolimieri
 format:
-  revealjs: 
+  revealjs:
     slide-number: c/t
     show-slide-number: all
     embed-resources: true
@@ -122,7 +122,7 @@ knitr::kable(
 ```
 :::
 
-## Abundance indices {.smaller}
+## Abundance Indices {.smaller}
 
 ::: panel-tabset
 ### All CPUE
@@ -148,7 +148,7 @@ r4ss::SSplotIndices(report, subplots = 2, fleets = 3)
 ```
 :::
 
-## Length compositions
+## Length Compositions
 
 :::: {.columns}
 ::: {.column width="20%"}
@@ -161,7 +161,7 @@ fixed gear
 :::
 ::::
 
-## Length compositions
+## Length Compositions
 
 :::: {.columns}
 ::: {.column width="20%"}
@@ -174,7 +174,7 @@ trawl gear
 :::
 ::::
 
-## Length compositions
+## Length Compositions
 
 :::: {.columns}
 ::: {.column width="20%"}
@@ -187,19 +187,17 @@ WCGBTS
 :::
 ::::
 
-## WCGBTS age-0 and age-1 fish
+## WCGBTS Age-0 and Age-1 Fish
 
 ![](../assessment/53Figures/data_survey_wcgbt_young-length-by-year.png){fig-align="center"}
 
 <!--
-## Age compositions
+## Age Compositions
 
 ![](../models/2023/DiscardVariance/base/plots/comp_agedat__aggregated_across_time.png){fig-align="center"}
 -->
 
-## Conditional compositions WCGBTS
-
-## {auto-animate="true"}
+## Conditional Compositions WCGBTS {auto-animate="true"}
 
 ::: .r-stack
 ![](../models/2023/DiscardVariance/base/plots/comp_condAALfit_residsflt7mkt0_page4.png){.fragment .absolute bottom=0}
@@ -208,7 +206,7 @@ WCGBTS
 ![](../models/2023/DiscardVariance/base/plots/comp_condAALfit_residsflt7mkt0_page1.png){.fragment .absolute bottom=0}
 :::
 
-## Mean body weight
+## Mean Body Weight
 
 ::: {layout-ncol=2}
 ![](../models/2023/DiscardVariance/base/plots/bodywt_data_fltFixed Gear.png)
@@ -216,10 +214,12 @@ WCGBTS
 ![](../models/2023/DiscardVariance/base/plots/bodywt_data_fltTrawl.png)
 :::
 
-## Discard rates
+## Discard Rates
 
 ::: {layout-ncol=2}
 ![](../models/2023/DiscardVariance/base/plots/discard_dataFixed Gear.png)
 
 ![](../models/2023/DiscardVariance/base/plots/discard_dataTrawl.png)
 :::
+
+## End of Data

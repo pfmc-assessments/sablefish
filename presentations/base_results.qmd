@@ -43,6 +43,22 @@ cited or reproduced. They are to be considered provisional and do not represent
 any determination or policy of the National Oceanic and Atmospheric
 Administration or the Department of Commerce.*
 
+## Bridging
+
+::: {layout-ncol=2}
+![](../models/2023/DiscardVariance/bridging/1-compare1_spawnbio.png)
+
+![](../models/2023/DiscardVariance/bridging/2-compare1_spawnbio.png)
+:::
+
+## Base model
+
+::: {layout-ncol=2}
+![](../models/2023/DiscardVariance/bridging/3-compare1_spawnbio.png)
+
+![](../models/2023/DiscardVariance/bridging/3-compare3_Bratio.png)
+:::
+
 ## Parameters
 
 -    Biology
@@ -162,18 +178,9 @@ r4ss::SSplotTimeseries(
 )
 ```
 
-### Deviations
+### Top/Bottom
 
-```{r}
-r4ss::SSplotRecdevs(
-  replist = report,
-  subplot = 2,
-  plot = TRUE, print = FALSE
-)
-```
-
-### Top 15
-
+::: {layout-ncol=2}
 ```{r}
 recruitment <- report[["timeseries"]] |>
   dplyr::select(Year = Yr, Recruitment = Recruit_0) |>
@@ -185,13 +192,51 @@ recruitment |>
   knitr::kable(align = c("r", "r"))
 ```
 
-### Bottom 15
-
 ```{r}
 recruitment |>
   dplyr::slice_min(Recruitment, n = 15) |>
   knitr::kable(align = c("r", "r"))
 ```
+:::
+
+### Deviations
+
+```{r}
+r4ss::SSplotRecdevs(
+  replist = report,
+  subplot = 2,
+  plot = TRUE, print = FALSE
+)
+```
+
+### Top/Bottom
+
+::: {layout-ncol=2}
+```{r}
+deviations <- report[["parameters"]] |>
+  dplyr::filter(
+    grepl("RecrDev", Label)
+  ) |>
+  tidyr::separate_wider_delim(
+    cols = Label,
+    delim = "_",
+    names = c("Period", "Type", "Year")
+  ) |>
+  dplyr::mutate(
+    Value = format(round(Value, 3), nsmall = 3)
+  ) |>
+  dplyr::select(Year, Deviation = Value)
+deviations |>
+  dplyr::slice_max(Deviation, n = 15) |>
+  knitr::kable(align = c("r", "r"))
+```
+
+```{r}
+deviations |>
+  dplyr::slice_min(Deviation, n = 15) |>
+  knitr::kable(align = c("r", "r"))
+```
+:::
 :::
 
 ## Population Estimates - $F$
@@ -204,18 +249,15 @@ recruitment |>
 
 ## Model Diagnostics
 
--    Sensitivities
--    Sensitivity 2
--    Sensitivity 3
+-    Sensitivities - Exploration
+-    Sensitivities - Structural Changes
+-    Sensitivities - Standard Set
 -    Likelihood Profile $M$
 -    Likelihood Profile $h$
 -    Likelihood Profile $R_0$
 -    Retrospective
 
-## Model Diagnostics - Sensitivities
-
-- Fix selectivity parameters 
-- Alternative Bayesian environmental index
+## Sensitivities - Exploration
 
 ::: {layout-ncol=2}
 
@@ -224,10 +266,7 @@ recruitment |>
 ![](../models/2023/DiscardVariance/sensitivities/1-compare4_Bratio_uncertainty.png)
 :::
 
-## Model Diagnostics - Sensitivities
-
-- Non-centered recruitment deviations 
-- Estimate added variance to the WCGBT index of abundance
+## Sensitivities - Structural Changes
 
 ::: {layout-ncol=2}
 
@@ -236,12 +275,7 @@ recruitment |>
 ![](../models/2023/DiscardVariance/sensitivities/2-compare4_Bratio_uncertainty.png)
 :::
 
-## Model Diagnostics - Sensitivities
-
-## Model Diagnostics - Sensitivity 3
-- Alternative treatment of parameters
-- Alternative data weighting
-- Replace WCGBT CAAL with marginal ages
+## Sensitivities - Standard Set
 
 ::: {layout-ncol=2}
 
@@ -249,7 +283,6 @@ recruitment |>
 
 ![](../models/2023/DiscardVariance/sensitivities/3-compare4_Bratio_uncertainty.png)
 :::
-
 
 ## Profile Female $M$
 
@@ -307,12 +340,12 @@ recruitment |>
 ![](../models/2023/DiscardVariance/base_retro_5_yr_peel/compare4_Bratio_uncertainty.png)
 :::
 
-## Retrospective - Recruitment Deviations and Index Fits
+## Retrospective - Deviations & WCGBTS
 
 ::: {layout-ncol=2}
-![](../models/2023/DiscardVariance/base_retro_5_yr_peel/compare12_recdevs_uncertainty.png)
+![Log of recruitment deviations.](../models/2023/DiscardVariance/base_retro_5_yr_peel/compare12_recdevs_uncertainty.png)
 
-![](../models/2023/DiscardVariance/base_retro_5_yr_peel/compare14_indices_log_flt7.png)
+![WCGBTS index.](../models/2023/DiscardVariance/base_retro_5_yr_peel/compare13_indices_flt7.png)
 :::
 
 ## Population Projections
@@ -324,7 +357,7 @@ recruitment |>
 -    SB increased sharply during 2025--2034 due to the estimated large 2020 and 2021 recruitments.
 -    Future OFLs and ABCs are substantially higher than those set for 2023--2024.
 
-## Population projections {.smaller .scrollable}
+## Population Projections {.smaller .scrollable}
 
 ```{r projection-table}
 source("../R/table_projections.R")
@@ -362,3 +395,13 @@ reference |>
   ) |>
   knitr::kable(align = c("l", rep("r", 3)))
 ```
+
+## Thank you
+
+-    To all that made this limited update happen within a very limited amount
+     of time. Particularly the age readers at the Cooperative Ageing Program 
+     and the staff in charge of the discard data within the West Coast
+     Groundfish Observer Program.
+-    To the members of the Population Ecology at the NWFSC for providing
+     helpful tools that allow for rapid, reproducible research.
+-    To Drs. Owen Hamel and Jim Hastie for reviewing the draft assessment.
