@@ -24,7 +24,7 @@ diagnostic_settings <- nwfscDiag::get_settings(
       "NatM_uniform_Fem_GP_1",  0.05,  0.09,  0.005,     "real",
       "NatM_uniform_Mal_GP_1",  0.05,  0.09,  0.005,     "real",
                "SR_BH_steep",   0.25,  1.00,  0.075,     "real",
-                 "SR_LN(R0)",   9.00, 11.00,  0.20,      "real",
+                 "SR_LN(R0)",   9.30, 10.40,  0.10,      "real",
     ),
     prior_like = 1,
     verbose = FALSE,
