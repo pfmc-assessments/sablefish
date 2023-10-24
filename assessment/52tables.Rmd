@@ -157,7 +157,10 @@ model[["parameters"]] %>%
 ```
 
 ```{r tables-likelihoods, results = "asis"}
-table_likelihoods(model)
+cat(
+  readLines(fs::path(model_location, "tables", "likelihoods.tex")),
+  sep = "\n"
+)
 ```
 
 ```{r tables-weights, results = "asis"}
