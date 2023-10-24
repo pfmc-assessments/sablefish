@@ -423,7 +423,7 @@ names(model_historical) <- fs::dir_ls(
   type = "directory"
 ) |> basename()
 r4ss::SSplotComparisons(
-  r4ss::SSsummarize(c(model_historical, list(model)), verbose = FALSE),
+  r4ss::SSsummarize(c(model_historical), verbose = FALSE),
   plotdir = figures_location,
   subplots = c(2, 4),
   print = TRUE,
