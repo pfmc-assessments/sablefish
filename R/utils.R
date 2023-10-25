@@ -81,3 +81,19 @@ copy_model_dir <- function(dir_old, dir_new, force = FALSE) {
   message("Finished copying files to ", dir_new)
   return(invisible(TRUE))
 }
+
+read_all_models_fast <- function(dir, ...) {
+  output <- purrr::map(
+    .x = fs::dir_ls(path = dir, type = "directory"),
+    .f = \(x) r4ss::SS_output(
+      x,
+      verbose = FALSE,
+      printstats = FALSE,
+      covar = FALSE,
+      NoCompOK = TRUE,
+      compfile = NULL,
+      ...
+    )
+  )
+  invisible(return(output))
+}

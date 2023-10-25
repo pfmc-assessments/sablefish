@@ -45,6 +45,7 @@ Imports:
     nwfscDiag,
     nwfscSurvey (>= 2.1),
     PacFIN.Utilities,
+    PEPtools,
     purrr,
     r4ss,
     sa4ss (>= 23.5),
@@ -58,6 +59,7 @@ Remotes:
     pfmc-assessments/nwfscSurvey,
     pfmc-assessments/nwfscDiag@retro_figs,
     pfmc-assessments/PacFIN.Utilities,
+    pfmc-assessments/PEPtools,
     pfmc-assessments/sa4ss,
     r4ss/r4ss
 Depends: 

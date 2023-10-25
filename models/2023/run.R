@@ -13,6 +13,8 @@ user_model_current <- fs::path("models", "2023", "DiscardVariance", "base")
 user_end_year <- 2022
 # Number of parallel sessions you want for diagnostics
 n_workers <- 3
+# Harvest Control Rules (P*) for the decision table
+hcrs <- c("0.45", "0.40")
 
 diagnostic_settings <- nwfscDiag::get_settings(
   settings = list(
@@ -44,10 +46,16 @@ sensitivity_dir <- fs::path(
   dirname(user_model_current),
   "sensitivities"
 )
+decision_dir <- fs::path(
+  here::here(),
+  dirname(user_model_current),
+  "decision_table"
+)
 data_dir <- fs::path(here::here(), "data-processed")
 fs::dir_create(model_dir)
 fs::dir_create(bridging_dir)
 fs::dir_create(sensitivity_dir)
+fs::dir_create(decision_dir)
 model_ss3_path <- r4ss::get_ss3_exe(dir = model_dir)
 # model_ss3_path <- fs::path(dir = model_dir, "ss3")
 
@@ -682,6 +690,69 @@ ignore <- purrr::pmap(
   subplots = c(2, 4, 5, 7, 9, 11, 13, 14),
   legendloc = "topleft"
 )
+
+###############################################################################
+# Run the decision table models
+###############################################################################
+hcrs_dirs <- fs::path(decision_dir, paste0("Pstar_", hcrs))
+fs::dir_create(hcrs_dirs)
+created_dirs <- purrr::map(hcrs_dirs, \(x) fs::dir_copy(model_dir, x))
+purrr::map(
+  created_dirs,
+  .f = \(x) file.rename(x, gsub("base$", "2_base", x))
+)
+base_model_results <- r4ss::SS_output(
+  dir = model_dir,
+  printstats = FALSE,
+  verbose = FALSE,
+  covar = FALSE,
+  compfile = NULL
+)
+decision_year <- base_model_results[["endyr"]] + 1
+base_sb <- base_model_results[["derived_quants"]] |>
+  dplyr::filter(Label == paste0("SSB_", decision_year)) |>
+  dplyr::reframe(
+    SB_range = Value /
+      exp(c(low = 1, high = -1) * 1.15 * base_model_results[["OFL_sigma"]])
+  )
+# To do: test that the following function works and was moved to PEPtools
+#        make sure that the folders are labelled with numbers for correct order
+PEPtools::find_para(
+  dir = file.path(dir, base_model),
+  base = base,
+  yr = decision_year,
+  parm = c("SR_parm[1]"),
+  quant = c(0.875, 0.125),
+  est = FALSE,
+  sigma = round(base_model_results[["OFL_sigma"]], 3),
+  tol = 0.005,
+  use_115 = TRUE
+)
+
+decision_table_models <- purrr::map(
+  fs::dir_ls(
+    path = decision_dir,
+    regexp = paste(hcrs, collapse = "|"),
+    type = "directory"
+  ),
+  .f = \(x) read_all_models_fast(x)
+)
+sa4ss::decision_table(
+  "P*0.45" = decision_table_models[[2]],
+  "P*0.40" = decision_table_models[[1]],
+  years = decision_table_models[[1]][[1]]$endyr:
+   (decision_table_models[[1]][[1]]$endyr + 11) + 1,
+  caption = decision_table_caption(
+    "Low (columns 4--5) and high (columns 8--9) states of nature are based on",
+    "the terminal SB $\\pm$ 1.15 of the base model (columns 6--7) SB standard",
+    "deviation and the resulting unfished recruitment was used for the",
+    "projections. Results are conditioned on the first two years of catches,",
+    "provided by the \\glsentrytext{gmt}, being achieved exactly. The",
+    "alternative catch stream is based on $P^*$ of 0.40, where the",
+    "agreed-upon buffer level is $P^*$ = 0.45."
+  )
+) |>
+  writeLines(con = fs::path(decision_dir, "decision_table.tex"))
 
 ###############################################################################
 # Close all the connections
