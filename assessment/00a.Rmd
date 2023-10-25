@@ -33,6 +33,17 @@ fs::dir_create(c(tables_location, figures_location))
 ```
 
 ```{r inputs-load-model, cache = TRUE, include = FALSE}
+document_type <- c(
+  "update assessment",
+  "benchmark assessment",
+  "catch-only update assessment"
+)[1]
+alternative_text <- c(
+  catches = "See the catch table for the numeric representation of this figure.",
+  parameters = "See the parameter table for the numeric representation of this figure.",
+  "time-series" = "See the time series table for the numeric representation of this figure.",
+  "reference-points" = "See the reference points table for the numeric representation of this figure."
+)
 # User-specific settings
 model_location <- fs::path(
   here::here(),
@@ -113,10 +124,10 @@ r4ss::SSexecutivesummary(
   format = FALSE,
   verbose = FALSE
 )
-sa4ss::es_table_tex(
-  model_location,
-  table_folder = "tables"
+tables_data_frame_es <- sa4ss::create_tex_files_from_csv(
+  fs::path(model_location, "tables", "table_labels.csv")
 )
+
 plot_retention(model = model, width = 7, height = 10)
 plot_selex(model = model, width = 7, height = 10)
 table_projection(model_location = model_location, model = model)

@@ -304,4 +304,10 @@ es_text <- readLines(
   ) |>
   purrr::map_chr(.f = \(x) gsub("(tab:reference)ES", "\\1", x))
 cat(es_text, sep = "\n")
+
+# Decision table
+readLines(
+  fs::path(dirname(model_location), "decision_table", "decision_table.tex")
+) |>
+  cat(sep = "\n")
 ```
