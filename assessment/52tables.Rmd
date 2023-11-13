@@ -75,9 +75,6 @@ sa4ss::table_format(
   )
 )
 ```
-
-\include{52tables/data-survey-n.tex}
-
 ## Model Results
 
 <!-- **to do** missing model set up table -->

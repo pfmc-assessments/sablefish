@@ -50,42 +50,34 @@ process_survey <- function() {
   #============================================================================
   # Number of positive tows and biological samples by year and project
   #============================================================================
-  sa4ss::table_format(
+  utils::write.csv(
     x = dplyr::full_join(
       x = data_survey_catch |>
         dplyr::group_by(Project, Year) |>
         dplyr::summarise(
           Positive = sum(total_catch_numbers > 0),
-          Proportion = sprintf("%.2f", Positive/length(Year))
+          `Proportion Positive` = round(Positive/length(Year), 3)
         ),
       y = data_survey_bio |>
         dplyr::group_by(Project, Year) |>
         dplyr::summarise(
-          Lengthed = sum(!is.na(Length_cm)),
-          Aged = sum(!is.na(Age))
+          `N Lengthed` = sum(!is.na(Length_cm)),
+          `N Aged` = sum(!is.na(Age))
         ),
       by = c("Project", "Year")
     ) |>
       dplyr::ungroup() |>
       dplyr::mutate(
-        Project = recode_Project(Project, gls = TRUE),
-        dplyr::across(
-          -(1:2),
-          .fns = \(x) format(x, big.mark = ",")
-        )
+        Project = recode_Project(Project, gls = FALSE),
       ) |>
-      dplyr::rename(Survey = "Project") |>
+      dplyr::rename(
+        Survey = "Project",
+        `Positive Tows` = "Positive"
+      ) |>
       as.data.frame(),
-    escape = FALSE,
-    caption = paste(
-      "The total number of `positive' tows, the `proportion' of tows that were",
-      "positive and the number fish that were lengthed and\\slash or aged by",
-      "survey and year."
-    ),
-    label = "data-survey-n",
-    align = "r",
-  ) |>
-    kableExtra::save_kable(file = here::here(table_dir, "data-survey-n.tex"))
+    file = here::here(table_dir, "data-survey-n.csv"),
+    row.names = FALSE
+  )
 
   #============================================================================
   # Design-based index of abundance using strata
