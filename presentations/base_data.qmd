@@ -1,5 +1,5 @@
 ---
-title: "2023 Limited Assessment Update of U.S. West Coast Sablefish"
+title: "2023 Limited Update Assessment of U.S. West Coast Sablefish"
 subtitle: "Updated and Added Data"
 author: Drs. Kelli F. Johnson, Chantel R. Wetzel, and Nick Tolimieri
 format:
@@ -54,8 +54,8 @@ Administration or the Department of Commerce.*
     - Landings from Oregon Coast INPFC area were added.
     - Landings from 1977--1982 in the reporting area that includes both U.S.
       and Canadian waters were assigned 50--50\% to each country rather than
-      100\% to the U.S., as was done previously.
-    - Bycatch from the at-sea Pacific Hake fishery was added.
+      100\% to the U.S.A., as was done previously.
+    - Bycatch from the Pacific Hake At-Sea fishery was added.
     - Fixed-gear and trawl landings from 2021--2022 were added.
 :::
 
