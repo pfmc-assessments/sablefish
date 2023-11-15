@@ -1,4 +1,4 @@
-\clearpage
+
 
 \floatplacement{figure}{H}
 
@@ -16,7 +16,8 @@ sa4ss::add_figure(
     "data_plot.png"
   ),
   caption = "Summary of data sources used in the base model.",
-  alt_caption = "",
+  alt_caption = "Tabular information for this figure can be found in the data file.",
+  height = 80,
   label = "data-summary"
 )
 ```
@@ -31,7 +32,7 @@ sa4ss::add_figure(
     "catch2 landings stacked.png"
   ),
   caption = "Landings (mt) by year from the fixed gear (blue) and trawl (red) fleets.",
-  alt_caption = "See Table \\@ref(tab:landings) for the time series shown in this figure.",
+  alt_caption = "See Table 1 for the time series shown in this figure.",
   label = "data-landings"
 )
 ```
@@ -39,12 +40,18 @@ sa4ss::add_figure(
 ```{r figures-fishery-dependent-data, results = "asis"}
 ignore <- information_discard_figures |>
   dplyr::select(filein, label, caption) |>
-  purrr::pmap(.f = sa4ss::add_figure)
+  purrr::pmap(
+    .f = sa4ss::add_figure,
+    alt_caption = "See Report.sso for the time series of discard rates."
+  )
 
 ignore <- information_comp_figures |>
   dplyr::filter(fleet_number %in% 1:2) |>
   dplyr::select(filein, label, caption) |>
-  purrr::pmap(.f = sa4ss::add_figure)
+  purrr::pmap(
+    .f = sa4ss::add_figure,
+    alt_caption = "See Report.sso for the time series of discard compositions."
+  )
 ```
 
 ### Fishery-Independent Data
@@ -56,8 +63,8 @@ sa4ss::add_figure(
     figure_dir,
     "data_survey_wcgbt_proportion-by-depth.png"
   ),
-  caption = glue::glue("The proportion of tows that observe {spp} out of all tows performed within a given range of depths (m) sampled for the \\glsentrylong{{s-wcgbt}}."),
-  alt_caption = glue::glue("Approximately 25 percent of tows include {spp} at the shallowest depths sampled between 50--100 m with the percent positive tows increasing to 75 percent by 300 m. The highest percent positive tows occurs between 950--1,050 m with {spp} observed in greater than 95 percent of tows. The percent positive tows slowly declines to approximatley 60 percent at the maximum depth, 1,280 m, sampled."),
+  caption = glue::glue("The proportion of tows that observe {spp} out of all tows performed within a given range of depths m sampled for the \\glsentrylong{{s-wcgbt}}."),
+  alt_caption = glue::glue("Approximately 25 percent of tows include {spp} at the shallowest depths sampled between 50 m and 100 m with the percent positive tows increasing to 75 percent by 300 m. The highest percent positive tows occurs between 950 m and 1050 m with {spp} observed in greater than 95 percent of tows. The percent positive tows slowly declines to approximately 60 percent at the maximum depth sampled which was 1280 m."),
   label = "data-survey-wcgbt-proportion-by-depth"
 )
 
@@ -68,13 +75,14 @@ sa4ss::add_figure(
     "data_survey_wcgbt_presence-by-lat.png"
   ),
   caption = glue::glue("The proportion of tows that observe {spp} out of all tows performed within a given range of latitudes (decimal degrees) in the \\glsentrylong{{s-wcgbt}}."),
-  alt_caption = glue::glue("Approximately 70--75 percent of tows include {spp} in Oregon and Washington. In California north of Point Conception, approximately 70 percent of the tows include {spp}, except around Point Reyes where the percentage declines to between 60--70 percent. South of Point Conception in California, 25--45 percent of tows include {spp}."),
+  alt_caption = glue::glue("Approximately 70--75 percent of tows include {spp} in Oregon and Washington. In California north of Point Conception approximately 70 percent of the tows include {spp} except around Point Reyes where the percentage declines to between 60--70 percent. South of Point Conception in California 25--45 percent of tows include {spp}."),
   label = "data-survey-wcgbt-proportion-by-latitude"
 )
 
 sa4ss::add_figure(
   fs::path(figures_location, "qq.png"),
   caption = "Quantile-quantile plot for the presence\\slash absence (purple) and rate (yellow) components of a delta model fit to abundance data from the \\glsentrylong{s-wcgbt} where the rate component assumed a gamma distribution.",
+  alt_caption = "Points largely fall on the 1:1 line.",
   label = "qq"
 )
 
@@ -84,7 +92,7 @@ sa4ss::add_figure(
     path = fs::path(model_location, "plots")
   ),
   caption = "Annual relative index of abundance for the \\glsentrylong{s-wcgbt}.",
-  alt_caption = "",
+  alt_caption = "See Report.sso for the time series.",
   label = "data-survey-wcgbt-index"
 )
 
@@ -95,7 +103,7 @@ sa4ss::add_figure(
     "data_survey_wcgbt_young-length-by-year.png"
   ),
   caption = "The length distribution of age-0 (upper panel) and age-1 (lower panel) fish by survey pass (colors) across years sampled by the \\glsentrylong{s-wcgbt}. Blue dots indicate the lengths observed for each age and by pass.",
-  alt_caption = "The distribution of lengths of age-0 fish, generally 30 cm or less, with the majority of age-0 fish being observed during pass 2 of the survey. Age-0 fish generally range between 30--45 cm in size with pass 2 observing larger age-1 fish compared to pass 1. Age-1 fish observed in 2021 and 2022 have a wide distribution of observed sizes between 25--45 cm.",
+  alt_caption = "The distribution of lengths of age-0 fish generally 30 cm or less with the majority of age-0 fish being observed during pass 2 of the survey. Age-0 fish generally range between 30--45 cm in size with pass 2 observing larger age-1 fish compared to pass 1. Age-1 fish observed in 2021 and 2022 have a wide distribution of observed sizes between 25--45 cm.",
   label = "data-survey-wcgbt-young-length-by-year"
 )
 
@@ -106,14 +114,17 @@ sa4ss::add_figure(
 #     "data_survey_wcgbt_sex-by-depth.png"
 #   ),
 #   caption = glue::glue("The proportion of {spp} by sex observed by the \\glsentrylong{{s-wcgbt}} across depths sampled.",
-#   alt_caption = glue::glue("Observations of female {spp} are 50 percent or slightly greater between 150--400 m, with males being observed greater than 50 percent of the tows between 400--1,050 m. At the deepest depths sampled, between 1,050--1,280 m, females are observed in greater than 50 percent of the tows."),
+#   alt_caption = glue::glue("Observations of female {spp} are 50 percent or slightly greater between 150--400 m with males being observed greater than 50 percent of the tows between 400--1050 m. At the deepest depths sampled between 1050--1280 m females are observed in greater than 50 percent of the tows."),
 #   label = "data-survey-wcgbt-sex-by-depth"
 # )
 
 ignore <- information_comp_figures |>
   dplyr::filter(fleet_number == 7) |>
   dplyr::select(filein, label, caption) |>
-  purrr::pmap(.f = sa4ss::add_figure)
+  purrr::pmap(
+    .f = sa4ss::add_figure,
+    alt_caption = "Except for 2007 most large residuals are for young fish."
+  )
 
 sa4ss::add_figure(
   filein = fs::dir_ls(
@@ -121,7 +132,7 @@ sa4ss::add_figure(
     path = fs::path(model_location, "plots")
   ),
   caption = "Annual relative index of abundance for the environmental index.",
-  alt_caption = "",
+  alt_caption = "See Report.sso for the time series.",
   label = "data-survey-env-index"
 )
 ```
@@ -153,7 +164,10 @@ ignore <- fs::dir_ls(
     )
   ) |>
     dplyr::select(filein, caption, label) |>
-    purrr::pmap(.f = sa4ss::add_figure)
+    purrr::pmap(
+      .f = sa4ss::add_figure,
+      alt_caption = "Models followed similar trajectories after being tuned."
+    )
 ```
 
 ### Estimated Biology
@@ -166,7 +180,7 @@ sa4ss::add_figure(
     "bio6_maturity.png"
   ),
   caption = "Maturity at length.",
-  alt_caption = "",
+  alt_caption = "Fish are 50 percent mature at 55 cm.",
   label = "maturity"
 )
 sa4ss::add_figure(
@@ -176,7 +190,7 @@ sa4ss::add_figure(
     "bio5_weightatsize.png"
   ),
   caption = "Weight-length relationship.",
-  alt_caption = "",
+  alt_caption = "Mean weight exponentially increases after 40 cm.",
   label = "weight-at-length"
 )
 
@@ -187,11 +201,10 @@ sa4ss::add_figure(
     "bio1_sizeatage.png
 "
   ),
-  caption = "Length at age in the beginning of the year in the ending year of the model. Shaded area indicates 95% distribution of length at age around estimated growth curve.",
-  alt_caption = "",
+  caption = "Length at age in the beginning of the year in the ending year of the model. Shaded area indicates 95\\% distribution of length at age around estimated growth curve.",
+  alt_caption = "Maximum length (60 cm) asymptotes at a very young age.",
   label = "growth"
 )
-
 ```
 
 ### Estimated Selectivity
@@ -204,7 +217,7 @@ sa4ss::add_figure(
     "selectivity.png"
   ),
   caption = "Fleet-specific estimated selectivity at age by time block. Solid lines are female-specific and dashed lines are male-specific selectivities.",
-  alt_caption = "",
+  alt_caption = "See Report.sso for time series of selectivity and retention.",
   label = "sel02-multiple-fleets-age1"
 )
 
@@ -214,8 +227,9 @@ sa4ss::add_figure(
     figure_dir,
     "retention.png"
   ),
+  height = 70,
   caption = "Fleet-specific estimated retention by time block.",
-  alt_caption = "",
+  alt_caption = "See Report.sso for time series of selectivity and retention.",
   label = "retention"
 )
 
@@ -233,7 +247,10 @@ ignore <- fs::dir_ls(
     label = gsub(pattern = "_", "-", gsub("\\.png", "", basename(filein)))
   ) |>
   dplyr::select(filein, caption, label) |>
-  purrr::pmap(.f = sa4ss::add_figure)
+  purrr::pmap(
+    .f = sa4ss::add_figure,
+    alt_caption = "See Report.sso for time series of retention."
+  )
 
 #ignore <- fs::dir_ls(
 #  path = fs::path(model_location, "plots"),
@@ -257,21 +274,25 @@ ignore <- fs::dir_ls(
 sa4ss::add_figure(
   filein = file.path(model_location, "plots", "ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png"),
   caption = "Estimated time series of age-0 recruits (1000s).",
+  alt_caption = "See the time-series table for tabular data.",
   label = "recruits"
 )
 sa4ss::add_figure(
   filein = file.path(model_location, "plots", "recdevs2_withbars.png"),
   caption = "Estimated time series of recruitment deviations",
+  alt_caption = "See the time-series table for tabular data.",
   label = "rec-devs"
 )
 sa4ss::add_figure(
   filein = file.path(model_location, "plots", "recruit_fit_bias_adjust.png"),
   caption = "Points are transformed variances. Red line shows current settings for bias adjustment specified in the control file. Blue line shows least squares estimate of alternative bias adjustment relationship for recruitment deviations (which may or may not be an improvement).",
+  alt_caption = "The ramp fits the data for the end of the time series.",
   label = "bias-adjust"
 )
 sa4ss::add_figure(
   filein = file.path(model_location, "plots", "SR_curve.png"),
   caption = "Stock-recruit curve. Point colors indicate year, with warmer colors indicating earlier years and cooler colors in later years",
+  alt_caption = "Many more points are above the estimated curve than below.",
   label = "bh-curve"
 )
 ```
@@ -295,7 +316,10 @@ ignore <- fs::dir_ls(
     label = paste0("ts-", gsub("-\\(mt.+", "", gsub(pattern = " ", "-", type)))
   ) |>
   dplyr::select(filein, caption, label) |>
-  purrr::pmap(.f = sa4ss::add_figure)
+  purrr::pmap(
+    .f = sa4ss::add_figure,
+    alt_caption = "See the time-series table for tabular data."
+  )
 ```
 
 ### Fits to Data
@@ -314,25 +338,33 @@ ignore <- fs::dir_ls(
   ) |>
   dplyr::arrange(fleet_numeric) |>
   dplyr::select(filein, caption, label) |>
-  purrr::pmap(.f = sa4ss::add_figure)
+  purrr::pmap(
+    .f = sa4ss::add_figure,
+    alt_caption = "Fits are within the estimated confidence intervals."
+  )
 ```
 
 ```{r figures-fit-lengths, results = "asis"}
 sa4ss::add_figure(
   filein = fs::path(model_location, "plots",  "comp_lenfit__aggregated_across_time.png"), 
   caption = "Length composition aggregated across years by fleet with the model estimated fit to the data by sex (green unsexed, red female, and blue male).",
+  alt_caption = "The small fish in the WCGBTS are not fit well. Discard lengths are slightly underfit.",
   label = "comp-lenfit--aggregated-across-time"
 )
 ignore <- information_fit_figures |>
   dplyr::filter(type == "length") |>
   dplyr::select(filein, label, caption) |>
-  purrr::pmap(.f = sa4ss::add_figure)
+  purrr::pmap(
+    .f = sa4ss::add_figure,
+    alt_caption = "Most large residuals are for smaller fish or early years."
+  )
 ```
 
 ```{r figures-fit-age, results = "asis"}
 sa4ss::add_figure(
   filein = fs::path(model_location, "plots",  "comp_agefit__aggregated_across_time.png"), 
-  caption = "Length composition aggregated across years by fleet with the model estimated fit to the data by sex (green unsexed, red female, and blue male).",
+  caption = "Age composition aggregated across years by fleet with the model estimated fit to the data by sex (green unsexed, red female, and blue male).",
+  alt_caption = "Some young fish are underfit but older fish were unbiased.",
   label = "comp-agefit--aggregated-across-time"
 )
 ignore <- information_fit_figures |>
@@ -342,13 +374,19 @@ ignore <- information_fit_figures |>
     type
   ) |>
   dplyr::select(filein, label, caption) |>
-  purrr::pmap(.f = sa4ss::add_figure)
+  purrr::pmap(
+    .f = sa4ss::add_figure,
+    alt_caption = "Most older fish younger than the plus group were fit well. Smaller fish generally had larger residuals."
+  )
 ```
 
 ```{r figures-fit-mean-weight, results = "asis"}
 ignote <- information_weight_figures  |>
   dplyr::select(filein, label, caption) |>
-  purrr::pmap(.f = sa4ss::add_figure)
+  purrr::pmap(
+    .f = sa4ss::add_figure,
+    alt_caption = "Fits were close to the mean but well within the confidence intervals."
+  )
 ```
 
 ### Sensitivity and Retrospectives Analyses
@@ -375,7 +413,10 @@ ignore <- fs::dir_ls(
     )
   ) |>
     dplyr::select(filein, caption, label) |>
-    purrr::pmap(.f = sa4ss::add_figure)
+    purrr::pmap(
+      .f = sa4ss::add_figure,
+      alt_caption = "Most sensitives led to little change from the base model."
+    )
 ```
 
 ```{r figures-retro, results = "asis"}
@@ -393,7 +434,9 @@ info <- read.csv(
       filein
     ),
   ) |>
-    purrr::pmap(.f = sa4ss::add_figure)
+    purrr::pmap(
+      .f = sa4ss::add_figure
+    )
 ```
 
 ```{r figures-historical-make, cache = TRUE}
@@ -477,7 +520,10 @@ ignore <- tidyr::expand_grid(
     )
   ) |>
     dplyr::select(filein, caption, label) |>
-    purrr::pmap(.f = sa4ss::add_figure)
+    purrr::pmap(
+      .f = sa4ss::add_figure,
+      alt_caption = "The base model represents the best fit to the data and the median or average of the profiled values."
+    )
 ```
 
 ## Reference Points and Projections
@@ -489,8 +535,8 @@ sa4ss::add_figure(
     "plots",
     "SPR3_ratiointerval.png"
   ),
-  caption = "Time series of \\glsentrylong{spr} (SPR) ratio: (1-SPR)/(1-SPR 45%).",
-  alt_caption = "",
+  caption = "Time series of fishing intensity which is $\\frac{1-SPR}{1-SPR_{45\\%}}$ where SPR is \\glsentrylong{spr}.",
+  alt_caption = "Fishing intensity has been historically and recently below the target of 1.0.",
   label = "model-spr"
 )
 
@@ -502,7 +548,7 @@ sa4ss::add_figure(
   ),
   caption = "Phase plot of biomass ratio vs. SPR ratio.
 Each point represents the biomass ratio at the start of the year and the relative fishing intensity in that same year. Warmer colors (red) represent early years and colder colors (blue) represent recent years. Lines through the final point show 95 percent intervals based on the asymptotic uncertainty for each dimension.",
-  alt_caption = "",
+  alt_caption = "More years were over the fishing intensity target than under the biomass target but the majority of years have been within these bounds.",
   label = "model-phase"
 )
 
@@ -513,7 +559,7 @@ sa4ss::add_figure(
     "yield2_yield_curve_with_refpoints.png"
   ),
   caption = "Yield curve with reference points.",
-  alt_caption = "",
+  alt_caption = "Current yield is lower than the maximum sustainable yield but the population is above biomass targets.",
   label = "model-yield"
 )
 ```

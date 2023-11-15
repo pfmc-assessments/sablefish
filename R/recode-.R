@@ -62,3 +62,64 @@ recode_partition_text <- function(x) {
     x == 2 ~ "retained"
   )
 }
+
+# to do - Could format the names
+recode_parameter_names <- function(x, fleet_names) {
+  temp <- x |>
+    gsub(pattern = "Mat50.+(_[FM])", replacement = "Maturity at 50\\\\%\\1") |>
+    gsub(pattern = "Mat_slope(_[FM])", replacement = "Maturity slope\\1") |>
+    gsub(pattern = "(.+)_(Fem)(.+)", replacement = "\\1 (female)") |>
+    gsub(pattern = "(.+)_(Mal)(.+)", replacement = "\\1 (male)") |>
+    gsub(pattern = "NatM", replacement = "$M$") |>
+    gsub(pattern = "L_at_A", replacement = "Length-at-age ") |>
+    gsub(pattern = "VonBert_([a-zA-Z]+)", replacement = "von Bertalanffy \\1") |>
+    gsub(pattern = "CV_([a-zA-Z]+)", replacement = "Growth CV \\1") |>
+    gsub(pattern = "Wtlen_([0-9+])", replacement = "Weight-length \\1") |>
+    gsub(pattern = "FracFemale(_.+)", replacement = "Frac. female\\1") |>
+    gsub(pattern = "inter", replacement = "intercept") |>
+    gsub(pattern = "_base|_uniform", replacement = "") |>
+    # Stock--recruit parameters
+    gsub(pattern = "SR_BH_steep", replacement = "$h$") |>
+    gsub(pattern = "SR_LN\\(R0\\)", replacement = "$ln(R\\_0)$") |>
+    gsub(pattern = "SR_sigmaR", replacement = "$\\\\sigma\\_R$") |>
+    gsub(pattern = "SR_autocorr", replacement = "Stock--recr. $\\\\rho\\_1$") |>
+    # Q parameters
+    gsub(pattern = "extraSD", replacement = "extra SD") |>
+    gsub(pattern = "LnQ", replacement = "$ln$(Q)") |>
+    # Selectivity parameters
+    gsub(pattern = "_I.+Age_", replacement = " age ") |>
+    gsub(pattern = "_([A-Z]+)(\\([0-9]+\\))", replacement = " *\\2_") |>
+    gsub(pattern = "_BLK[0-9]+repl_", replacement = " ") |>
+    gsub(pattern = "_logit|_DblN|_se|Mort|", replacement = "") |>
+    gsub(pattern = "_([0-9]+)Male", replacement = " \\1 male ") |>
+    gsub(pattern = "maleoffset", replacement = "male offset") |>
+    gsub(pattern = "atZero", replacement = "at 0") |>
+    gsub(pattern = "atDogleg", replacement = "at dogleg") |>
+    gsub(pattern = "atMaxage", replacement = "at max. age") |>
+    gsub(pattern = "AgeSel", replacement = "Age") |>
+    gsub(pattern = "(.+)_RecrDev_", replacement = "\\1 Recr. Dev. ") |>
+    gsub(pattern = "ForeRecr_", replacement = "Forecast Recr. Dev. ")
+    contains_fleet <- grepl("*\\([0-9]+)", temp)
+    if (any(contains_fleet) && !missing(fleet_names)) {
+      fleet_numbers <- as.numeric(gsub(
+        pattern = ".+\\(|\\).+",
+        replacement = "",
+        x = temp[contains_fleet]
+      ))
+      replace_number_with <- fleet_names[fleet_numbers]
+      new_text <- purrr::map2(
+        .x = temp[contains_fleet],
+        .y = replace_number_with,
+        .f = \(xx, yy) gsub("\\*\\([0-9]+)", yy, x = xx)
+      ) |>
+      gsub(pattern = "_", replacement = " \\1")
+      temp[contains_fleet] <- new_text
+    }
+  # Do NOT do the following if more than 1 area
+  if (!any(grepl("_GP_2", x))) {
+    temp <- temp |>
+    gsub(pattern = "_GP_1", replacement = "")
+  }
+  final <- gsub(pattern = "_([a-zA-Z ])", replacement = " \\1", x = temp)
+  return(final)
+}

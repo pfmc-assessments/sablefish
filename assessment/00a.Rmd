@@ -3,7 +3,7 @@ month: "`r format(Sys.Date(), '%B')`"
 year: "`r format(Sys.Date(), '%Y')`"
 preamble: |
 csl: canadian-journal-of-fisheries-and-aquatic-sciences.csl
-disclaimer: true
+disclaimer: false
 output:
   sa4ss::techreport_pdf:
     default
@@ -113,7 +113,6 @@ r4ss::SSexecutivesummary(
   replist = model,
   ci_value = 0.95,
   es_only = FALSE,
-  tables = c(letters[1:9], "catch", "timeseries", "numbers"),
   fleetnames = fleetnames,
   endyr = model$endyr,
   adopted_ofl = NULL,
@@ -121,11 +120,17 @@ r4ss::SSexecutivesummary(
   adopted_acl = NULL,
   forecast_ofl = NULL,
   forecast_abc = NULL,
-  format = FALSE,
   verbose = FALSE
 )
 tables_data_frame_es <- sa4ss::create_tex_files_from_csv(
   fs::path(model_location, "tables", "table_labels.csv")
+)
+write.csv(
+  x = strata,
+  file = fs::path(model_location, "tables", "strata-design-based.csv"),
+  append = FALSE,
+  row.names = FALSE,
+  col.names = TRUE
 )
 
 plot_retention(model = model, width = 7, height = 10)

@@ -55,7 +55,8 @@ figure_information <- function(regex,
       # If the figure is not the first in a series, add ref to prev. fig.
       caption_end = ifelse(
         test = group_row != 1,
-        paste0(" Continued from Figure \\@ref(fig:", label_lag, ")."),
+        # To do: use the first rows label but I cannot get it to render.
+        paste0(" Continued."),
         ""
       ),
       # Use the filename to get the beginning of the caption

@@ -1,6 +1,3 @@
 ## Biological Data
 
-A number of biological parameters were estimated outside the 2019 assessment model
-(weight-length relationship, the maturity schedule, and fecundity relationships). These
-values are treated as fixed in that model and this assessment update, and therefore, uncertainty reported for the stock assessment results does not include any uncertainty associated with these quantities.
-
+A number of biological parameters were estimated external to These assessment model, including the weight-length relationship, maturity schedule, and fecundity relationships. These values are treated as fixed in the model, and therefore, uncertainty reported for the assessment results does not include any uncertainty associated with these quantities. These parameters were not updated for this `r document_type`.

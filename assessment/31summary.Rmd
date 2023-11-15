@@ -11,5 +11,4 @@ This section is not required for an update assessment.
 
 ### Responses to Groundfish Subcommittee Recommendations{.unlisted .unnumbered}
 
-This section is not required in a draft update assessment undergoing review.
-Point by point responses will be added after receiving the recommendations.
+The Groundfish Subcommittee recommended that ``research around density dependent growth be prioritized'', which was outside of the scope of this `r document_type` and will thus need to be a priority between now and the next benchmark assessment, particularly for years with large recruitment events.

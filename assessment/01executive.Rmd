@@ -8,15 +8,13 @@ This `r document_type` reports the status of `r spp` (*`r spp.sci`*) off the coa
 
 The earliest landings of `r spp` off the `r coast` used within in this assessment begin in `r startyr`. The landings began to slowly increase starting in the 1910s and continued at a roughly constant level until the 1960s, where landings sharply increased (Figure \@ref(fig:es-landings)). After peaking in the late 1970s, catches slowly decreased until the 2000s when catches generally stabilized roughly between 4,000 and 6,000 mt. Since the 2019 benchmark assessment [@haltuch_status_2019b], landings have been divided among coastwide fixed-gear and trawl fleets (see Table \@ref(tab:removalsES) for the most recent ten years). Annual discard mortality by fleet is estimated within the model and informed by data from the \glsentrylong{wcgop} and other historical discarding studies. This internal estimation can result in model estimates of catches that differ between stock assessments, even when the input landings remain unchanged, due to changes in parameters, priors, or parameterizations. 
 
-The landings in this assessment update were minimally revised and corrected from those used in the 2019 benchmark and the 2021 update assessments. First, landings from the 'Oregon Coast' \glsentrylong{inpfc} area, i.e., between 42.000--46.267\textdegree N. latitude, are no longer excluded from the total landings. Second, 1977--1982 landings from the catch reporting area that includes both U.S. and Canadian waters are now assigned equally to each country rather than 100\% to the U.S. Third, a time series of `r spp` catches from the At-Sea Pacific Hake fishery since 1990 are now included in the trawl fleet. Previous assessments have included bycatch of `r spp` from the shoreside fleet but these at-sea catches were previously only included as a sensitivity.
+The landings in this `r document_type` were minimally revised and corrected from those used in the 2019 benchmark and the 2021 `r document_type`s. First, landings from the 'Oregon Coast' \glsentrylong{inpfc} area, i.e., between 42.000--46.267\textdegree N. latitude, are no longer excluded from the total landings. Second, 1977--1982 landings from the catch reporting area that includes both U.S. and Canadian waters are now assigned equally to each country rather than 100\% to the U.S. Third, a time series of `r spp` catches from the Pacific Hake (*Merluccius productus*) At-Sea fishery since 1990 are now included in the trawl fleet. Previous assessments have included bycatch of `r spp` from the shoreside fleet but these at-sea catches were previously only included as a sensitivity.
 
 ```{r, results = "asis"}
 readLines(
   fs::path(model_location, "tables", "a_Catches_ES.tex")
 ) |> cat(sep = "\n")
-```
 
-```{r, results = "asis"}
 sa4ss::add_figure(
   filein = fs::path(
     model_location,
@@ -31,7 +29,7 @@ sa4ss::add_figure(
 
 ## Data and Assessment{-}
 
-The last benchmark stock assessment for `r spp` took place in 2019 [@haltuch_status_2019b] and was followed by an update in 2021 [@Kapur:2021:SSA].  This `r document_type` uses the stock assessment framework \gls{ss3} version `r ss3_version[["current"]]`. Primary data sources include fishery landings, length compositions from discarded fish and the \glsentrylong{s-wcgbt}, and age compositions from the retained catch and fishery-independent data sources. The fishery landings were re-evaluated for this `r document_type` and extended through `r endyr`. No new age readings were conducted for the fishery collections. Data on discard rates and mean observed individual body weight of the discarded catch were updated, while new values were included in this analysis. Though, only the two most recently available years, 2020--2021, of discard rates were updated and the rest remained at the values used in the 2021 update assessment. The relative index of abundance estimated using data from the \glsentrylong{s-wcgbt}, which samples depths between 55 and 1,280 m, represents the primary source of information regarding population trends and was updated and re-analyzed to include the most recent data. Length-composition and conditional age-at-length data were also updated for this survey to include the most recent data. Other, discontinued, survey indices also contribute information on trend and demographics. Historical surveys include the `r text_survey_year_range("NWFSC.Slope")` \glsentrylong{s-nslope}, `r text_survey_year_range("AFSC.Slope")` \glsentrylong{s-aslope}, and `r text_survey_year_range("Triennial")` \glsentrylong{s-tri}. Data from the historical surveys were not re-evaluated for this `r document_type`. Additionally, an environmental time-series of sea level informs recruitment in the base model; this time-series was updated and re-analyzed using the latest tide-gauge data.
+The last benchmark stock assessment for `r spp` took place in 2019 [@haltuch_status_2019b] and was followed by an update in 2021 [@Kapur:2021:SSA].  This `r document_type` uses the stock assessment framework \gls{ss3} version `r ss3_version[["current"]]`. Primary data sources include fishery landings, length compositions from discarded fish and the \glsentrylong{s-wcgbt}, and age compositions from the retained catch and fishery-independent data sources. The fishery landings were re-evaluated for this `r document_type` and extended through `r endyr`. No new age readings were conducted for the fishery collections. Data on discard rates and mean observed individual body weight of the discarded catch were updated, while new values were included in this analysis. Though, only the two most recently available years, 2020--2021, of discard rates were updated and the rest remained at the values used in the 2021 update assessment [@Kapur:2021:SSA]. The relative index of abundance estimated using data from the \glsentrylong{s-wcgbt}, which samples depths between 55 and 1,280 m, represents the primary source of information regarding population trends and was updated and re-analyzed to include the most recent data. Length-composition and conditional age-at-length data were also updated for this survey to include the most recent data. Other, discontinued, survey indices also contribute information on trend and demographics. Historical surveys include the `r text_survey_year_range("NWFSC.Slope")` \glsentrylong{s-nslope}, `r text_survey_year_range("AFSC.Slope")` \glsentrylong{s-aslope}, and `r text_survey_year_range("Triennial")` \glsentrylong{s-tri}. Data from the historical surveys were not re-evaluated for this `r document_type`. Additionally, an environmental time-series of sea level informs recruitment in the base model; this time-series was updated and re-analyzed using the latest tide-gauge data.
 
 All externally estimated model parameters, weight-length relationship, maturity schedule, and fecundity relationships, remained unchanged from the 2019 benchmark assessment. As in previous assessments, growth and natural mortality were estimated using sex-specific relationships. Uncertainty in recruitment was included by estimating a full time-series of deviations from the stock--recruitment curve. The `one-way-trip' nature of the time-series does not facilitate estimation of steepness ($h$) of the stock--recruitment relationship. Therefore, $h$ was fixed at 0.7, similar to values used for other groundfish stock assessments.
 
@@ -75,7 +73,7 @@ sa4ss::add_figure(
 
 ## Recruitment{-}
 
-`r Spp` recruitment is estimated to have been quite variable with large amounts of uncertainty in individual recruitment events. A period of generally negative recruitment was followed by a single large recruitment event in the 1960s. This large event was followed by a period of 10 or so years of average recruitment and another large recruitment event in the late-1970s. These two large events combined with a period of more slightly positive recruitments than what was estimated for pre-1960 contributed heavily to the large increase in biomass that subsequently declined throughout much of the 1970s. Some slightly large recruitments during the mid-1980s through 1990 slowed the rate of decline, with the 1999--2001 large recruitments leading to a leveling off in the decline. The above-average cohorts from 2008, 2013, 2015, 2016, 2020, and 2021 are contributing to the current increasing trend in spawning biomass (Table \@ref(tab:recrES) and Figures \@ref(fig:es-recruits) and \@ref(fig:es-rec-devs)). The large recruitment events in 2020 and 2021 are estimated to be two of the three largest recruitment events in the modeled period (Table \@ref(tab:recrES) and Figure \@ref(fig:es-rec-devs)).
+`r Spp` recruitment is estimated to have been quite variable with large amounts of uncertainty in individual recruitment events. A period of generally negative recruitment was followed by a single large recruitment event in the 1960s. This large event was followed by a period of 10 or so years of average recruitment and another large recruitment event in the late-1970s. These two large events combined with a period of more slightly positive recruitments than what was estimated for pre-1960 contributed heavily to the large increase in biomass that subsequently declined throughout much of the 1970s. Some slightly large recruitments during the mid-1980s through 1990 slowed the rate of decline, with the 1999--2001 large recruitments leading to a leveling off in the decline. The above-average cohorts from 2008, 2013, 2015, 2016, 2020, and 2021 are contributing to the current increasing trend in spawning biomass (Table \@ref(tab:recrES) and Figure \@ref(fig:es-recruits)). The large recruitment events in 2020 and 2021 are estimated to be two of the three largest recruitment events in the modeled period (Figure \@ref(fig:es-recruits)).
 
 ```{r results = "asis"}
 readLines(
@@ -93,17 +91,6 @@ sa4ss::add_figure(
   caption = "Estimated time series of age-0 recruits (1,000s; open circles) and 95\\% intervals (whiskers). The number of recruits in the year prior to the first modelled year (filled circle) is also shown.",
   alt_caption = alternative_text[["time-series"]],
   label = "es-recruits"
-)
-
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "recdevs2_withbars.png"
-  ),
-  caption = "Estimated time series of recruitment deviations with their 95 percent intervals. The early and recent blue dots are recruitment deviations that are not part of the main period.",
-  alt_caption = alternative_text[["parameters"]],
-  label = "es-rec-devs"
 )
 ```
 
@@ -168,7 +155,7 @@ Whale entanglements with pot gear has the potential to limit effort in the pot-g
 
 ## Reference Points{-}
 
-The estimated 2023 spawning biomass relative to unfished spawning biomass is `r round(100*model[["current_depletion"]], 2)`\%, well above the management target of 40\%. The estimated fishing intensity has been at or below the $\text{SPR}_{45\%}$ since the mid 1980s and declining, on average, in the last ten years (Figure \@ref(fig:es-phase)). Relative spawning biomass compared to fishing intensity across most years was above the thresholds (Figure \@ref(fig:es-phase)). All reference points were calculated based on a steepness value fixed at `r round(model$parameters[model$parameters$Label == "SR_BH_steep","Value"], 2)` and the estimated selectivities and catch distributions among fleets in the most recent year of the model, `r endyr` (Table \@ref(tab:referenceES)). Sustainable total yield, landings plus discards, using $\text{SPR}_{45\%}$ is `r format(model$derived_quants[model$derived_quants$Label == "Dead_Catch_SPR", "Value"], scientific = FALSE, big.mark = ",")` mt. The spawning biomass equivalent to 40\% of the unfished spawning biomass ($\text{SB}_{40\%}$) calculated using $\text{SPR}_{45\%}$ was `r format(model$derived_quants[model$derived_quants$Label == "SSB_Btgt", "Value"],  scientific = FALSE, big.mark = ",")` mt.
+The estimated 2023 spawning biomass relative to unfished spawning biomass is `r round(100*model[["current_depletion"]], 2)`\%, well above the management target of 40\%. All reference points were calculated based on a steepness value fixed at `r round(model$parameters[model$parameters$Label == "SR_BH_steep","Value"], 2)` and the estimated selectivities and catch distributions among fleets in the most recent year of the model, `r endyr` (Table \@ref(tab:referenceES)). Sustainable total yield, landings plus discards, using $\text{SPR}_{45\%}$ is `r format(model$derived_quants[model$derived_quants$Label == "Dead_Catch_SPR", "Value"], scientific = FALSE, big.mark = ",")` mt. The spawning biomass equivalent to 40\% of the unfished spawning biomass ($\text{SB}_{40\%}$) calculated using $\text{SPR}_{45\%}$ was `r format(model$derived_quants[model$derived_quants$Label == "SSB_Btgt", "Value"],  scientific = FALSE, big.mark = ",")` mt.
 
 ```{r, results = "asis"}
 lines <- readLines(fs::path(model_location, "tables", "e_ReferencePoints_ES.tex")) |>
@@ -192,32 +179,6 @@ lines <- readLines(fs::path(model_location, "tables", "e_ReferencePoints_ES.tex"
   )
 cat(lines)
 ```
-
-```{r, results = "asis"}
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "SPR4_phase.png"
-  ),
-  caption = "Phase plot of fraction unfished vs. relative fishing intensity, which is $\\frac{1-SPR}{1-SPR_{45\\%}}$, where SPR is \\glsentrylong{spr}. Each point represents the biomass ratio at the start of the year and the relative fishing intensity in that same year. Warmer colors (red) represent early years and colder colors (blue) represent recent years. Lines through the final point show 95% intervals based on the asymptotic uncertainty for each dimension. The shaded ellipse is a 95% region which accounts for the estimated correlation (-0.801) between the two quantities.",
-  alt_caption = alternative_text[["time-series"]],
-  label = "es-phase"
-)
-
-sa4ss::add_figure(
-  filein = fs::path(
-    model_location,
-    "plots",
-    "yield2_yield_curve_with_refpoints.png"
-  ),
-  caption = "Yield curve in terms of fraction unfished with the following reference points: maximum sustainable yield (MSY), biomass target (Btgt), spawning potential ratio (SPR), and current fraction unfished.",
-  alt_caption = alternative_text[["reference-points"]],
-  label = "es-yield"
-)
-```
-
-\newpage
 
 ## Management Performance{-}
 
@@ -257,7 +218,8 @@ sa4ss::table_format(
   caption = "The \\glsentrylong{ofl} (OFL; mt), \\glsentrylong{acl} (ACL; mt), landings (mt), and estimated catch (mt) between for the most recent ten years.",
   label = "es-manage",
   align = "l",
-  col_names = c("Year", "OFL", "ACL", "Landings", "Catch")
+  col_names = c("Year", "OFL", "ACL", "Landings", "Catch"),
+  longtable = FALSE
 )
 ```
 

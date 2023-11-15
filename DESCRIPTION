@@ -1,6 +1,6 @@
 Package: sablefish
 Title: Status of Sablefish as Reported to the Pacific Fisheries Management Council
-Version: 0.0.0.9004
+Version: 0.0.0.9005
 Authors@R: c(
     person(
       given = c("Kelli", "F."),
@@ -60,7 +60,7 @@ Remotes:
     pfmc-assessments/nwfscDiag@retro_figs,
     pfmc-assessments/PacFIN.Utilities,
     pfmc-assessments/PEPtools,
-    pfmc-assessments/sa4ss,
+    pfmc-assessments/sa4ss@dev-2024,
     r4ss/r4ss
 Depends: 
     R (>= 4.2)

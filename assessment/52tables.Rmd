@@ -51,33 +51,7 @@ sa4ss::table_format(
 )
 ```
 
-<!-- to do: provide this as a csv -->
-```{r tab-data-strata, results = "asis", eval = TRUE}
-sa4ss::table_format(
-  x = strata |>
-    dplyr::select(-name) |>
-    dplyr::relocate(area, .after = dplyr::last_col()),
-  caption = paste(
-    "The stratification used to estimate design-based indices of abundance",
-    "and to expand the survey composition data. Depths are in m, locations are in decimal degrees, and area is in km$^2$."
-  ),
-  longtable = FALSE,
-  escape = FALSE,
-  label = "data-strata",
-  col_names_align = "l",
-  align = "r",
-  col_names = c(
-    "Shallow Depth",
-    "Deep Depth",
-    "South\\ Latitude",
-    "North\\ Latitude",
-    "Area (km$^2$)"
-  )
-)
-```
 ## Model Results
-
-<!-- **to do** missing model set up table -->
 
 ### Estimated Parameters
 
@@ -86,24 +60,6 @@ sa4ss::table_format(
 sigma_r <- model[["parameters"]] %>%
   dplyr::filter(grepl("sigma", ignore.case = TRUE, Label)) %>%
   dplyr::pull(Value)
-# to do - Could format the names
-recode_parameters <- function(x) {
-  x |>
-    gsub(pattern = "(.+)_(Fem)(.+)", replacement = "\\1 (female)") |>
-    gsub(pattern = "(.+)_(Mal)(.+)", replacement = "\\1 (male)") |>
-    gsub(pattern = "NatM", replacement = "$M$") |>
-    gsub(pattern = "_base|_uniform", replacement = "") |>
-    gsub(pattern = "_I.+Age_", replacement = " age ") |>
-    gsub(pattern = "_BLK[0-9]+repl", replacement = "") |>
-    gsub(pattern = "_([A-Za-z]+)\\([0-9]+\\)", replacement = "_\\1") |>
-    gsub(pattern = "_logit|_DblN|_se|Mort|", replacement = "") |>
-    gsub(pattern = "_at_", replacement = "-at-") |>
-    gsub(pattern = "Retain", replacement = "Ret") |>
-    gsub(pattern = "AgeSel", replacement = "Age") |>
-    # Remove the following if more than 1 area
-    gsub(pattern = "_GP_1", replacement = "") |>
-    gsub(pattern = "_", replacement = "\\\\_")
-}
 model[["parameters"]] %>%
   dplyr::select(
     Label,
@@ -117,8 +73,15 @@ model[["parameters"]] %>%
     Pr_SD,
     Status
   ) %>%
+  dplyr::filter(
+    !(Label == "CohortGrowDev" & Value == 1.0 & Phase < 0),
+    !(Label == "SR_regime" & Value == 0.0 & Phase < 0)
+  ) |>
   dplyr::mutate(
-    Label = recode_parameters(Label),
+    Label = recode_parameter_names(
+      Label,
+      recode_fleet_figure(model[["fleet_ID"]])
+    ),
     Value = ifelse(
       grepl("Wtlen[_]{0,}1", Label),
       sprintf("%.3e", Value),
@@ -141,8 +104,11 @@ model[["parameters"]] %>%
     )
   ) %>%
   dplyr::select(Label, Value, SD, Phase, Prior, Min. = Min, Max. = Max, Status) %>%
-  kableExtra::kbl(
+  sa4ss::table_format(
     align = "lrrrrrrr",
+    custom_width = TRUE,
+    col_to_adjust = 2:4,
+    width = c("1cm", "0.6cm", "0.6cm"),
     row.names = FALSE,
     longtable = TRUE,
     booktabs = TRUE,
@@ -151,13 +117,6 @@ model[["parameters"]] %>%
     caption = "Parameter estimates, estimation phase, parameter bounds, estimation status, estimated standard deviation (SD), prior information [distribution(mean, SD)] used in the base model.",
     label = "parameters"
   )
-```
-
-```{r tables-likelihoods, results = "asis"}
-cat(
-  readLines(fs::path(model_location, "tables", "likelihoods.tex")),
-  sep = "\n"
-)
 ```
 
 ```{r tables-weights, results = "asis"}
@@ -171,14 +130,17 @@ dplyr::bind_rows(
   ) |>
   dplyr::select(Type, Fleet, "Francis" = Curr_Var_Adj) |>
   dplyr::mutate(Francis = sprintf("%.2f", Francis)) |>
-  kableExtra::kbl(
+  sa4ss::table_format(
     escape = FALSE,
     row.names = FALSE,
     longtable = FALSE,
     booktabs = TRUE,
     label = "composition-weight",
     caption = "Data weightings applied to length and age compositions according to the `Francis' method.",
-    format = "latex"
+    format = "latex",
+    custom_width = TRUE,
+    col_to_adjust = 1:3,
+    width = "2.5cm"
   )
 ```
 
@@ -230,23 +192,14 @@ for (i in 1:3) {
   caption = glue::glue("The total and likelihood contribution by data type and parameter estimates for the sensitivity group {1:3}.")[i],
   label = glue::glue("sensitivity-ests-{1:3}")[i],
   align = "r",
-  escape = FALSE
+  escape = FALSE,
+  longtable = FALSE
 )
 cat(out, sep = "/n")
 }
 ```
 
 ```{r tables-retro, results = "asis"}
-file_retro <- fs::dir_ls(
-  dirname(model_location),
-  regexp = "mohnsrho.tex",
-  recurse = TRUE
-)
-stopifnot(length(file_retro) == 1)
-sa4ss::read_child(
-  fs::dir_ls(dirname(model_location), regexp = "mohnsrho.tex", recurse = TRUE)
-)
-
 csv_retro <- fs::dir_ls(
   dirname(model_location),
   regexp = "retro_quant_table.csv",
@@ -262,7 +215,11 @@ sa4ss::table_format(
   label = "retro-ests",
   align = "r",
   escape = FALSE,
-  landscape = TRUE
+  landscape = TRUE,
+  custom_width = TRUE,
+  col_to_adjust = 2:6,
+  width = "2.3 cm",
+  longtable = FALSE
 )
 ```
 
