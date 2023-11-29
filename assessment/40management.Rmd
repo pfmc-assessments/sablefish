@@ -2,9 +2,9 @@
 
 ## Reference Points
 
-The estimated 2023 spawning biomass relative to unfished equilibrium spawning biomass is `r round(100*model[["current_depletion"]], 2)`\%, well above the management target of 40\% of unfished spawning biomass. The fishing intensity has been at or below the current management harvest rate limit (\gls{spr}; $\text{SPR}_{45\%}$) since the mid 1980s and declining in the last ten years (Figure \@ref(fig:model-spr)). The interaction between the relative biomass compared to the ratio of the estimated \gls{spr} to the management target ($\text{SPR}_{45\%}$) indicates that the stock has remained within management targets and is likely to do so within the current year as well (Figure \@ref(fig:model-phase)). The current estimate of fraction unfished is larger than \gls{msy}, \gls{spr} target, and relative target biomass reference points (Figure \@ref(fig:model-yield)) based on a steepness value fixed at `r round(model$parameters[model$parameters$Label == "SR_BH_steep","Value"], 2)`.
+The estimated 2023 spawning biomass relative to unfished equilibrium spawning biomass is `r round(100*model[["current_depletion"]], 2)`\%, well above the management target of 40\% of unfished spawning biomass. The fishing intensity has been at or below the current management harvest rate limit ($\text{SPR}_{45\%}$) since the mid 1980s and has been declining in the last ten years (Figure \@ref(fig:model-spr)). The interaction between the relative biomass and the ratio of the estimated \gls{spr} to the management target ($\text{SPR}_{45\%}$) indicates that the stock has remained within management targets and is likely to do so within the current year as well (Figure \@ref(fig:model-phase)). The current estimate of fraction unfished is larger than the \gls{msy}, \gls{spr} target, and relative target biomass reference points (Figure \@ref(fig:model-yield)) based on $h = `r round(model$parameters[model$parameters$Label == "SR_BH_steep","Value"], 2)`$.
 
-Reference points were calculated using the estimated selectivities and catch distributions among fleets in the most recent year of the model, `r endyr` (Table \@ref(tab:reference)). Sustainable total yield, landings plus discards, using an $\text{SPR}_{45\%}$ is `r format(as.numeric(text_parameter(model, "Dead_Catch_SPR", "%.2f", Value, "derived_quants")), scientific = FALSE, big.mark = ",")` mt. The spawning biomass equivalent to 40\% of the unfished spawning biomass ($\text{SB}_{40\%}$) calculated using the SPR target ($\text{SPR}_{45\%}$) was `r format(model$derived_quants[model$derived_quants$Label == "SSB_Btgt", "Value"],  scientific = FALSE, big.mark = ",")` mt.
+Reference points were calculated using the estimated selectivities and catch distributions among fleets in the most recent year of the model, `r endyr` (Table \@ref(tab:reference)). The estimated sustainable total yield inclusive of both landings and discards was `r format(as.numeric(text_parameter(model, "Dead_Catch_SPR", "%.2f", Value, "derived_quants")), scientific = FALSE, big.mark = ",")` mt according to $\text{SPR}_{45\%}$. The spawning biomass equivalent to 40\% of unfished spawning biomass ($\text{SB}_{40\%}$) calculated using the SPR target ($\text{SPR}_{45\%}$) was `r format(model$derived_quants[model$derived_quants$Label == "SSB_Btgt", "Value"],  scientific = FALSE, big.mark = ",")` mt.
 
 ## Unresolved Problems and Major Uncertainties
 
@@ -15,7 +15,7 @@ sa4ss::read_child(filein)
 
 ## Harvest Projections and Decision Tables
 
-The 2023 update assessment for sablefish off the U.S. West Coast was assigned a category 1 determination by the Scientific and Statistical Committee to the PFMC. The projection of stock biomass, status, and harvest limits was developed using the base model. The total catches in 2023 and 2024 were set at 9,118 and 8,359 mt, respectively, based on recommendations from the Groundfish Management Team (GMT). The ABC values were estimated using a category 1 time-varying $\sigma_y$ starting at 0.50 combined with a P* value of 0.45. The catches during the projection period, 2025 - 2034 were set equal to the year-specific ABC (Table \@ref(tab:projection)). The spawning biomass and fraction unfished increase sharply during the projection due to the estimated large recruitments in 2020 and 2021 maturing and entering the spawning population, resulting in future OFLs and ABCs that are substantially higher than those set for 2023--24.
+The 2023 `r document_type` for `r spp` off the U.S. West Coast was assigned a category 1 determination by the \gls{ssc} to the \gls{pfmc}. The projection of stock biomass, status, and harvest limits was developed using the base model. The total catches in 2023 and 2024 were set at 9,118 and 8,359 mt, respectively, based on recommendations from the \gls{gmt}. The \gls{abc} values were estimated using a category 1 time-varying $\sigma_y$ starting at 0.50 combined with a P$^{*}$ value of 0.45. The catches during the projection period, 2025--2034 were set equal to the year-specific \glsplural{abc} (Table \@ref(tab:projection)). The spawning biomass and fraction unfished increase sharply during the projection due to the estimated large recruitments in 2020 and 2021 maturing and entering the spawning population, resulting in future \glsplural{ofl} and \glsplural{abc} that are substantially higher than those set for 2023--2024.
 
 
 ## Evaluation of Scientific Uncertainty
@@ -28,27 +28,55 @@ sa4ss::read_child(filein)
 ## Regional Management Considerations
 
 ```{r results = "asis"}
-data <- utils::read.csv(fs::path(here::here(), "data-processed", "data_survey_index.csv"))
+data <- utils::read.csv(
+  fs::path(here::here(), "data-processed", "data_survey_index.csv")
+)
 data_2021 <- data |>
   dplyr::filter(
     year %in% 2015:2019 & area %in% c("coastwide", "North", "South")
   )
 est_2021 <- data.frame(
-  north = round(100 * mean(data_2021[data_2021$area == "North", "est"] / data_2021[data_2021$area == "coastwide", "est"]), 1),
-  south = round(100 * mean(data_2021[data_2021$area == "South", "est"] / data_2021[data_2021$area == "coastwide", "est"]), 1))
+  north = round(
+    100 * mean(
+      data_2021[data_2021$area == "North", "est"] /
+      data_2021[data_2021$area == "coastwide", "est"]
+    ),
+    1
+  ),
+  south = round(
+    100 * mean(
+      data_2021[data_2021$area == "South", "est"] /
+      data_2021[data_2021$area == "coastwide", "est"]
+    ),
+    1
+  )
+)
 
 data_2023 <- data |>
   dplyr::filter(
     year %in% 2017:2022 & area %in% c("coastwide", "North", "South")
   )
 est_2023 <- data.frame(
-  north = round(100 * mean(data_2023[data_2023$area == "North", "est"] / data_2023[data_2023$area == "coastwide", "est"]), 1),
-  south = round(100 * mean(data_2023[data_2023$area == "South", "est"] / data_2023[data_2023$area == "coastwide", "est"]), 1))
+  north = round(
+    100 *mean(
+      data_2023[data_2023$area == "North", "est"] /
+      data_2023[data_2023$area == "coastwide", "est"]
+    ),
+    1
+  ),
+  south = round(
+    100 * mean(
+      data_2023[data_2023$area == "South", "est"] /
+      data_2023[data_2023$area == "coastwide", "est"]
+    ),
+    1
+  )
+)
 ```
 
-`r Spp` is currently modeled as a coastwide stock with corresponding coastwide OFL, ABC, and ACL values. The coastwide ACL is then apportioned into two area-specific ACLs north and south of 36$^\circ$ N. latitude. In the 2019 the PFMC adopted a methodology to split the ACL using a five-year rolling average biomass estimate by area from the \gls{s-wcgbt} ([November 2019 PFMC Meeting Decision Document](https://www.pcouncil.org/documents/2019/11/november-2019-decision-document.pdf/)). This historical management line corresponds with a recent data-driven analysis of `r spp` growth that suggests a difference in growth rates north and south of $36^\circ$ N latitude [@kapur_oceanographic_2020]. The estimates represent the relative distribution of the `r spp` population observed by the survey, not the entire population. Additionally, it is likely that fish from more northerly regions are migrating into U.S. West Coast waters (pers. comm., L. Rogers), which may bias the survey estimates of the distribution of fish in each region. Thus, these results should be interpreted with caution.
+`r Spp` is currently modeled as a coastwide stock with corresponding coastwide \gls{ofl}, \gls{abc}, and \gls{acl} values. The coastwide \gls{acl} is then apportioned into two area-specific \glsplural{acl} north and south of 36$^\circ$ N. latitude. For the 2019 assessment, the \gls{pfmc} adopted a methodology to split the \gls{acl} using a five-year rolling average biomass estimate by area from the \gls{s-wcgbt} ([November 2019 \gls{pfmc} Meeting Decision Document](https://www.pcouncil.org/documents/2019/11/november-2019-decision-document.pdf/)). This historical management line corresponds with a recent data-driven analysis of `r spp` growth that suggests a difference in growth rates north and south of $36^\circ$ N. latitude [@kapur_oceanographic_2020]. The estimates represent the relative distribution of the `r spp` population observed by the survey, not the entire population. Additionally, it is likely that fish from more northerly regions are migrating into U.S. West Coast waters (pers. comm., L. Rogers), which may bias the survey estimates of the distribution of fish in each region. Thus, these results should be interpreted with caution.
 
-The estimated proportion of the observed biomass by the \gls{s-wcgbt} between the years of 2017--2022 (no survey was conducted in 2020) is `r est_2023$south`\% south of 36$^\circ$ N. latitude and `r est_2023$north`\% north of 36$^\circ$ N. latitude.  In contrast, the estimates in 2019 using data between 2014--2018 was 21.6\% in the south and 78.4\% in the north.
+The estimated proportion of the 2017--2022 observed biomass by the \gls{s-wcgbt} is `r est_2023$south`\% south of 36$^\circ$ N. latitude and `r est_2023$north`\% north of 36$^\circ$ N. latitude.  In contrast, the estimates from the 2019 analysis using 2014--2018 data was 21.6\% in the south and 78.4\% in the north.
 
 ## Research and Data Needs
 
