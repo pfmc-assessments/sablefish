@@ -216,9 +216,10 @@ sa4ss::add_figure(
     "plots",
     "selectivity.png"
   ),
-  caption = "Fleet-specific estimated selectivity at age by time block. Solid lines are female-specific and dashed lines are male-specific selectivities.",
+  caption = "Estimated selectivity at age by fleet, time block, and sex (female = solid; male = dashed).",
   alt_caption = "See Report.sso for time series of selectivity and retention.",
-  label = "sel02-multiple-fleets-age1"
+  label = "sel02-multiple-fleets-age1",
+  height = 90
 )
 
 sa4ss::add_figure(
