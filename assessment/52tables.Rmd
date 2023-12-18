@@ -29,6 +29,10 @@ comparison_row_names <- c(
 ## Data
 
 ```{r, results = "asis"}
+caption_landings <- glue::glue(
+  "Landings (mt) by fleet and summed coastwide total landings up to {endyr}
+  followed by their respective projections up to {project_end}."
+)
 sa4ss::table_format(
   x = model[["timeseries"]] |>
     dplyr::filter(
@@ -41,16 +45,24 @@ sa4ss::table_format(
         where(is.double),
         .f = \(x) format(round(x, 1), big.mark = ",")
       )
+    ) |>
+    dplyr::rename_with(
+      .cols = dplyr::contains("retain"),
+      .fn = \(x) {
+        recode_fleet_text(
+          as.numeric(gsub(".+:_([0-9]+$)", "\\1", x)),
+          case = "title"
+        )
+      }
     ),
-  caption = "Landings (mt) by fleet and the summed coastwide total landings.",
+  caption = caption_landings,
   label = "landings",
   digits = 1,
-  align = "r",
-  # to do: use a renamer between fleet number and name
-  col_names = c("Year", "Fixed Gear", "Trawl", "Total Landings")
+  align = "r"
 )
 ```
 
+\clearpage
 ## Model Results
 
 ### Estimated Parameters
@@ -223,6 +235,7 @@ sa4ss::table_format(
 )
 ```
 
+\clearpage
 ## Reference Points and Projections
 
 ```{r results = "asis"}
