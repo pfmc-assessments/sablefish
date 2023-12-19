@@ -516,8 +516,19 @@ ignore <- tidyr::expand_grid(
       grepl("compare[1-2]", string) ~ "spawning biomass",
       grepl("compare[3-4]", string) ~ "fraction unfished"
     ),
-    caption = glue::glue(
-      "Change in the {type} across a range of {parameter} values."
+    caption = paste0(
+      glue::glue(
+        "Change in the {type} across a range of {parameter} values. "
+      ),
+      ifelse(
+        test = grepl("piner", string),
+        no = "",
+        yes = knitr::combine_words(paste(
+          recode_fleet_figure(1:model[["nfleets"]]),
+          c("FIX", "TWL", "ENV", "AKSHLF", "AKSLP", "NWSLP", "NWCBO"),
+          sep = " = "
+        ))
+      )
     )
   ) |>
     dplyr::select(filein, caption, label) |>
